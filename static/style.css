@@ -1,0 +1,55 @@
+    @font-face {
+    font-family: varsity_regular;
+    src: url("fonts/varsity_regular.ttf");
+    }
+
+    @font-face {
+    font-family: PTC75F;
+    src: url("fonts/PTC75F.ttf");
+    }
+    
+    h1 {
+    font-family: "varsity_regular", Times, Sans-serif;
+    font-size: 90;
+    color: #beac70;
+    letter-spacing: 7px;
+    text-align: center;
+    }
+
+    p {
+    font-family: "PTC75F", Times, Sans-serif;
+    font-size: 50;
+    color: #beac70;
+    text-align: center;
+    }
+
+    h2 {
+	text-align: center;
+    border: 5px solid #FFFFFF;
+    padding: 5px;
+    font-family: "PTC75F", Times, Sans-serif;
+    font-size: 40;
+    color: #beac70;
+    }
+
+    h3 {
+	text-align: center;
+    border: 5px solid #FFFFFF;
+    padding: 5px;
+    font-family: "PTC75F", Times, Sans-serif;
+    font-size: 40;
+    color: #beac70;
+    }
+
+    h4 {
+	text-align: center;
+    border: 5px solid #FFFFFF;
+    padding: 5px;
+    font-family: "PTC75F", Times, Sans-serif;
+    font-size: 40;
+    color: #beac70;
+    }
+
+	a {
+    color: #beac70;
+}
