@@ -3,6 +3,8 @@ import logging
 import os
 import webapp2
 
+from beers import beers
+
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -29,21 +31,24 @@ def get_user_email():
 class MainPageHandler(webapp2.RequestHandler):
   def get(self):
     render_template(self, 'index.html')
-	
+  
 ###############################################################################
 class OrderPageHandler(webapp2.RequestHandler):
   def get(self):
-    render_template(self, 'order.html')	
-	
+    render_template(self, 'order.html') 
+  
 ###############################################################################
 class AccountPageHandler(webapp2.RequestHandler):
   def get(self):
     render_template(self, 'account.html')
-	
+  
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
   def get(self):
-    render_template(self, 'beer.html')
+    template_params = {
+      'beers' : beers
+    }
+    render_template(self, 'beer.html', templatevalues=template_params)
 
   
 ###############################################################################
