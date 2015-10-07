@@ -78,7 +78,7 @@ class BeerStylePageHandler(webapp2.RequestHandler):
 class BeerAbvPageHandler(webapp2.RequestHandler):
   def get(self):
     template_params = {
-      'beers' : sorted(beers, key = lambda beer: beer["abv"])
+      'beers' : sorted(beers, key = lambda beer: float(beer["abv"]))
     }
     render_template(self, 'beer.html', templatevalues=template_params)
 
