@@ -6,6 +6,24 @@
 <h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
 
 <p>Below is a list of available beers:<br><br></p>
+	{% if beers %}
+		<table style='color: #beac70'>
+			<tr>
+				<th><a href='beer'>Brewery</th>
+				<th>Beer Name</th>
+				<th>Style</th>
+				<th>ABV</th>
+			</tr>
+		{% for beer in beers %}
+		<tr>
+			<td>{{ beer.brewery }}</td>
+			<td>{{ beer.product }}</td>
+			<td>{{ beer.style }}</td>
+			<td>{{ beer.abv }}</td>
+		</tr>
+		{% endfor %}
+		</table>
+	{% endif %}
 
 </body>
 </html>
