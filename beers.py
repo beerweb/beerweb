@@ -23,7 +23,7 @@ beers = [
 	"brewery": "Firestone Walker",
 	"product": "Parabola",
 	"style": "Russian Imperial Stout",
-	"abv": "13"
+	"abv": "13.0"
 	},
 	{
 	"brewery": "Carlsberg-Tetley Brewing",
@@ -47,6 +47,6 @@ beers = [
 	"brewery": "Sierra Nevada",
 	"product": "Pale Ale",
 	"style": "American Pale Ale",
-	"abv": "5"
+	"abv": "5.0"
 	}
 ]

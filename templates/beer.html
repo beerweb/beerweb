@@ -1,29 +1,69 @@
 <html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/static/style.css">
+		<style type="text/css">
+			#tblBeers {
+				border-collapse: collapse;
+				color: #beac70;
+				font-size:1.2em;
+				margin:0 auto;
+			}
+			#tblBeers th {
+				padding: 5px;
+			}
+			#tblBeers tr:nth-child(even) {
+			    background: rgba(0,0,0,0.5);
+			}
+			#tblBeers tr:nth-child(odd) {
+			    background: rgba(0,0,0,0.1);
+			}
+			#tblBeers tr:first-child {
+			    background-color: #beac70;
+			}
+			#tblBeers tr:first-child:hover {
+				background-color: #beac70;
+			}
+			#tblBeers tr:first-child a {
+			    color: black;
+			}
+			#tblBeers tr:hover {
+			    background-color: rgba(0,0,0,0.2);
+			}
+			#tblBeers td {
+			    font-variant: small-caps;
+			}
+			#tblBeers td {
+			    padding: 5px 10px;
+			}
+			#tblBeers td:nth-child(4) {
+			    text-align: right;
+			}
+		</style>
+	</head>
 
-<link rel="stylesheet" type="text/css" href="/static/style.css">
-<body bgcolor = "#002d62">
+	<body bgcolor = "#002d62">
 
-<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+		<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
 
-<p>Below is a list of available beers:<br><br></p>
-	{% if beers %}
-		<table style='color: #beac70'>
+		<p>Below is a list of available beers:<br><br></p>
+		{% if beers %}
+			<table id="tblBeers">
+				<tr>
+					<th><a href='beerbrewery'>BREWERY</th>
+					<th><a href='beername'>BEER</th>
+					<th><a href='beerstyle'>STYLE</th>
+					<th><a href='beerabv'>ABV</th>
+				</tr>
+			{% for beer in beers %}
 			<tr>
-				<th><a href='beerbrewery'>Brewery</th>
-				<th><a href='beername'>Beer Name</th>
-				<th><a href='beerstyle'>Style</th>
-				<th><a href='beerabv'>ABV</th>
+				<td>{{ beer.brewery }}</td>
+				<td>{{ beer.product }}</td>
+				<td>{{ beer.style }}</td>
+				<td>{{ beer.abv }}%</td>
 			</tr>
-		{% for beer in beers %}
-		<tr>
-			<td>{{ beer.brewery }}</td>
-			<td>{{ beer.product }}</td>
-			<td>{{ beer.style }}</td>
-			<td>{{ beer.abv }}</td>
-		</tr>
-		{% endfor %}
-		</table>
-	{% endif %}
+			{% endfor %}
+			</table>
+		{% endif %}
 
-</body>
+	</body>
 </html>
