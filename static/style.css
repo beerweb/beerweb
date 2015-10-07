@@ -1,55 +1,79 @@
-    @font-face {
+@font-face {
     font-family: varsity_regular;
     src: url("fonts/varsity_regular.ttf");
-    }
+}
 
-    @font-face {
+@font-face {
     font-family: PTC75F;
     src: url("fonts/PTC75F.ttf");
-    }
-    
-    h1 {
+}
+
+h1 {
     font-family: "varsity_regular", Times, Sans-serif;
     font-size: 90;
     color: #beac70;
     letter-spacing: 7px;
     text-align: center;
-    }
+}
 
-    p {
+p {
     font-family: "PTC75F", Times, Sans-serif;
     font-size: 50;
     color: #beac70;
     text-align: center;
-    }
+}
 
-    h2 {
-	text-align: center;
+h2 {
+    text-align: center;
+    border: 5px solid rgba(0,0,0,.5);
+    border-radius: 10px;
+    padding: 5px;
+    font-family: "PTC75F", Times, Sans-serif;
+    font-size: 40;
+    color: #beac70;
+}
+
+/* just using h2 for now
+h3 {
+    text-align: center;
     border: 5px solid #FFFFFF;
     padding: 5px;
     font-family: "PTC75F", Times, Sans-serif;
     font-size: 40;
     color: #beac70;
-    }
+}
 
-    h3 {
-	text-align: center;
+h4 {
+    text-align: center;
     border: 5px solid #FFFFFF;
     padding: 5px;
     font-family: "PTC75F", Times, Sans-serif;
     font-size: 40;
     color: #beac70;
-    }
+}
+*/
 
-    h4 {
-	text-align: center;
-    border: 5px solid #FFFFFF;
-    padding: 5px;
-    font-family: "PTC75F", Times, Sans-serif;
-    font-size: 40;
+a.buttons{
     color: #beac70;
-    }
+    text-decoration: none;
+}
+a.buttons h2 {
+    background-color:rgba(0,0,0,.2);
+}
+a.buttons h2:hover{
+    background-color:#beac70;
+    color: #192857;
+}
 
-	a {
+a.header{
+    text-decoration: none;
     color: #beac70;
-    }
+}
+
+a.header:link{
+    color: #beac70;
+}
+
+a.header:visited{
+    color: #beac70;
+}
