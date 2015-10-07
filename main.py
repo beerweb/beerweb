@@ -50,7 +50,38 @@ class BeerPageHandler(webapp2.RequestHandler):
     }
     render_template(self, 'beer.html', templatevalues=template_params)
 
-  
+###############################################################################
+class BeerBreweryPageHandler(webapp2.RequestHandler):
+  def get(self):
+    template_params = {
+      'beers' : sorted(beers, key = lambda beer: beer["brewery"])
+    }
+    render_template(self, 'beer.html', templatevalues=template_params)
+
+###############################################################################
+class BeerNamePageHandler(webapp2.RequestHandler):
+  def get(self):
+    template_params = {
+      'beers' : sorted(beers, key = lambda beer: beer["product"])
+    }
+    render_template(self, 'beer.html', templatevalues=template_params)
+
+###############################################################################
+class BeerStylePageHandler(webapp2.RequestHandler):
+  def get(self):
+    template_params = {
+      'beers' : sorted(beers, key = lambda beer: beer["style"])
+    }
+    render_template(self, 'beer.html', templatevalues=template_params)
+
+###############################################################################
+class BeerAbvPageHandler(webapp2.RequestHandler):
+  def get(self):
+    template_params = {
+      'beers' : sorted(beers, key = lambda beer: beer["abv"])
+    }
+    render_template(self, 'beer.html', templatevalues=template_params)
+
 ###############################################################################
 class PostedImage(ndb.Model):
   pass
@@ -71,6 +102,10 @@ mappings = [
   ('/', MainPageHandler), 
   ('/order', OrderPageHandler),
   ('/account', AccountPageHandler),
-  ('/beer', BeerPageHandler)
+  ('/beer', BeerPageHandler),
+  ('/beerbrewery', BeerBreweryPageHandler),
+  ('/beername', BeerNamePageHandler),
+  ('/beerstyle', BeerStylePageHandler),
+  ('/beerabv', BeerAbvPageHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)
