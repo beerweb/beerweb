@@ -1,8 +1,47 @@
 <html>
 	<head>
+
+		<!-- DataTables Begin-->
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.9,b-1.0.3,fh-3.0.0,se-1.0.1/datatables.min.css"/>
+		<script type="text/javascript" src="//cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.9,b-1.0.3,fh-3.0.0,se-1.0.1/datatables.min.js"></script>
+		<!-- DataTables End -->
+
 		<link rel="stylesheet" type="text/css" href="/static/style.css">
+
 		<style type="text/css">
+/*		blue:192857
+		gold:cdb87d*/
+			#container { 
+				margin:auto;
+				width:90%;
+			}
 			#tblBeers {
+				color: #cdb87d;
+			}
+			#tblBeers th {
+				background-color: #cdb87d;
+				color: #192857;
+			}
+			.dataTables_wrapper {
+				color: #cdb87d;
+			}
+			#tblBeers tr {
+				background-color: rgba(25,40,87,0);
+			}
+			#tblBeers .odd {
+				background-color: rgba(0,0,0,.5);
+			}
+			#tblBeers .even {
+				background-color: rgba(0,0,0,.1);
+			}
+			table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+				opacity: 0.7;
+			}
+			table.dataTable thead .sorting:after {
+			    opacity: 0.3;
+			}
+/*			#tblBeers {
+				border: 1px solid #beac70;
 				border-collapse: collapse;
 				color: #beac70;
 				font-size:1.2em;
@@ -10,19 +49,21 @@
 				min-width: 90%;
 			}
 			#tblBeers th {
+				background-color: #beac70;
+				color:#002d62;
 				padding: 5px;
+			}
+			#tblBeers tr:first-child th:first-child {
+			    border-radius: 10px 0 0 0;
+			}
+			#tblBeers tr:first-child th:last-child {
+			    border-radius: 0 10px 0 0;
 			}
 			#tblBeers tr:nth-child(even) {
 			    background: rgba(0,0,0,0.5);
 			}
 			#tblBeers tr:nth-child(odd) {
 			    background: rgba(0,0,0,0.1);
-			}
-			#tblBeers tr:first-child {
-			    background-color: #beac70;
-			}
-			#tblBeers tr:first-child:hover {
-				background-color: #beac70;
 			}
 			#tblBeers tr:first-child a {
 			    color: black;
@@ -31,6 +72,7 @@
 			    background-color: rgba(0,0,0,0.2);
 			}
 			#tblBeers td {
+				border: 1px solid #beac70;
 			    font-variant: small-caps;
 			}
 			#tblBeers td {
@@ -41,7 +83,7 @@
 			}
 			#tblBeers td:nth-child(5) {
 			    text-align: right;
-			}
+			}*/
 		</style>
 	</head>
 
@@ -51,26 +93,54 @@
 		</a>
 
 		<p>Below is a list of available beers:<br><br></p>
-		{% if beers %}
-			<table id="tblBeers" cellspacing="0">
-				<tr>
-					<th><a href='beerbrewery'>BREWERY</th>
-					<th><a href='beername'>BEER</th>
-					<th><a href='beerstyle'>STYLE</th>
-					<th><a href='beerabv'>ABV</th>
-					<th><a href='beerprice'>PRICE</th>
-				</tr>
-			{% for beer in beers %}
-			<tr>
-				<td>{{ beer.brewery }}</td>
-				<td>{{ beer.product }}</td>
-				<td>{{ beer.style }}</td>
-				<td>{{ beer.abv }}%</td>
-				<td>${{ beer.price }}</td>
-			</tr>
-			{% endfor %}
-			</table>
-		{% endif %}
 
+		<div id="container">
+			{% if beers %}
+			<table id="tblBeers" class="table " cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<!-- <th><a href='beerbrewery'>BREWERY</a></th>
+						<th><a href='beername'>BEER</a></th>
+						<th><a href='beerstyle'>STYLE</a></th>
+						<th><a href='beerabv'>ABV</a></th>
+						<th><a href='beerprice'>PRICE</a></th> -->
+						<th>BREWERY</a></th>
+						<th>BEER</a></th>
+						<th>STYLE</a></th>
+						<th>ABV</a></th>
+						<th>PRICE</a></th>
+					</tr>
+				</thead>
+<!-- 				<tfoot>
+					<tr>
+						<th>BREWERY</a></th>
+						<th>BEER</a></th>
+						<th>STYLE</a></th>
+						<th>ABV</a></th>
+						<th>PRICE</a></th>
+					</tr>
+				</tfoot> -->
+				<tbody>
+					{% for beer in beers %}
+					<tr>
+						<td>{{ beer.brewery }}</td>
+						<td>{{ beer.product }}</td>
+						<td>{{ beer.style }}</td>
+						<td>{{ beer.abv }}%</td>
+						<td>${{ beer.price }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+		</div>
 	</body>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#tblBeers').DataTable( {
+			    select: true
+			} );
+		});
+	</script>
 </html>
