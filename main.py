@@ -30,7 +30,13 @@ def get_user_email():
 ###############################################################################
 class MainPageHandler(webapp2.RequestHandler):
   def get(self):
-    render_template(self, 'index.html')
+    email = get_user_email()
+    page_params = {
+      'user_email': email,
+      'login_url': users.create_login_url(),
+      'logout_url': users.create_logout_url('/')
+    }
+    render_template(self, 'index.html', page_params)
   
 ###############################################################################
 class OrderPageHandler(webapp2.RequestHandler):
@@ -40,7 +46,11 @@ class OrderPageHandler(webapp2.RequestHandler):
 ###############################################################################
 class AccountPageHandler(webapp2.RequestHandler):
   def get(self):
-    render_template(self, 'account.html')
+    email = get_user_email()
+    page_params = {
+      'user_email': email,
+    }
+    render_template(self, 'account.html', page_params)
   
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
