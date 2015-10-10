@@ -47,10 +47,13 @@ class OrderPageHandler(webapp2.RequestHandler):
 class AccountPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
-    page_params = {
-      'user_email': email,
-    }
-    render_template(self, 'account.html', page_params)
+    if email:
+      page_params = {
+        'user_email': email
+      }
+      render_template(self, 'account.html', page_params)
+    else:
+      self.redirect(users.create_login_url('/account'))
   
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
