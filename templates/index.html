@@ -13,7 +13,12 @@ We are here to bring you whatever brew you are feeling tonight!<br><br></p>
 <a class="buttons" href="order"><h2>Order</h2></a>
 <a class="buttons" href="beer"><h2>See Available Beers</h2></a>
 <a class="buttons" href="account"><h2>My Account</h2></a>
-
+{% if user_email %}
+<a class="buttons" href="{{ logout_url }}"><h2>Sign Out</h2></a>
+<p>Logged in as {{ user_email }}</p>
+{% else %}
+<a class="buttons" href="{{ login_url }}"><h2>Sign In</h2></a>
+{% endif %}
 
 </body>
 </html>
