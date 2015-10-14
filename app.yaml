@@ -1,4 +1,4 @@
-application: beer-delivery-service-1084
+application: pittbeerdelivery
 version: v1
 runtime: python27
 api_version: 1
