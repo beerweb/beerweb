@@ -26,17 +26,28 @@ def get_user_email():
     result = user.email()
   return result
 
-
+###############################################################################
+class VerifyAgePageHandler(webapp2.RequestHandler):
+  def get(self):
+    render_template(self, 'verifyage.html', {})
+    
+  def post(self):
+    val = int(self.request.get("ageInput_form"));
+    if val == 1:
+      self.redirect("/home")
+    else:
+      self.redirect("http://www.toysrus.com/");
+	
 ###############################################################################
 class MainPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     page_params = {
       'user_email': email,
-      'login_url': users.create_login_url(),
-      'logout_url': users.create_logout_url('/')
+      'login_url': users.create_login_url('/home'),
+      'logout_url': users.create_logout_url('/home')
     }
-    render_template(self, 'index.html', page_params)
+    render_template(self, 'home.html', page_params)
   
 ###############################################################################
 class OrderPageHandler(webapp2.RequestHandler):
@@ -120,7 +131,8 @@ class ImageVote(ndb.Model):
 
 ###############################################################################
 mappings = [
-  ('/', MainPageHandler), 
+  ('/', VerifyAgePageHandler),
+  ('/home', MainPageHandler), 
   ('/order', OrderPageHandler),
   ('/account', AccountPageHandler),
   ('/beer', BeerPageHandler),

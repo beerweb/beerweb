@@ -1,0 +1,24 @@
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<p>Are you 21 years of age?</p>
+		<form method="post" action="/">
+			<input type="hidden" name="ageInput_form" id="ageInput">
+			<button onclick="sendVerify(1);">Yes</button>
+			<button onclick="sendVerify(0);">No</button>
+		</form>
+	
+	
+	
+	
+	</body>
+	
+</html>
+<script>
+	function sendVerify(value){
+		var input_tag=document.getElementById("ageInput");
+		input_tag.value=value;	
+	}
+</script>
