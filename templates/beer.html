@@ -55,6 +55,8 @@
 			}
 			#tblBeers .even {
 				background-color: rgba(0,0,0,.1);
+			}#tblBeers tr.selected {
+			    background-color: rgba(205,184,125,.4);
 			}
 			table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
 				opacity: 0.7;
@@ -87,6 +89,8 @@
 			    background-color: #b79a46;
 			    border-color: #cdb87d;
 			}
+			/*tfoot { display: table-header-group; }
+			thead { display: table-footer-group; }*/
 		</style>
 	</head>
 
@@ -101,6 +105,14 @@
 			{% if beers %}
 			<table id="tblBeers" class="table " cellspacing="0" width="100%">
 				<thead>
+					<tr id="filterrow">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
 					<tr>
 						<th>BREWERY</th>
 						<th>BEER</th>
@@ -110,7 +122,7 @@
 						<th>AMOUNT</th>
 					</tr>
 				</thead>
-				<!-- <tfoot>
+				<tfoot>
 					<tr>
 						<th>BREWERY</th>
 						<th>BEER</th>
@@ -119,7 +131,7 @@
 						<th>PRICE</th>
 						<th>AMOUNT</th>
 					</tr>
-				</tfoot> -->
+				</tfoot>
 				<tbody>
 					{% for beer in beers %}
 					<tr>
@@ -139,15 +151,45 @@
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-		    $('#tblBeers').DataTable( {
+		    var table = $('#tblBeers').DataTable( {
 		    	fixedHeader: true,
+		    	lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		    	orderCellsTop: false,
+		    	pageLength: -1,
+		    	responsive: true,
+		    	rowId: "ID",
+		    	select: 'single',
+		    	aoColumnDefs: [
+		          { 'bSortable': false, 'aTargets': [5] }
+		        ],
 		    	language: {
 		    		"info": "Showing _START_ to _END_ of _TOTAL_ beers"
 		    	},
-		    	"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-		    	pageLength: -1,
-		    	responsive: true,
-		    	rowId: "ID"
+		    	initComplete: function () {
+		            this.api().columns().every( function () {
+		                var column = this;
+		                var num = column[0][0] + 1; // remove zero-base
+		                var name = $(column.header()).html(); // get name of column
+
+		                if (name!=="BEER" && name!=="ABV" && name!=="AMOUNT") {
+			                var select = $('<select><option value=""></option></select>')
+			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() )
+			                    .on( 'change', function () {
+			                        var val = $.fn.dataTable.util.escapeRegex(
+			                            $(this).val()
+			                        );
+			 
+			                        column
+			                            .search( val ? '^'+val+'$' : '', true, false )
+			                            .draw();
+			                    } );
+			 
+			                column.data().unique().sort().each( function ( d, j ) {
+			                    select.append( '<option value="'+d+'">'+d+'</option>' )
+			                } );
+		                }
+		            } );
+		        }
 			} );
 		});
 	</script>
