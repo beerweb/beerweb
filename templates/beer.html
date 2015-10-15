@@ -1,46 +1,91 @@
 <html>
 	<head>
+
+		<!-- DataTables Begin-->
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.9,b-1.0.3,fh-3.0.0,se-1.0.1/datatables.min.css"/>
+		<script type="text/javascript" src="//cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.9,b-1.0.3,fh-3.0.0,se-1.0.1/datatables.min.js"></script>
+		<!-- DataTables End -->
+
 		<link rel="stylesheet" type="text/css" href="/static/style.css">
+
 		<style type="text/css">
+/*		blue:#192857
+		gold:#cdb87d*/
+			input, select {
+				border: 2px solid #cdb87d !important;
+				border-radius: 5px;
+			}
+			input:invalid {
+				border:1px solid red;
+			}
+			input {
+				color: #192857;
+				outline: none;
+    			-webkit-appearance: none;
+			}
+			input:focus, select:focus {
+				border: 2px solid #cdb87d;
+			    border-collapse: separate;
+			    box-shadow: 0 0 7px #cdb87d;
+			}
+			input.amount {
+				text-align: center;
+				width: 100px;
+			}
+			#container { 
+				margin:auto;
+				padding-bottom: 50px;
+				width:90%;
+			}
 			#tblBeers {
-				border-collapse: collapse;
-				color: #beac70;
-				font-size:1.2em;
-				margin:0 auto;
-				min-width: 90%;
+				color: #cdb87d;
 			}
 			#tblBeers th {
-				padding: 5px;
+				background-color: #cdb87d;
+				color: #192857;
 			}
-			#tblBeers tr:nth-child(even) {
-			    background: rgba(0,0,0,0.5);
+			.dataTables_wrapper {
+				color: #cdb87d;
 			}
-			#tblBeers tr:nth-child(odd) {
-			    background: rgba(0,0,0,0.1);
+			#tblBeers tr {
+				background-color: rgba(25,40,87,0);
 			}
-			#tblBeers tr:first-child {
-			    background-color: #beac70;
+			#tblBeers .odd {
+				background-color: rgba(0,0,0,.5);
 			}
-			#tblBeers tr:first-child:hover {
-				background-color: #beac70;
+			#tblBeers .even {
+				background-color: rgba(0,0,0,.1);
 			}
-			#tblBeers tr:first-child a {
-			    color: black;
+			table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+				opacity: 0.7;
 			}
-			#tblBeers tr:hover {
-			    background-color: rgba(0,0,0,0.2);
+			table.dataTable thead .sorting:after {
+			    opacity: 0.3;
 			}
-			#tblBeers td {
-			    font-variant: small-caps;
+			.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+				border-top: 1px solid #cdb87d;
 			}
-			#tblBeers td {
-			    padding: 5px 10px;
+			.table>thead>tr>th {
+				border-bottom: 2px solid #cdb87d;
 			}
-			#tblBeers td:nth-child(4) {
-			    text-align: right;
+			.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+				background-color: #f0ead9;
+				border-color: #cdb87d;
 			}
-			#tblBeers td:nth-child(5) {
-			    text-align: right;
+			.pagination>li>a, .pagination>li>span {
+				color: #192857;
+			    background-color: #cdb87d;
+			    border: 1px solid #cdb87d;
+			}
+			.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+				color: #cdb87d;
+			    background-color: #192857;
+			    border-color: #cdb87d;
+			}
+			.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+			    color: #192857;
+			    background-color: #b79a46;
+			    border-color: #cdb87d;
 			}
 		</style>
 	</head>
@@ -51,26 +96,59 @@
 		</a>
 
 		<p>Below is a list of available beers:<br><br></p>
-		{% if beers %}
-			<table id="tblBeers" cellspacing="0">
-				<tr>
-					<th><a href='beerbrewery'>BREWERY</th>
-					<th><a href='beername'>BEER</th>
-					<th><a href='beerstyle'>STYLE</th>
-					<th><a href='beerabv'>ABV</th>
-					<th><a href='beerprice'>PRICE</th>
-				</tr>
-			{% for beer in beers %}
-			<tr>
-				<td>{{ beer.brewery }}</td>
-				<td>{{ beer.product }}</td>
-				<td>{{ beer.style }}</td>
-				<td>{{ beer.abv }}%</td>
-				<td>${{ beer.price }}</td>
-			</tr>
-			{% endfor %}
-			</table>
-		{% endif %}
 
+		<div id="container">
+			{% if beers %}
+			<table id="tblBeers" class="table " cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>BREWERY</th>
+						<th>BEER</th>
+						<th>STYLE</th>
+						<th>ABV</th>
+						<th>PRICE</th>
+						<th>AMOUNT</th>
+					</tr>
+				</thead>
+				<!-- <tfoot>
+					<tr>
+						<th>BREWERY</th>
+						<th>BEER</th>
+						<th>STYLE</th>
+						<th>ABV</th>
+						<th>PRICE</th>
+						<th>AMOUNT</th>
+					</tr>
+				</tfoot> -->
+				<tbody>
+					{% for beer in beers %}
+					<tr>
+						<td>{{ beer.brewery }}</td>
+						<td>{{ beer.product }}</td>
+						<td>{{ beer.style }}</td>
+						<td>{{ beer.abv }}%</td>
+						<td>${{ beer.price }}</td>
+						<td><input id="{{ beer.id }}" class="amount" type="number" min="0" max="12" maxlength="2" pattern='[0-9]{2}'></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+		</div>
 	</body>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+		    $('#tblBeers').DataTable( {
+		    	fixedHeader: true,
+		    	language: {
+		    		"info": "Showing _START_ to _END_ of _TOTAL_ beers"
+		    	},
+		    	"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		    	pageLength: -1,
+		    	responsive: true,
+		    	rowId: "ID"
+			} );
+		});
+	</script>
 </html>

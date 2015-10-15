@@ -8,6 +8,9 @@
     src: url("fonts/PTC75F.ttf");
 }
 
+body {
+    background-color: #002d62;
+}
 h1 {
     font-family: "varsity_regular", Times, Sans-serif;
     font-size: 90;
