@@ -1,5 +1,7 @@
 # Pitt Beer Delivery Service
 
+[![Code Climate](https://codeclimate.com/github/beerweb/beerweb/badges/gpa.svg)](https://codeclimate.com/github/beerweb/beerweb)
+
 This is the repository for the Pitt Beer Delivery Service. CS1520
 
 ## Synopsis
