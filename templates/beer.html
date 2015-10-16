@@ -59,7 +59,7 @@
 			    background-color: rgba(205,184,125,.4);
 			}
 			table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
-				opacity: 0.7;
+				opacity: 0.8;
 			}
 			table.dataTable thead .sorting:after {
 			    opacity: 0.3;
@@ -107,7 +107,7 @@
 				<thead>
 					<tr>
 						<th>BREWERY</th>
-						<th>BEER</th>
+						<th>PRODUCT</th>
 						<th>STYLE</th>
 						<th>ABV</th>
 						<th>PRICE</th>
@@ -125,7 +125,7 @@
 				<tfoot>
 					<tr>
 						<th>BREWERY</th>
-						<th>BEER</th>
+						<th>PRODUCT</th>
 						<th>STYLE</th>
 						<th>ABV</th>
 						<th>PRICE</th>
@@ -194,7 +194,7 @@
 		    	fixedHeader: true,
 		    	lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		    	orderCellsTop: true,
-		    	pageLength: -1,
+		    	pageLength: 25,
 		    	responsive: true,
 		    	rowId: "ID",
 		    	select: 'single',
@@ -202,7 +202,8 @@
 		          { 'bSortable': false, 'aTargets': [5] }
 		        ],
 		    	language: {
-		    		"info": "Showing _START_ to _END_ of _TOTAL_ beers"
+		    		"info": "Showing _START_ to _END_ of _TOTAL_ beers",
+		    		"search": "Quick search:"
 		    	},
 		    	initComplete: function () {
 		            this.api().columns().every( function () {
@@ -210,8 +211,8 @@
 		                var num = column[0][0] + 1; // remove zero-base
 		                var name = $(column.header()).html(); // get name of column
 
-		                if (name!=="BEER" && name!=="ABV" && name!=="CART") {
-			                var select = $('<select><option value=""></option></select>')
+		                if (name!=="PRODUCT" && name!=="ABV" && name!=="CART") {
+			                var select = $('<select class="input-sm"><option value=""></option></select>')
 			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() )
 			                    .on( 'change', function () {
 			                        var val = $.fn.dataTable.util.escapeRegex(
