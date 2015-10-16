@@ -30,7 +30,7 @@
 			}
 			input.amount {
 				text-align: center;
-				width: 100px;
+				width: 50px;
 			}
 			#container { 
 				margin:auto;
@@ -105,6 +105,14 @@
 			{% if beers %}
 			<table id="tblBeers" class="table " cellspacing="0" width="100%">
 				<thead>
+					<tr>
+						<th>BREWERY</th>
+						<th>BEER</th>
+						<th>STYLE</th>
+						<th>ABV</th>
+						<th>PRICE</th>
+						<th>CART</th>
+					</tr>
 					<tr id="filterrow">
 						<th></th>
 						<th></th>
@@ -112,14 +120,6 @@
 						<th></th>
 						<th></th>
 						<th></th>
-					</tr>
-					<tr>
-						<th>BREWERY</th>
-						<th>BEER</th>
-						<th>STYLE</th>
-						<th>ABV</th>
-						<th>PRICE</th>
-						<th>AMOUNT</th>
 					</tr>
 				</thead>
 				<tfoot>
@@ -129,7 +129,7 @@
 						<th>STYLE</th>
 						<th>ABV</th>
 						<th>PRICE</th>
-						<th>AMOUNT</th>
+						<th></th>
 					</tr>
 				</tfoot>
 				<tbody>
@@ -139,8 +139,11 @@
 						<td>{{ beer.product }}</td>
 						<td>{{ beer.style }}</td>
 						<td>{{ beer.abv }}%</td>
-						<td>${{ beer.price }}</td>
-						<td><input id="{{ beer.id }}" class="amount" type="number" min="0" max="12" maxlength="2" pattern='[0-9]{2}'></td>
+						<td id="price-{{beer.id}}">${{ beer.price }}</td>
+						<td>
+							<input id="num-{{beer.id}}" class="amount" type="number" min="0" max="12" maxlength="2" pattern='[0-9]{2}' value="0">
+							<input type="button" onclick="addToCart('{{beer.id}}')" value="Add">
+						</td>
 					</tr>
 					{% endfor %}
 				</tbody>
@@ -150,11 +153,47 @@
 	</body>
 
 	<script type="text/javascript">
+		//////////////////////////////////////////////
+		// Adds the given beer ID to the cart
+		//////////////////////////////////////////////
+		function addToCart(beerID) {
+		//////////////////////////////////////////////
+			// the beerID is also the ID of the input
+			//		boxes that we want to grab
+			var num = $("#num-"+beerID).val();
+
+			var price = $("#price-"+beerID).html();
+			price = Number(price.replace(/[^0-9\.]+/g,""));
+
+			var total = num*price;
+
+			// some kind of AJAX call here to update
+			//		the user's cart within the DB
+		}
+
+
+		//////////////////////////////////////////////
+		// Will reset all of the dropdown filters the
+		//		user might have set on the beer table.
+		//////////////////////////////////////////////
+		function resetAllFilters() {
+		//////////////////////////////////////////
+			$("#filterrow select").each(function() {
+				$(this).prop("selectedIndex",0).trigger("change");
+			})
+
+			// reset the search box
+			$("#tblBeers_filter input").val("").trigger("keyup");
+		}
+
+
+		//////////////////////////////////////////////
 		$(document).ready(function() {
+		//////////////////////////////////////////////
 		    var table = $('#tblBeers').DataTable( {
 		    	fixedHeader: true,
 		    	lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-		    	orderCellsTop: false,
+		    	orderCellsTop: true,
 		    	pageLength: -1,
 		    	responsive: true,
 		    	rowId: "ID",
@@ -171,7 +210,7 @@
 		                var num = column[0][0] + 1; // remove zero-base
 		                var name = $(column.header()).html(); // get name of column
 
-		                if (name!=="BEER" && name!=="ABV" && name!=="AMOUNT") {
+		                if (name!=="BEER" && name!=="ABV" && name!=="CART") {
 			                var select = $('<select><option value=""></option></select>')
 			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() )
 			                    .on( 'change', function () {
@@ -187,6 +226,11 @@
 			                column.data().unique().sort().each( function ( d, j ) {
 			                    select.append( '<option value="'+d+'">'+d+'</option>' )
 			                } );
+		                }
+
+		                if (name==="CART") {
+		                	$("<input type='button' onclick='resetAllFilters()' value='Reset Filters'>")
+			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() );
 		                }
 		            } );
 		        }
