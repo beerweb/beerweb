@@ -11,6 +11,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.api import mail
 
 ###############################################################################
 # We'll just use this convenience function to retrieve and render a template.
@@ -122,7 +123,21 @@ class LoadFundsProcessHandler(webapp2.RequestHandler):
         self.redirect("loadfunds")
         return
       newBalance = balance + amount
-      
+  
+      mail.send_mail(sender="noreply@pittbeerdelivery.appspotmail.com", 
+      to=email,
+      subject="Your balance is updated",
+      body="""
+Dear User:
+
+You have added $""" + str(amount) +
+""" to your account.
+Your new balance is $""" + str(newBalance) +
+"""
+
+Pitt Beer Delivery Service
+""")
+	  
       beerUser = BeerUser()
       beerUser.key = ndb.Key("BeerUser", email)
       beerUser.balance = newBalance
