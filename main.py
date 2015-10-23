@@ -106,7 +106,7 @@ class LoadFundsPageHandler(webapp2.RequestHandler):
       }
       render_template(self, 'loadfunds.html', page_params)
     else:
-      self.redirect('/')
+      self.redirect('/home')
       
 ###############################################################################
 class LoadFundsProcessHandler(webapp2.RequestHandler):
