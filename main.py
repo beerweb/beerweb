@@ -33,7 +33,7 @@ def get_user_email():
 def get_user_balance(email):
     beerUser = ndb.Key("BeerUser", email).get()
     if beerUser is None:
-      return 0
+      return 0.0
     else:
       return beerUser.balance
 
