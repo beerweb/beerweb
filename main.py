@@ -4,10 +4,13 @@ import os
 import webapp2
 
 from beers import beers
+from beeruser import BeerUser
 
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import ndb
+from google.appengine.ext import blobstore
+from google.appengine.ext.webapp import blobstore_handlers
 
 ###############################################################################
 # We'll just use this convenience function to retrieve and render a template.
@@ -25,6 +28,22 @@ def get_user_email():
   if user:
     result = user.email()
   return result
+
+# This function returns the balance remaining in user's account
+def get_user_balance(email):
+    beerUser = ndb.Key("BeerUser", email).get()
+    if beerUser is None:
+      return 0
+    else:
+      return beerUser.balance
+
+# This function returns the address stored in user's account
+def get_user_address(email):
+    beerUser = ndb.Key("BeerUser", email).get()
+    if beerUser is None:
+      return "No entry"
+    else:
+      return beerUser.address
 
 ###############################################################################
 class VerifyAgePageHandler(webapp2.RequestHandler):
@@ -59,13 +78,59 @@ class AccountPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     if email:
+      # query ndb to get funds
+      balance = get_user_balance(email)
+      
       page_params = {
-        'user_email': email
+        'user_email': email,
+        'balance': balance
       }
       render_template(self, 'account.html', page_params)
     else:
       self.redirect(users.create_login_url('/account'))
-  
+
+
+###############################################################################
+class LoadFundsPageHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()	  
+    if email:
+      balance = get_user_balance(email)
+      address = get_user_address(email)
+      
+      process_url = blobstore.create_upload_url('/loadfunds_process')
+      page_params = {
+        'user_email': email,
+        'balance': balance,
+        'loadfunds_process_url': process_url
+      }
+      render_template(self, 'loadfunds.html', page_params)
+    else:
+      self.redirect('/')
+      
+###############################################################################
+class LoadFundsProcessHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if email:
+      balance = get_user_balance(email)
+      address = get_user_address(email)
+
+      try:
+        amount = float(self.request.get('amount'))
+      except ValueError:
+        self.redirect("loadfunds")
+        return
+      newBalance = balance + amount
+      
+      beerUser = BeerUser()
+      beerUser.key = ndb.Key("BeerUser", email)
+      beerUser.balance = newBalance
+      beerUser.address = address
+      beerUser.put()
+    self.redirect('/account')
+
+
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
   def get(self):
@@ -113,20 +178,6 @@ class BeerPricePageHandler(webapp2.RequestHandler):
       'beers' : sorted(beers, key = lambda beer: beer["price"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
-
-###############################################################################
-class PostedImage(ndb.Model):
-  pass
-
-
-###############################################################################
-class ImageComment(ndb.Model):
-  pass
-
-
-###############################################################################
-class ImageVote(ndb.Model):
-  pass
   
 
 ###############################################################################
@@ -135,6 +186,8 @@ mappings = [
   ('/home', MainPageHandler), 
   ('/order', OrderPageHandler),
   ('/account', AccountPageHandler),
+  ('/loadfunds', LoadFundsPageHandler),
+  ('/loadfunds_process', LoadFundsProcessHandler),
   ('/beer', BeerPageHandler),
   ('/beerbrewery', BeerBreweryPageHandler),
   ('/beername', BeerNamePageHandler),
