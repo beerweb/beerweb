@@ -9,7 +9,13 @@
 
 {% if user_email %}
 <p>Account balance: ${{ balance }}</p>
-<a class="buttons" href="loadfunds"><h2>Load Funds</h2></a>
+
+<form method="post" enctype="multipart/form-data" action="{{loadfunds_process_url}}" style="text-align: center">
+<p>Enter amount</p>
+<input name="amount" type="text" value="0"><br>
+<input type="submit" value="Proceed to payment">
+</form>
+
 <p>Logged in as {{ user_email }}</p>
 {% endif %}
 
