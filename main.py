@@ -2,9 +2,10 @@ import datetime
 import logging
 import os
 import webapp2
+import model
 
 from beers import beers
-from beeruser import BeerUser
+from model import BeerUser
 
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
@@ -28,22 +29,6 @@ def get_user_email():
   if user:
     result = user.email()
   return result
-
-# This function returns the balance remaining in user's account
-def get_user_balance(email):
-    beerUser = ndb.Key("BeerUser", email).get()
-    if beerUser is None:
-      return 0.0
-    else:
-      return beerUser.balance
-
-# This function returns the address stored in user's account
-def get_user_address(email):
-    beerUser = ndb.Key("BeerUser", email).get()
-    if beerUser is None:
-      return "No entry"
-    else:
-      return beerUser.address
 
 ###############################################################################
 class VerifyAgePageHandler(webapp2.RequestHandler):
@@ -79,7 +64,8 @@ class AccountPageHandler(webapp2.RequestHandler):
     email = get_user_email()
     if email:
       # query ndb to get funds
-      balance = get_user_balance(email)
+      beerUser = model.get_user_profile(email)
+      balance = beerUser.balance
       
       page_params = {
         'user_email': email,
@@ -95,8 +81,8 @@ class LoadFundsPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()	  
     if email:
-      balance = get_user_balance(email)
-      address = get_user_address(email)
+      beerUser = model.get_user_profile(email)
+      balance = beerUser.balance
       
       process_url = blobstore.create_upload_url('/loadfunds_process')
       page_params = {
@@ -113,20 +99,17 @@ class LoadFundsProcessHandler(webapp2.RequestHandler):
   def post(self):
     email = get_user_email()
     if email:
-      balance = get_user_balance(email)
-      address = get_user_address(email)
-
       try:
         amount = float(self.request.get('amount'))
       except ValueError:
         self.redirect("loadfunds")
         return
-      newBalance = balance + amount
+      if amount <= 0:
+        self.redirect("loadfunds")
+        return
       
-      beerUser = BeerUser()
-      beerUser.key = ndb.Key("BeerUser", email)
-      beerUser.balance = newBalance
-      beerUser.address = address
+      beerUser = model.get_user_profile(email)
+      beerUser.balance += amount
       beerUser.put()
     self.redirect('/account')
 
