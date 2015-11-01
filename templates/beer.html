@@ -13,7 +13,7 @@
 		gold:#cdb87d*/
 			input, select {
 				border: 2px solid #cdb87d !important;
-				border-radius: 5px;
+				border-radius: 5px !important;
 			}
 			input:invalid {
 				border:1px solid red;
@@ -89,6 +89,12 @@
 			    background-color: #b79a46;
 			    border-color: #cdb87d;
 			}
+			table.dataTable.fixedHeader-floating, table.dataTable.fixedHeader-locked {
+    			background-color: #cdb87d;
+    		}
+    			table.fixedHeader-floating input {
+    				border-color:#192857;
+    			}
 			/*tfoot { display: table-header-group; }
 			thead { display: table-footer-group; }*/
 		</style>
