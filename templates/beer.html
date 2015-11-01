@@ -159,8 +159,60 @@
 	</body>
 
 	<script type="text/javascript">
+
 		//////////////////////////////////////////////
-		// Adds the given beer ID to the cart
+		// Use this function so that we can abstract 
+		//		any support for older browsers into the 
+		//		details.
+		//////////////////////////////////////////////
+		function createXmlHttp() {
+		//////////////////////////////////////////////
+			var xmlhttp;
+
+			if (window.XMLHttpRequest) {
+				xmlhttp = new XMLHttpRequest();
+			} else {
+				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			
+			if (!(xmlhttp)) {
+				alert("Your browser does not support AJAX!");
+			}
+			
+			return xmlhttp;
+		}
+
+
+		//////////////////////////////////////////////
+		// Use the given xmlHttp object to send the 
+		//		given parameters to the target URL. The
+		//		parameters should be a URL formatted string.
+		//////////////////////////////////////////////
+		function postParameters(xmlHttp, target, parameters) {
+		//////////////////////////////////////////////
+			if (xmlHttp) {
+				xmlHttp.open("POST",target,true);
+				xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xmlHttp.send(parameters);
+			}
+		}
+
+
+		//////////////////////////////////////////////
+		// Adds the given beer ID to the user's shopping
+		//		cart by using an AJAX request and submitting
+		//		the necessary data to a method on the server
+		//		side. Uses a ReadyState to handle the AJAX request.
+		//
+		//		The readystate has the following values:
+		// 
+		//	0 = request not initialized 
+		//	1 = server connection established
+		//	2 = request received 
+		//	3 = processing request 
+		//	4 = request finished and response is ready
+		//
+		//	Also, we could check status. 200 is ok; other codes may be errors (like 404).
 		//////////////////////////////////////////////
 		function addToCart(beerID) {
 		//////////////////////////////////////////////
@@ -173,8 +225,43 @@
 
 			var total = num*price;
 
-			// some kind of AJAX call here to update
-			//		the user's cart within the DB
+			// create our beer object for the shopping cart
+			var item = {
+				id = beerID,
+				amount = num,
+				price = price,
+				total = total
+			}
+
+			// create a DTO (data transfer object), which is
+			//		a normalized version of the above object
+			//		that is able to be used between different
+			//		languages (php, c++, python, etc)
+			var dto = JSON.stringify(item);
+
+			// AJAX call here to update the user's cart 
+			//		within the DB
+			var xmlHttp = createXmlHttp();
+
+			xmlHttp.onreadystatechange=function() {
+				if(xmlHttp.readyState == 4) {
+					// parse the response back into a js object
+					var response = JSON.parse(xmlHttp.responseText);
+					
+					//var d = document.getElementById('texthere');
+					var text = '';
+
+					for (var i = 0; i < myObject.length; i++) {
+						text += response[i].first_name + ' ' + response[i].last_name + '<br>';
+					}
+
+					//d.innerHTML = text;
+				}
+			}
+
+			// post our DTO back to the server to be used
+			//		to update the user's database (shopping cart)
+			postParameters(xmlHttp, '/addToCart', dto);
 		}
 
 
