@@ -2,7 +2,6 @@ import datetime
 import logging
 import os
 import webapp2
-import model
 
 from beers import beers
 from model import BeerUser
@@ -64,7 +63,7 @@ class AccountPageHandler(webapp2.RequestHandler):
     email = get_user_email()
     if email:
       # query ndb to get funds
-      beerUser = model.get_user_profile(email)
+      beerUser = BeerUser.get_user_profile(email)
       balance = beerUser.balance
       
       page_params = {
@@ -81,7 +80,7 @@ class LoadFundsPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()	  
     if email:
-      beerUser = model.get_user_profile(email)
+      beerUser = BeerUser.get_user_profile(email)
       balance = beerUser.balance
       
       process_url = blobstore.create_upload_url('/loadfunds_process')
@@ -108,7 +107,7 @@ class LoadFundsProcessHandler(webapp2.RequestHandler):
         self.redirect("loadfunds")
         return
       
-      beerUser = model.get_user_profile(email)
+      beerUser = BeerUser.get_user_profile(email)
       beerUser.balance += amount
       beerUser.put()
     self.redirect('/account')
