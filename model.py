@@ -48,3 +48,12 @@ class BeerUser(ndb.Model):
     prof = get_user_profile(email)
     prof.address = address
     prof.put()
+
+###############################################################################
+class Beer(ndb.Model):
+  beerid = ndb.IntegerProperty()
+  brewery = ndb.StringProperty()
+  product = ndb.StringProperty()
+  style = ndb.StringProperty()
+  abv = ndb.FloatProperty()
+  price = ndb.StringProperty()
