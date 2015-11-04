@@ -81,10 +81,19 @@ class OrderPageHandler(webapp2.RequestHandler):
       beers_in_cart = []
 
       for beer in cart:
-        beers_in_cart.append(Beer.query(Beer.beerid == int(beer)).fetch(1)[0])
+        ndb_beer = Beer.query(Beer.beerid == int(beer)).fetch(1)[0]
+        beers_in_cart.append({
+          "beerid":beer,
+          "brewery":ndb_beer.brewery,
+          "product":ndb_beer.product,
+          "price":ndb_beer.price,
+          "quantity":cart[beer]
+          })
+        #beers_in_cart.append(Beer.query(Beer.beerid == int(beer)).fetch(1)[0])
+        #quantities.append(cart[beer])
 
       template_params={
-      "beers":beers_in_cart
+      "beers":beers_in_cart,
       }
     render_template(self, 'order.html', template_params) 
   
