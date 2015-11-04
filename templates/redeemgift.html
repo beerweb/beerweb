@@ -1,0 +1,66 @@
+<html>
+
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+<script>
+// we use this function so that we can abstract any support for older 
+// browsers into the details.
+function createXmlHttp() {
+	var xmlhttp;
+	if (window.XMLHttpRequest) {
+		xmlhttp = new XMLHttpRequest();
+	} else {
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	if (!(xmlhttp)) {
+		alert("Your browser does not support AJAX!");
+	}
+	return xmlhttp;
+}
+
+// use the given xmlHttp object to send the given parameters to the 
+// target URL.  parameters should be a URL formatted string.
+function postParameters(xmlHttp, target, parameters) {
+	if (xmlHttp) {
+		xmlHttp.open("POST",target,true);
+		xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlHttp.send(parameters);
+	}
+}
+
+function handleSubmit() {
+	var code = document.getElementById("codeTxt").value;
+	var result = document.getElementById("result");
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			//var returnObj = JSON.parse(xmlHttp.responseText);
+			result.innerHTML = xmlHttp.responseText;
+		} else {
+			// response not ready
+			result.innerHTML = "Processing...";
+		}
+	}
+	postParameters(xmlHttp, "/redeemgift_process?code=" + code.replace(/\s+/g, ''), "");
+}
+</script>
+<body>
+
+<a class="header" href="home">
+	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+</a>
+
+{% if user_email %}
+
+<p>Enter gift code</p>
+<div id="enterCode" style="text-align: center">
+<input id="codeTxt" type="text" value="">
+<input type="submit" value="Redeem" onclick="handleSubmit();">
+<h2><div id="result"></div></h2>
+</div>
+</form>
+
+<p>Logged in as {{ user_email }}</p>
+{% endif %}
+
+</body>
+</html>

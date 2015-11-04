@@ -5,7 +5,8 @@ import webapp2
 import json
 
 from beers import beers
-from model import BeerUser, Beer, ShoppingCart
+from model import BeerUser, Beer, ShoppingCart, GiftCert
+
 
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
@@ -157,6 +158,69 @@ Pitt Beer Delivery Service
       
     self.redirect('/account')
 
+###############################################################################
+class RedeemGiftPageHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()	  
+    if email:
+      beerUser = BeerUser.get_user_profile(email)
+      balance = beerUser.balance
+      
+      page_params = {
+        'user_email': email,
+        'balance': balance,
+      }
+      render_template(self, 'redeemgift.html', page_params)
+    else:
+      self.redirect('/home')
+      
+###############################################################################
+class RedeemGiftProcessHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if not email:
+      self.redirect('/home')
+      return
+    
+    code = self.request.get("code")
+    if code:
+      giftCert = GiftCert.get_gift_cert(code)
+      if giftCert is None:
+        # code is not valid
+        self.response.out.write("Invalid code")
+        #return
+      else:
+        # code is valid - check if it's used
+        if not giftCert.usedBy:
+          # code is valid and unused
+          giftCert.redeem_gift(email)
+          self.response.out.write("$"+str(giftCert.balance)+" is added to your account")
+        else:
+          # code is valid but used
+          self.response.out.write("Code already redeemed")
+          
+    else:
+      self.response.out.write("Please enter a gift code")
+
+  def post(self):
+    return self.get()
+
+###############################################################################
+class GenerateGiftHandler(webapp2.RequestHandler):
+  def get(self):
+    code = self.request.get("code")
+    if code:
+      newGift = GiftCert()
+      newGift.giftCode = code
+      newGift.balance = 0.0
+      newGift.usedBy = ""
+      newGift.put()
+      self.response.out.write("$0 gift card created")
+    else:
+      self.response.out.write("Please enter a gift code")
+
+  def post(self):
+    return self.get()
 
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
@@ -260,6 +324,9 @@ mappings = [
   ('/account', AccountPageHandler),
   ('/loadfunds', LoadFundsPageHandler),
   ('/loadfunds_process', LoadFundsProcessHandler),
+  ('/redeemgift', RedeemGiftPageHandler),
+  ('/redeemgift_process', RedeemGiftProcessHandler),
+  ('/_gen_gift', GenerateGiftHandler),
   ('/beer', BeerPageHandler),
   ('/beerbrewery', BeerBreweryPageHandler),
   ('/beername', BeerNamePageHandler),
