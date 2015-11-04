@@ -167,13 +167,18 @@ function handleKeyUp() {
 }
 
 function initialize() {
-	var mapCanvas = document.getElementById('map');
-	var mapOptions = {
-	  center: new google.maps.LatLng(40.4442, -79.9531),
-	  zoom: 14,
-	  mapTypeId: google.maps.MapTypeId.ROADMAP
-	}
-	var map = new google.maps.Map(mapCanvas, mapOptions);
+  var myLatLng = {lat: 40.4442, lng: -79.9531};
+ 
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 14,
+    center: myLatLng
+  });
+ 
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Cathedral of Learning'
+  });
 }
 
 
@@ -231,4 +236,56 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	</div>
 	{% endif %}
 </body>
+<script>
+//////////////////////////////////////////////
+		$(document).ready(function() {
+		//////////////////////////////////////////////
+		    var table = $('#tblBeers').DataTable( {
+		    	fixedHeader: true,
+		    	lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		    	orderCellsTop: true,
+		    	pageLength: 25,
+		    	responsive: true,
+		    	rowId: "ID",
+		    	select: 'single',
+		    	aoColumnDefs: [
+		          { 'bSortable': false, 'aTargets': [5] }
+		        ],
+		    	language: {
+		    		"info": "Showing _START_ to _END_ of _TOTAL_ beers",
+		    		"search": "Quick search:"
+		    	},
+		    	initComplete: function () {
+		            this.api().columns().every( function () {
+		                var column = this;
+		                var num = column[0][0] + 1; // remove zero-base
+		                var name = $(column.header()).html(); // get name of column
+
+		                if (name!=="PRODUCT" && name!=="ABV" && name!=="CART") {
+			                var select = $('<select class="input-sm"><option value=""></option></select>')
+			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() )
+			                    .on( 'change', function () {
+			                        var val = $.fn.dataTable.util.escapeRegex(
+			                            $(this).val()
+			                        );
+			 
+			                        column
+			                            .search( val ? '^'+val+'$' : '', true, false )
+			                            .draw();
+			                    } );
+			 
+			                column.data().unique().sort().each( function ( d, j ) {
+			                    select.append( '<option value="'+d+'">'+d+'</option>' )
+			                } );
+		                }
+
+		                if (name==="CART") {
+		                	$("<input type='button' onclick='resetAllFilters()' value='Reset Filters'>")
+			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() );
+		                }
+		            } );
+		        }
+			} );
+		});
+</script>
 </html>
