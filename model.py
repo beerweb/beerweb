@@ -49,7 +49,16 @@ class BeerUser(ndb.Model):
     prof.address = address
     prof.put()
 
+###############################################################################
+class Beer(ndb.Model):
+  beerid = ndb.IntegerProperty()
+  brewery = ndb.StringProperty()
+  product = ndb.StringProperty()
+  style = ndb.StringProperty()
+  abv = ndb.FloatProperty()
+  price = ndb.StringProperty()
 
+###############################################################################
 class GiftCert(ndb.Model):
   balance = ndb.FloatProperty()
   usedBy = ndb.StringProperty()
@@ -97,4 +106,3 @@ class GiftCert(ndb.Model):
       self.put()
     else:
       pass
-      

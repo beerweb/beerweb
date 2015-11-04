@@ -4,8 +4,7 @@ import os
 import webapp2
 
 from beers import beers
-from model import BeerUser
-from model import GiftCert
+from model import BeerUser, Beer, GiftCert
 
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
@@ -47,6 +46,20 @@ class VerifyAgePageHandler(webapp2.RequestHandler):
 ###############################################################################
 class MainPageHandler(webapp2.RequestHandler):
   def get(self):
+    # ensure all the beers are part of the ndb database. If they aren't, add them
+    if len(Beer.query().fetch()) == 0:
+      for beer in beers:
+        ndbBeer = Beer()
+        ndbBeer.beerid = int(beer['id'])
+        ndbBeer.brewery = beer['brewery']
+        ndbBeer.product = beer['product']
+        ndbBeer.style = beer['style']
+        ndbBeer.abv = float(beer['abv'])
+        ndbBeer.price = beer['price']
+        ndbBeer.key = ndb.Key('Beer', beer['id'])
+        ndbBeer.put()
+
+
     email = get_user_email()
     page_params = {
       'user_email': email,
@@ -197,48 +210,58 @@ class GenerateGiftHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
   def get(self):
+    logging.info("Beers from json:\n")
+    logging.info(beers)
+    logging.info("Beers from ndb:\n")
+    logging.info(Beer.query().fetch())
+    beers_ndb = Beer.query().fetch()
     template_params = {
-      'beers' : beers
+      'beers' : beers_ndb
     }
     render_template(self, 'beer.html', templatevalues=template_params)
 
 ###############################################################################
 class BeerBreweryPageHandler(webapp2.RequestHandler):
   def get(self):
+    beers_ndb = Beer.query().fetch()
     template_params = {
-      'beers' : sorted(beers, key = lambda beer: beer["brewery"])
+      'beers' : sorted(beers_ndb, key = lambda beer: beer["brewery"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
 
 ###############################################################################
 class BeerNamePageHandler(webapp2.RequestHandler):
   def get(self):
+    beers_ndb = Beer.query().fetch()
     template_params = {
-      'beers' : sorted(beers, key = lambda beer: beer["product"])
+      'beers' : sorted(beers_ndb, key = lambda beer: beer["product"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
 
 ###############################################################################
 class BeerStylePageHandler(webapp2.RequestHandler):
   def get(self):
+    beers_ndb = Beer.query().fetch()
     template_params = {
-      'beers' : sorted(beers, key = lambda beer: beer["style"])
+      'beers' : sorted(beers_ndb, key = lambda beer: beer["style"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
 
 ###############################################################################
 class BeerAbvPageHandler(webapp2.RequestHandler):
   def get(self):
+    beers_ndb = Beer.query().fetch()
     template_params = {
-      'beers' : sorted(beers, key = lambda beer: float(beer["abv"]))
+      'beers' : sorted(beers_ndb, key = lambda beer: float(beer["abv"]))
     }
     render_template(self, 'beer.html', templatevalues=template_params)
 
 ###############################################################################
 class BeerPricePageHandler(webapp2.RequestHandler):
   def get(self):
+    beers_ndb = Beer.query().fetch()
     template_params = {
-      'beers' : sorted(beers, key = lambda beer: beer["price"])
+      'beers' : sorted(beers_ndb, key = lambda beer: beer["price"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
   
