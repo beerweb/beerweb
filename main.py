@@ -2,9 +2,10 @@ import datetime
 import logging
 import os
 import webapp2
+import json
 
 from beers import beers
-from model import BeerUser, Beer
+from model import BeerUser, Beer, ShoppingCart
 
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
@@ -71,7 +72,20 @@ class MainPageHandler(webapp2.RequestHandler):
 ###############################################################################
 class OrderPageHandler(webapp2.RequestHandler):
   def get(self):
-    render_template(self, 'order.html') 
+    email = get_user_email()
+    template_params={}
+    if email:
+      beerUser = BeerUser.get_user_profile(email)
+      cart = beerUser.cart.contents
+      beers_in_cart = []
+
+      for beer in cart:
+        beers_in_cart.append(Beer.query(Beer.beerid == int(beer)).fetch(1)[0])
+
+      template_params={
+      "beers":beers_in_cart
+      }
+    render_template(self, 'order.html', template_params) 
   
 ###############################################################################
 class AccountPageHandler(webapp2.RequestHandler):
@@ -147,10 +161,6 @@ Pitt Beer Delivery Service
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
   def get(self):
-    logging.info("Beers from json:\n")
-    logging.info(beers)
-    logging.info("Beers from ndb:\n")
-    logging.info(Beer.query().fetch())
     beers_ndb = Beer.query().fetch()
     template_params = {
       'beers' : beers_ndb
@@ -218,6 +228,30 @@ class GetDistanceHandler(webapp2.RequestHandler):
   def post(self):
     return self.get()
 
+class AddToCartHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if not email:
+      self.redirect(users.create_login_url('/account'))
+
+    # query ndb to get the current user
+    beerUser = BeerUser.get_user_profile(email)
+    if not beerUser.cart:
+      beerUser.cart = ShoppingCart()
+      beerUser.cart.price = "0.00"
+      beerUser.cart.contents = {}
+
+    data = json.loads(self.request.body)
+    beer_id = int(data["beerID"])
+    quantity = int(data["quant"])
+    price = float(Beer.query(Beer.beerid == beer_id).fetch(1)[0].price) * quantity
+
+    beerUser.cart.contents[beer_id] = quantity
+    beerUser.cart.price = str(float(beerUser.cart.price) + price)
+
+    beerUser.put()
+
+
 ###############################################################################
 mappings = [
   ('/', VerifyAgePageHandler),
@@ -232,6 +266,7 @@ mappings = [
   ('/beerstyle', BeerStylePageHandler),
   ('/beerabv', BeerAbvPageHandler),
   ('/beerprice', BeerPricePageHandler),
-  ('/getdistance', GetDistanceHandler)
+  ('/getdistance', GetDistanceHandler),
+  ('/addToCart', AddToCartHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)
