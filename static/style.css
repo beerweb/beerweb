@@ -10,6 +10,7 @@
 
 body {
     background-color: #002d62;
+	position: relative;
 }
 h1 {
     font-family: "varsity_regular", Times, Sans-serif;
@@ -36,29 +37,8 @@ h2 {
     color: #beac70;
 }
 
-/* just using h2 for now
-h3 {
-    text-align: center;
-    border: 5px solid #FFFFFF;
-    padding: 5px;
-    font-family: "PTC75F", Times, Sans-serif;
-    font-size: 40;
-    color: #beac70;
-}
-
-h4 {
-    text-align: center;
-    border: 5px solid #FFFFFF;
-    padding: 5px;
-    font-family: "PTC75F", Times, Sans-serif;
-    font-size: 40;
-    color: #beac70;
-}
-*/
-
 a.buttons{
     color: #beac70;
-    text-decoration: none;
 }
 a.buttons h2 {
     background-color:rgba(0,0,0,.2);
@@ -79,4 +59,26 @@ a.header:link{
 
 a.header:visited{
     color: #beac70;
+}
+
+button {
+  -webkit-border-radius: 15;
+  -moz-border-radius: 15;
+  border-radius: 15px;
+  text-shadow: 1px 1px 3px #666666;
+  font-family: PTC75F;
+  color: #beac70;
+  font-size: 65px;
+  background-color:rgba(0,0,0,.2);
+  padding: 10px 20px 10px 20px;
+  border: 5px solid rgba(0,0,0,.5);
+  text-decoration: none;
+}
+
+button:hover {
+  background: #beac70;
+  color: #192857;
+  text-decoration: none;
+}
+
 }
