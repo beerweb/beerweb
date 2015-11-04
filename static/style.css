@@ -18,6 +18,7 @@ h1 {
     color: #beac70;
     letter-spacing: 7px;
     text-align: center;
+	text-decoration: none;
 }
 
 p {
@@ -25,6 +26,7 @@ p {
     font-size: 50;
     color: #beac70;
     text-align: center;
+	text-decoration: none;
 }
 
 h2 {
@@ -35,33 +37,40 @@ h2 {
     font-family: "PTC75F", Times, Sans-serif;
     font-size: 40;
     color: #beac70;
+	text-decoration: none;
 }
 
 a.buttons{
     color: #beac70;
+	text-decoration: none;
 }
 a.buttons h2 {
     background-color:rgba(0,0,0,.2);
+	text-decoration: none;
 }
 a.buttons h2:hover{
     background-color:#beac70;
     color: #192857;
+	text-decoration: none;
 }
 
 a.header{
     text-decoration: none;
     color: #beac70;
+	text-decoration: none;
 }
 
 a.header:link{
     color: #beac70;
+	text-decoration: none;
 }
 
 a.header:visited{
     color: #beac70;
+	text-decoration: none;
 }
 
-button {
+button, input[type='submit'] {
   -webkit-border-radius: 15;
   -moz-border-radius: 15;
   border-radius: 15px;
@@ -74,6 +83,10 @@ button {
   border: 5px solid rgba(0,0,0,.5);
   text-decoration: none;
 }
+input[type='submit']{
+	font-size: 35px;
+}
+
 
 button:hover {
   background: #beac70;
