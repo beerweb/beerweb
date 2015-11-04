@@ -1,18 +1,24 @@
 <html>
 	<head>
-		
+		<link rel="stylesheet" type="text/css" href="/static/style.css">
+		<script>
+			#centeredverify {
+				width: 600px;
+				text-align: center;
+				margin: 0 auto;
+			}
+		</script>
 	</head>
+
 	<body>
-		<p>Are you 21 years of age?</p>
-		<form method="post" action="/">
-			<input type="hidden" name="ageInput_form" id="ageInput">
-			<button onclick="sendVerify(1);">Yes</button>
-			<button onclick="sendVerify(0);">No</button>
+		<form method="post" action="/"> 
+			<div id="centeredverify" style="width:600px;text-align:center;margin:0 auto;">
+				<p>Are you 21 years of age?</p>
+				<input type="hidden" name="ageInput_form" id="ageInput">
+				<button onclick="sendVerify(1);">Yes</button>
+				<button onclick="sendVerify(0);">No</button>
+			</div>
 		</form>
-	
-	
-	
-	
 	</body>
 	
 </html>
