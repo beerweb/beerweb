@@ -57,3 +57,52 @@ class Beer(ndb.Model):
   style = ndb.StringProperty()
   abv = ndb.FloatProperty()
   price = ndb.StringProperty()
+
+###############################################################################
+class GiftCert(ndb.Model):
+  balance = ndb.FloatProperty()
+  usedBy = ndb.StringProperty()
+  giftCode = ndb.StringProperty()
+
+  @staticmethod
+  def get_gift_cert(code):
+    result = GiftCert.query(GiftCert.giftCode == code).order(GiftCert.usedBy).fetch(1)
+    if result:
+      return result[0]
+    else:
+      return None
+
+  # Returns true if gift cert with the code exists - both used and unused
+  @staticmethod
+  def is_code_valid(code):
+    if get_gift_cert(code):
+      return True
+    else:
+      return False
+
+  # Returns true if gift cert exists and unused
+  @staticmethod
+  def is_code_unused(code):
+    giftCert = get_gift_cert(code)
+    if giftCert:
+      # gift cert is valid
+      if giftCert.usedBy:
+        # gift cert is used
+        return False
+      else:
+        # gift cert is unused
+        return True
+    else:
+      # gift cert is not valid
+      return False  
+
+  # Redeems gift to user
+  def redeem_gift(self, email):
+    if not self.usedBy:
+      beerUser = BeerUser.get_user_profile(email)
+      beerUser.balance += self.balance
+      self.usedBy = email
+      beerUser.put()
+      self.put()
+    else:
+      pass
