@@ -119,7 +119,7 @@ class LoadFundsProcessHandler(webapp2.RequestHandler):
       except ValueError:
         self.redirect("loadfunds")
         return
-      if amount <= 0:
+      if amount <= 0 or amount > 100:
         self.redirect("loadfunds")
         return
       
