@@ -77,6 +77,10 @@ class OrderPageHandler(webapp2.RequestHandler):
     template_params={}
     if email:
       beerUser = BeerUser.get_user_profile(email)
+      if not beerUser.cart:
+        beerUser.cart = ShoppingCart()
+        beerUser.cart.price = "0.00"
+        beerUser.cart.contents = {}
       cart = beerUser.cart.contents
       beers_in_cart = []
 
