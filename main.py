@@ -75,6 +75,7 @@ class OrderPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     template_params={}
+    totalcost = 0.0
     if email:
       beerUser = BeerUser.get_user_profile(email)
       if not beerUser.cart:
@@ -86,6 +87,8 @@ class OrderPageHandler(webapp2.RequestHandler):
 
       for beer in cart:
         ndb_beer = Beer.query(Beer.beerid == int(beer)).fetch(1)[0]
+        totalcost += int(cart[beer]) * float(ndb_beer.price)
+
         beers_in_cart.append({
           "beerid":beer,
           "brewery":ndb_beer.brewery,
@@ -98,6 +101,7 @@ class OrderPageHandler(webapp2.RequestHandler):
 
       template_params={
       "beers":beers_in_cart,
+      "total":totalcost
       }
     render_template(self, 'order.html', template_params) 
   

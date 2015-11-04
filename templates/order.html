@@ -232,6 +232,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
 				</tr>
 				{% endfor %}
 			</tbody>
+			<tfoot>
+					<tr>
+						<th>Total</th>
+						<th></th>
+						<th></th>
+						<th>{{ total }}</th>
+					</tr>
+				</tfoot>
 		</table>
 	</div>
 	{% endif %}
