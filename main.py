@@ -11,6 +11,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.api import urlfetch
 
 ###############################################################################
 # We'll just use this convenience function to retrieve and render a template.
@@ -161,6 +162,21 @@ class BeerPricePageHandler(webapp2.RequestHandler):
     }
     render_template(self, 'beer.html', templatevalues=template_params)
   
+class GetDistanceHandler(webapp2.RequestHandler):
+  def get(self):
+    address = self.request.get("address")
+    if address:
+      # send http request to google maps
+      #logging.info(address)
+      url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=cathedral%20of%20learning&destinations=" + address + "&mode=driving&language=en-US&units=imperial&key=AIzaSyCXyR3f0rdJZsxwTNaFp2HRFnLUqlOnbvE"
+      result = urlfetch.fetch(url)
+      #self.response.out.write(address)
+      self.response.out.write(result.content)
+    else:
+      self.response.out.write("")
+
+  def post(self):
+    return self.get()
 
 ###############################################################################
 mappings = [
@@ -175,6 +191,7 @@ mappings = [
   ('/beername', BeerNamePageHandler),
   ('/beerstyle', BeerStylePageHandler),
   ('/beerabv', BeerAbvPageHandler),
-  ('/beerprice', BeerPricePageHandler)
+  ('/beerprice', BeerPricePageHandler),
+  ('/getdistance', GetDistanceHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)
