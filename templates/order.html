@@ -243,7 +243,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 						<th>Total</th>
 						<th></th>
 						<th></th>
-						<th>{{ total }}</th>
+						<th id="totalprice">{{ total }}</th>
 					</tr>
 				</tfoot>
 		</table>
@@ -312,7 +312,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 			var price = $("#price-"+beerID).html();
 			price = Number(price.replace(/[^0-9\.]+/g,""));
-			$("#quant-"+beerID).html("0")
+			quantity = parseInt($("#quant-"+beerID).html());
+			$("#quant-"+beerID).html("0");
+
+			totalprice = parseFloat($("#totalprice").html())
+			totalprice = totalprice - parseFloat(price * quantity)
+			$("#totalprice").html(totalprice.toString())
 
 
 			// some kind of AJAX call here to update
