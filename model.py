@@ -32,7 +32,9 @@ class BeerUser(ndb.Model):
       beerUser.key = ndb.Key("BeerUser", email)
       beerUser.balance = 0.0
       beerUser.address = ""
-      beerUser.cart = ShoppingCart()
+      #beerUser.cart = ShoppingCart()
+      #beerUser.cart.price = "0.00"
+      #beerUser.cart.contents={}
       beerUser.put()
     return beerUser
 

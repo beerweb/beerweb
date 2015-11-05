@@ -82,22 +82,24 @@ class OrderPageHandler(webapp2.RequestHandler):
         beerUser.cart = ShoppingCart()
         beerUser.cart.price = "0.00"
         beerUser.cart.contents = {}
+        beerUser.put()
       cart = beerUser.cart.contents
       beers_in_cart = []
 
-      for beer in cart:
-        ndb_beer = Beer.query(Beer.beerid == int(beer)).fetch(1)[0]
-        totalcost += int(cart[beer]) * float(ndb_beer.price)
+      if len(cart) != 0:
+        for beer in cart:
+          ndb_beer = Beer.query(Beer.beerid == int(beer)).fetch(1)[0]
+          totalcost += int(cart[beer]) * float(ndb_beer.price)
 
-        beers_in_cart.append({
-          "beerid":beer,
-          "brewery":ndb_beer.brewery,
-          "product":ndb_beer.product,
-          "price":ndb_beer.price,
-          "quantity":cart[beer]
-          })
-        #beers_in_cart.append(Beer.query(Beer.beerid == int(beer)).fetch(1)[0])
-        #quantities.append(cart[beer])
+          beers_in_cart.append({
+            "beerid":beer,
+            "brewery":ndb_beer.brewery,
+            "product":ndb_beer.product,
+            "price":ndb_beer.price,
+            "quantity":cart[beer]
+            })
+          #beers_in_cart.append(Beer.query(Beer.beerid == int(beer)).fetch(1)[0])
+          #quantities.append(cart[beer])
 
       template_params={
       "beers":beers_in_cart,
@@ -332,6 +334,30 @@ class AddToCartHandler(webapp2.RequestHandler):
 
     beerUser.put()
 
+class RemoveFromCartHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if not email:
+      self.redirect(users.create_login_url('/account'))
+    # query ndb to get the current user
+    beerUser = BeerUser.get_user_profile(email)
+    if not beerUser.cart:
+      beerUser.cart = ShoppingCart()
+      beerUser.cart.price = "0.00"
+      beerUser.cart.contents = {}
+
+    data = json.loads(self.request.body)
+    beer_id = int(data["beerID"])
+    quantity = beerUser.cart.contents[data["beerID"]]
+    price = float(Beer.query(Beer.beerid == beer_id).fetch(1)[0].price) * quantity
+
+    beerUser.cart.price = str(float(beerUser.cart.price) - price)
+    del beerUser.cart.contents[data["beerID"]]
+    #beerUser.cart.contents[beer_id] = quantity
+    #beerUser.cart.price = str(float(beerUser.cart.price) + price)
+
+    beerUser.put()
+
 
 ###############################################################################
 mappings = [
@@ -351,6 +377,7 @@ mappings = [
   ('/beerabv', BeerAbvPageHandler),
   ('/beerprice', BeerPricePageHandler),
   ('/getdistance', GetDistanceHandler),
-  ('/addToCart', AddToCartHandler)
+  ('/addToCart', AddToCartHandler),
+  ('/removeFromCart', RemoveFromCartHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)

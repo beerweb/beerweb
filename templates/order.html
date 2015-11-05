@@ -34,6 +34,9 @@
 	h2 {
 		font-size: 30px;
 	}
+	input[type=button] {
+		width: 50px;
+	}
 #container { 
 				margin:auto;
 				margin-top:15px;
@@ -229,6 +232,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
 					<td>{{ beer.product }}</td>
 					<td id="price-{{ beer.beerid }}">${{ beer.price }}</td>
 					<td id="quant-{{ beer.beerid }}">{{ beer.quantity }}</td>
+					<td>
+						<input type="button" onclick="removeFromCart('{{beer.beerid}}')" value="X">
+					</td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -295,5 +301,31 @@ google.maps.event.addDomListener(window, 'load', initialize);
 		        }
 			} );
 		});
+
+		//////////////////////////////////////////////
+		// Removes the given beer ID to the cart
+		//////////////////////////////////////////////
+		function removeFromCart(beerID) {
+		//////////////////////////////////////////////
+			// the beerID is also the ID of the input
+			//		boxes that we want to grab
+
+			var price = $("#price-"+beerID).html();
+			price = Number(price.replace(/[^0-9\.]+/g,""));
+			$("#quant-"+beerID).html("0")
+
+
+			// some kind of AJAX call here to update
+			//		the user's cart within the DB
+
+			var xmlHttp = createXmlHttp()
+			xmlHttp.onreadystatechange=function() {
+				if (xmlHttp.readyState == 4) {
+					//Some kind of feedback here
+				}
+			}
+
+			postParameters(xmlHttp, '/removeFromCart', JSON.stringify({'beerID':beerID}))
+		}
 </script>
 </html>
