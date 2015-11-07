@@ -5,6 +5,7 @@
 <script>
 function handleSubmit() {
 	var code = document.getElementById("codeTxt").value;
+	var amount = document.getElementById("amountTxt").value;
 	var result = document.getElementById("result");
 	var xmlHttp = createXmlHttp();
 	xmlHttp.onreadystatechange=function() {
@@ -16,7 +17,7 @@ function handleSubmit() {
 			result.innerHTML = "Processing...";
 		}
 	}
-	postParameters(xmlHttp, "/redeemgift_process?code=" + code.replace(/\s+/g, ''), "");
+	postParameters(xmlHttp, "/admin_gen_gift?code=" + code.replace(/\s+/g, '') + "&amount=" + amount, "");
 }
 </script>
 <body>
@@ -27,10 +28,23 @@ function handleSubmit() {
 
 {% if user_email %}
 
-<p>Enter gift code below:</p>
-<div id="enterCode" style="text-align: center">
-<input id="codeTxt" type="text" value="" style="height: 45px; font-size: 35;"> <p>     </p>
-<input type="submit" value="Redeem" onclick="handleSubmit();">
+<div id="listGifts" style="text-align: center">
+<p>Gift Cards:</p>
+<h2>
+{% for giftCert in giftCerts %}
+${{ giftCert.balance }} "{{ giftCert.giftCode}}" {{ giftCert.usedBy}} <a href="admin_del_gift?code={{ giftCert.giftCode }}">Delete</a><br>
+{% endfor %}
+</h2>
+</div>
+
+
+
+<div id="generateGift" style="text-align: center">
+<p>Generate Gift Code:</p>
+<input id="codeTxt" type="text" value="" style="height: 45px; font-size: 35;">
+<p>Amount:</p>
+<input id="amountTxt" type="text" value="" style="height: 45px; font-size: 35;"> <p>     </p>
+<input type="submit" value="Generate" onclick="handleSubmit();">
 <h2><div id="result"></div></h2>
 </div>
 </form>
