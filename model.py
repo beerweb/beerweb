@@ -87,7 +87,7 @@ class GiftCert(ndb.Model):
   # Returns true if gift cert with the code exists - both used and unused
   @staticmethod
   def is_code_valid(code):
-    if get_gift_cert(code):
+    if GiftCert.get_gift_cert(code):
       return True
     else:
       return False
@@ -95,7 +95,7 @@ class GiftCert(ndb.Model):
   # Returns true if gift cert exists and unused
   @staticmethod
   def is_code_unused(code):
-    giftCert = get_gift_cert(code)
+    giftCert = GiftCert.get_gift_cert(code)
     if giftCert:
       # gift cert is valid
       if giftCert.usedBy:
@@ -106,7 +106,7 @@ class GiftCert(ndb.Model):
         return True
     else:
       # gift cert is not valid
-      return False  
+      return False
 
   # Redeems gift to user
   def redeem_gift(self, email):

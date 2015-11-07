@@ -37,7 +37,7 @@
 	input[type=button] {
 		width: 50px;
 	}
-#container { 
+#container {
 				margin:auto;
 				margin-top:15px;
 				padding-bottom: 50px;
@@ -103,32 +103,8 @@
     			}
 </style>
 <script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="/static/ajaxhelper.js"></script>
 <script>
-// we use this function so that we can abstract any support for older 
-// browsers into the details.
-function createXmlHttp() {
-	var xmlhttp;
-	if (window.XMLHttpRequest) {
-		xmlhttp = new XMLHttpRequest();
-	} else {
-		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-	}
-	if (!(xmlhttp)) {
-		alert("Your browser does not support AJAX!");
-	}
-	return xmlhttp;
-}
-
-// use the given xmlHttp object to send the given parameters to the 
-// target URL.  parameters should be a URL formatted string.
-function postParameters(xmlHttp, target, parameters) {
-	if (xmlHttp) {
-		xmlHttp.open("POST",target,true);
-		xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlHttp.send(parameters);
-	}
-}
-
 function handleKeyUp() {
 	var address = document.getElementById("addressTxt").value;
 	var result = document.getElementById("addressResult");
@@ -140,7 +116,7 @@ function handleKeyUp() {
 	xmlHttp.onreadystatechange=function() {
 		if (xmlHttp.readyState == 4) {
 			//result.innerHTML = "To " + address + "<br>";
-			
+
 			var mapObject = JSON.parse(xmlHttp.responseText);
 			//window.alert("response " + mapObject.toString());
 			if (mapObject) {
@@ -171,12 +147,12 @@ function handleKeyUp() {
 
 function initialize() {
   var myLatLng = {lat: 40.4442, lng: -79.9531};
- 
+
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
     center: myLatLng
   });
- 
+
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
@@ -192,14 +168,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <body>
 	<a class="header" href="home">
 		<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
-	</a>	
+	</a>
 
 	<div style="margin:0 auto; text-align:center;">
 		<input type="text" id="addressTxt" placeholder="Please enter your address..." onkeyup="handleKeyUp();">
 	</div>
 
 	<br>
-	
+
 	<h2 id="addressResult">Your address must be within a 5 mile radius of the university</h2>
 
 	<div id="map"></div>
@@ -282,12 +258,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			                        var val = $.fn.dataTable.util.escapeRegex(
 			                            $(this).val()
 			                        );
-			 
+
 			                        column
 			                            .search( val ? '^'+val+'$' : '', true, false )
 			                            .draw();
 			                    } );
-			 
+
 			                column.data().unique().sort().each( function ( d, j ) {
 			                    select.append( '<option value="'+d+'">'+d+'</option>' )
 			                } );
