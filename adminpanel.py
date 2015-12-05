@@ -57,11 +57,8 @@ class AdminManageGiftPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     if email and is_user_admin():
-      # get the list of gift certs
-      giftCerts = GiftCert.query().order(GiftCert.usedBy).fetch()
       page_params = {
         'user_email': email,
-        'giftCerts': giftCerts
       }
       render_template(self, 'adminmanagegifts.html', page_params)
     else:
