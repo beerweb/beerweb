@@ -118,3 +118,11 @@ class GiftCert(ndb.Model):
       self.put()
     else:
       pass
+
+
+###############################################################################
+class BeerOrder(ndb.Model):
+  items = ndb.StringProperty() # items in order
+  paid = ndb.FloatProperty() # money paid
+  status = ndb.StringProperty() # placed, verified, delivered
+  orderedBy = ndb.StringProperty() # email of user  
