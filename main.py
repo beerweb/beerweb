@@ -6,7 +6,7 @@ import json
 import adminpanel
 
 from beers import beers
-from model import BeerUser, Beer, ShoppingCart, GiftCert
+from model import BeerUser, Beer, ShoppingCart, GiftCert, BeerOrder
 
 
 from google.appengine.ext.webapp import template
@@ -131,6 +131,21 @@ class AccountPageHandler(webapp2.RequestHandler):
         'balance': balance
       }
       render_template(self, 'account.html', page_params)
+    else:
+      self.redirect(users.create_login_url('/account'))
+
+###############################################################################
+class ViewOrdersPageHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if email:
+      # query ndb to get orders
+      orders = BeerOrder.get_user_orders(email)
+      page_params = {
+        'user_email': email,
+        'orders': orders
+        }
+      render_template(self, 'vieworders.html', page_params)
     else:
       self.redirect(users.create_login_url('/account'))
 
@@ -349,7 +364,21 @@ class RemoveFromCartHandler(webapp2.RequestHandler):
     #beerUser.cart.price = str(float(beerUser.cart.price) + price)
 
     beerUser.put()
-
+    
+###############################################################################
+# Remove this when beard ben adds checkout
+# ATM you gotta go to datastore and set records yourself
+class Test_PlaceOrder(webapp2.RequestHandler):
+  def get(self):
+     order = BeerOrder()
+     order.items = "10 boxes of beer"
+     order.priceSum = 19.99
+     order.address = "craig's house"
+     order.status = "Verifying"
+     order.orderedBy = "test@example.com"
+     order.put()
+     self.response.out.write("")
+  
 
 ###############################################################################
 mappings = [
@@ -357,6 +386,7 @@ mappings = [
   ('/home', MainPageHandler),
   ('/order', OrderPageHandler),
   ('/account', AccountPageHandler),
+  ('/vieworders', ViewOrdersPageHandler),
   ('/loadfunds', LoadFundsPageHandler),
   ('/loadfunds_process', LoadFundsProcessHandler),
   ('/redeemgift', RedeemGiftPageHandler),
@@ -370,11 +400,16 @@ mappings = [
   ('/getdistance', GetDistanceHandler),
   ('/addToCart', AddToCartHandler),
   ('/removeFromCart', RemoveFromCartHandler),
+  ('/test_placeorder', Test_PlaceOrder), # remember to delete this later!
   # admin pages
   ('/adminmanagegifts', adminpanel.AdminManageGiftPageHandler),
   ('/admin_get_gifts', adminpanel.GetGiftsHandler),
   ('/admin_gen_gift', adminpanel.GenerateGiftHandler),
   ('/admin_del_gift', adminpanel.DeleteGiftHandler),
+  ('/adminmanageorders', adminpanel.AdminManageOrdersPageHandler),
+  ('/admin_get_orders_table', adminpanel.GetOrdersTableHandler),
+  ('/admin_set_order_status', adminpanel.SetOrderStatusHandler),
+  ('/adminvieworders', adminpanel.AdminViewOrdersPageHandler),
   ('/adminpanel', adminpanel.AdminPanelPageHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)

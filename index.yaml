@@ -10,6 +10,22 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
+- kind: BeerOrder
+  properties:
+  - name: orderedBy
+  - name: status
+
+- kind: BeerOrder
+  properties:
+  - name: orderedBy
+  - name: status
+    direction: desc
+
+- kind: BeerOrder
+  properties:
+  - name: status
+  - name: orderedBy
+
 - kind: GiftCert
   properties:
   - name: giftCode

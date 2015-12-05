@@ -1,0 +1,50 @@
+<html>
+
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+<script src="/static/ajaxhelper.js"></script>
+<script>
+function getOrdersTable() {
+	var result = document.getElementById("orderTable");
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			result.innerHTML = xmlHttp.responseText;
+		} else {
+			// response not ready
+			result.innerHTML = "";
+		}
+	}
+	postParameters(xmlHttp, "/admin_get_orders_table", "");
+}
+
+function changeOrderStatus(id, status) {
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			//var returnObj = JSON.parse(xmlHttp.responseText);
+			//result.innerHTML = xmlHttp.responseText;
+			setTimeout(getOrdersTable, 1000);
+		} else {
+			// response not ready
+			//result.innerHTML = "Processing...";
+		}
+	}
+	postParameters(xmlHttp, '/admin_set_order_status', JSON.stringify({'id':id, 'status':status}));
+}
+
+</script>
+<body onload="getOrdersTable();">
+
+<a class="header" href="home">
+	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+</a>
+
+<p>Manage Active Orders<br></p>
+<div id="orderTable" style="text-align: center">
+<!-- table is rendered by AJAX  -->
+</div>
+
+<p>Logged in as {{ user_email }}</p>
+
+</body>
+</html>

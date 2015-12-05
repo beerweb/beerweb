@@ -1,0 +1,31 @@
+<html>
+
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+<body>
+
+<a class="header" href="home">
+	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+</a>
+
+<p>My Orders<br></p>
+
+
+<table border="2" align="center">
+<tr>
+<td>Status</td><td>Items Ordered</td>
+<td>Total Paid</td><td>Delivery Address</td>
+<td>Transaction ID</td>
+</tr>
+{% for order in orders %}
+<tr>
+<td>{{ order.status }}</td><td>{{ order.items }}</td>
+<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
+<td>{{ order.key.id }}</td>
+</tr>
+{% endfor %}
+<table>
+
+<p>Logged in as {{ user_email }}</p>
+
+</body>
+</html>

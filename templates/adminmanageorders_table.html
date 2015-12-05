@@ -1,0 +1,26 @@
+<table border="2" align="center">
+<tr>
+<td>Status</td>
+<td>Orderd By</td><td>Items Ordered</td>
+<td>Total Paid</td><td>Delivery Address</td>
+<td>Transaction ID</td>
+<td>Actions</td>
+</tr>
+{% for order in orders %}
+{% if order.status != "Completed" %}
+<tr>
+<td>{{ order.status }}</td>
+<td>{{ order.orderedBy }}</td><td>{{ order.items }}</td>
+<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
+<td>{{ order.key.id }}</td>
+<td>
+{% if order.status == "Verifying" %}
+<input type="submit" value="Verify" onclick="changeOrderStatus({{ order.key.id }}, 'Delivering');">
+{% else %}
+<input type="submit" value="Complete" onclick="changeOrderStatus({{ order.key.id }}, 'Completed');">
+{% endif %}
+</td>
+</tr>
+{% endif %}
+{% endfor %}
+<table>

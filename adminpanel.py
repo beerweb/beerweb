@@ -5,7 +5,7 @@ import webapp2
 import json
 
 from beers import beers
-from model import BeerUser, Beer, ShoppingCart, GiftCert
+from model import BeerUser, Beer, ShoppingCart, GiftCert, BeerOrder
 
 
 from google.appengine.ext.webapp import template
@@ -121,3 +121,60 @@ class DeleteGiftHandler(webapp2.RequestHandler):
 
   def post(self):
     return self.get()
+
+###############################################################################
+class AdminManageOrdersPageHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      page_params = {
+        'user_email': email,
+      }
+      render_template(self, 'adminmanageorders.html', page_params)
+    else:
+      self.redirect('/home')
+
+class GetOrdersTableHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      orders = BeerOrder.query().order(BeerOrder.orderedBy, -BeerOrder.status).fetch()      
+      page_params = {
+        'user_email': email,
+        'orders': orders
+      }
+      render_template(self, 'adminmanageorders_table.html', page_params)
+    else:
+      self.redirect('/home')
+
+  def post(self):
+    return self.get()
+
+class SetOrderStatusHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      # get params from post request
+      data = json.loads(self.request.body)
+      transId = int(data["id"])
+      newStatus = data["status"]
+      # get order by id
+      order = ndb.Key("BeerOrder", transId).get()
+      if order:
+        order.status = newStatus;
+        order.put()
+    else:
+      self.redirect('/home')
+
+###############################################################################
+class AdminViewOrdersPageHandler(webapp2.RequestHandler):
+    def get(self):
+      email = get_user_email()
+      if email and is_user_admin():
+        page_params = {
+          'user_email': email,
+          'orders': BeerOrder.get_completed_orders()
+        }
+        render_template(self, 'adminvieworders.html', page_params)
+      else:
+        self.redirect('/home')
