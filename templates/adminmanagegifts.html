@@ -12,7 +12,7 @@ function getAllGifts() {
 			result.innerHTML = xmlHttp.responseText;
 		} else {
 			// response not ready
-			result.innerHTML = "Loading...";
+			result.innerHTML = "";
 		}
 	}
 	postParameters(xmlHttp, "/admin_get_gifts", "");
@@ -56,15 +56,11 @@ function handleDelete(code) {
 	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
 </a>
 
-{% if user_email %}
-
 <div id="listGifts" style="text-align: center">
-<p>Gift Cards:</p>
+<p>Manage Gift Cards</p>
 <h2 id="giftResults">
 </h2>
 </div>
-
-
 
 <div id="generateGift" style="text-align: center">
 <p>Generate Gift Code:</p>
@@ -74,10 +70,8 @@ function handleDelete(code) {
 <input type="submit" value="Generate" onclick="handleSubmit();">
 <h2><div id="result"></div></h2>
 </div>
-</form>
 
 <p>Logged in as {{ user_email }}</p>
-{% endif %}
 
 </body>
 </html>

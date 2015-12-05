@@ -118,3 +118,26 @@ class GiftCert(ndb.Model):
       self.put()
     else:
       pass
+
+
+###############################################################################
+class BeerOrder(ndb.Model):
+  items = ndb.StringProperty() # items in order
+  priceSum = ndb.FloatProperty() #sum of order
+  address = ndb.StringProperty() # address of user
+  status = ndb.StringProperty() # Verifying, Delivering, Completed
+  orderedBy = ndb.StringProperty() # email of user
+  #timePlaced = ndb.DateTimeProperty()
+  # can use myOrder.key.id as transaction id
+
+  # Returns all the orders placed by the user
+  @staticmethod
+  def get_user_orders(email):
+    results = BeerOrder.query(BeerOrder.orderedBy == email).order(-BeerOrder.status).fetch()
+    return results
+
+  # Returns all completed orders
+  @staticmethod
+  def get_completed_orders():
+    results = BeerOrder.query(BeerOrder.status == "Completed").order(BeerOrder.orderedBy).fetch()
+    return results
