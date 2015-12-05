@@ -3,6 +3,21 @@
 <link rel="stylesheet" type="text/css" href="/static/style.css">
 <script src="/static/ajaxhelper.js"></script>
 <script>
+function getAllGifts() {
+	var result = document.getElementById("giftResults");
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			// reload gifts panel
+			result.innerHTML = xmlHttp.responseText;
+		} else {
+			// response not ready
+			result.innerHTML = "Loading...";
+		}
+	}
+	postParameters(xmlHttp, "/admin_get_gifts", "");
+}
+
 function handleSubmit() {
 	var code = document.getElementById("codeTxt").value;
 	var amount = document.getElementById("amountTxt").value;
@@ -12,6 +27,7 @@ function handleSubmit() {
 		if (xmlHttp.readyState == 4) {
 			//var returnObj = JSON.parse(xmlHttp.responseText);
 			result.innerHTML = xmlHttp.responseText;
+			setTimeout(getAllGifts, 1000);
 		} else {
 			// response not ready
 			result.innerHTML = "Processing...";
@@ -19,8 +35,22 @@ function handleSubmit() {
 	}
 	postParameters(xmlHttp, "/admin_gen_gift?code=" + code.replace(/\s+/g, '') + "&amount=" + amount, "");
 }
+
+function handleDelete(code) {
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			// reload gifts panel
+			setTimeout(getAllGifts, 1000);
+		} else {
+			// response not ready
+			//result.innerHTML = "Processing...";
+		}
+	}
+	postParameters(xmlHttp, "/admin_del_gift?code=" + code.replace(/\s+/g, ''), "");
+}
 </script>
-<body>
+<body onload="getAllGifts();">
 
 <a class="header" href="home">
 	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
@@ -30,10 +60,7 @@ function handleSubmit() {
 
 <div id="listGifts" style="text-align: center">
 <p>Gift Cards:</p>
-<h2>
-{% for giftCert in giftCerts %}
-${{ giftCert.balance }} "{{ giftCert.giftCode}}" {{ giftCert.usedBy}} <a href="admin_del_gift?code={{ giftCert.giftCode }}">Delete</a><br>
-{% endfor %}
+<h2 id="giftResults">
 </h2>
 </div>
 

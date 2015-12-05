@@ -68,6 +68,24 @@ class AdminManageGiftPageHandler(webapp2.RequestHandler):
       self.redirect('/home')
 
 
+class GetGiftsHandler(webapp2.RequestHandler):
+  def get(self):
+    if not is_user_admin():
+      self.response.out.write("Not logged in as admin")
+      return
+    respStr = ""
+    giftCerts = GiftCert.query().order(GiftCert.usedBy).fetch()
+    for cert in giftCerts:
+      respStr += '$' + str(cert.balance) + ' "' + cert.giftCode + '" '
+      respStr += cert.usedBy + ' '
+      respStr += '<input type="submit" value="Delete" onclick="handleDelete(\''+cert.giftCode+'\');">'
+      respStr += '<br>'
+    self.response.out.write(respStr)
+
+  def post(self):
+    return self.get()
+
+
 class GenerateGiftHandler(webapp2.RequestHandler):
   def get(self):
     if not is_user_admin():
@@ -102,7 +120,7 @@ class DeleteGiftHandler(webapp2.RequestHandler):
       giftCert = GiftCert.get_gift_cert(code)
       if giftCert:
         giftCert.key.delete()
-    self.redirect('/adminmanagegifts')
+    #self.redirect('/adminmanagegifts')
 
   def post(self):
     return self.get()

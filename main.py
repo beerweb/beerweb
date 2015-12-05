@@ -372,6 +372,7 @@ mappings = [
   ('/removeFromCart', RemoveFromCartHandler),
   # admin pages
   ('/adminmanagegifts', adminpanel.AdminManageGiftPageHandler),
+  ('/admin_get_gifts', adminpanel.GetGiftsHandler),
   ('/admin_gen_gift', adminpanel.GenerateGiftHandler),
   ('/admin_del_gift', adminpanel.DeleteGiftHandler),
   ('/adminpanel', adminpanel.AdminPanelPageHandler)
