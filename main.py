@@ -44,11 +44,17 @@ def is_user_admin():
 ###############################################################################
 class VerifyAgePageHandler(webapp2.RequestHandler):
   def get(self):
-    render_template(self, 'verifyage.html', {})
+    cookie_value = self.request.cookies.get('age-verified')
+    if cookie_value and cookie_value == "Yes":
+      self.redirect("/home")
+    else:
+      render_template(self, 'verifyage.html', {})
 
   def post(self):
     val = int(self.request.get("ageInput_form"));
     if val == 1:
+      # set cookie
+      self.response.set_cookie('age-verified', 'Yes', max_age=30*24*60*60)
       self.redirect("/home")
     else:
       self.redirect("http://www.toysrus.com/");
