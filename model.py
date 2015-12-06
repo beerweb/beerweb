@@ -127,17 +127,23 @@ class BeerOrder(ndb.Model):
   address = ndb.StringProperty() # address of user
   status = ndb.StringProperty() # Verifying, Delivering, Completed
   orderedBy = ndb.StringProperty() # email of user
-  #timePlaced = ndb.DateTimeProperty()
+  timePlaced = ndb.DateTimeProperty(auto_now_add=True)
   # can use myOrder.key.id as transaction id
 
-  # Returns all the orders placed by the user
+  # Returns all the orders placed by the user (new orders first)
   @staticmethod
   def get_user_orders(email):
-    results = BeerOrder.query(BeerOrder.orderedBy == email).order(-BeerOrder.status).fetch()
+    results = BeerOrder.query(BeerOrder.orderedBy == email).order(-BeerOrder.timePlaced).fetch()
     return results
 
-  # Returns all completed orders
+  # Returns all completed orders (new orders first)
   @staticmethod
   def get_completed_orders():
-    results = BeerOrder.query(BeerOrder.status == "Completed").order(BeerOrder.orderedBy).fetch()
+    results = BeerOrder.query(BeerOrder.status == "Completed").order(-BeerOrder.timePlaced).fetch()
+    return results
+
+  # Returns all orders (old orders first)
+  @staticmethod
+  def get_all_orders():
+    results = BeerOrder.query().order(BeerOrder.timePlaced).fetch()
     return results

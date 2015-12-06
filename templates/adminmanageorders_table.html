@@ -3,7 +3,7 @@
 <td>Status</td>
 <td>Orderd By</td><td>Items Ordered</td>
 <td>Total Paid</td><td>Delivery Address</td>
-<td>Transaction ID</td>
+<td>Transaction ID</td><td>Order Placed</td>
 <td>Actions</td>
 </tr>
 {% for order in orders %}
@@ -12,7 +12,7 @@
 <td>{{ order.status }}</td>
 <td>{{ order.orderedBy }}</td><td>{{ order.items }}</td>
 <td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-<td>{{ order.key.id }}</td>
+<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
 <td>
 {% if order.status == "Verifying" %}
 <input type="submit" value="Verify" onclick="changeOrderStatus({{ order.key.id }}, 'Delivering');">

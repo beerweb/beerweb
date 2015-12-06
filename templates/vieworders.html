@@ -14,13 +14,13 @@
 <tr>
 <td>Status</td><td>Items Ordered</td>
 <td>Total Paid</td><td>Delivery Address</td>
-<td>Transaction ID</td>
+<td>Transaction ID</td><td>Order Placed</td>
 </tr>
 {% for order in orders %}
 <tr>
 <td>{{ order.status }}</td><td>{{ order.items }}</td>
 <td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-<td>{{ order.key.id }}</td>
+<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
 </tr>
 {% endfor %}
 <table>

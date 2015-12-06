@@ -8,6 +8,7 @@ function getOrdersTable() {
 	var xmlHttp = createXmlHttp();
 	xmlHttp.onreadystatechange=function() {
 		if (xmlHttp.readyState == 4) {
+			clearInputFields();
 			result.innerHTML = xmlHttp.responseText;
 		} else {
 			// response not ready
@@ -32,6 +33,32 @@ function changeOrderStatus(id, status) {
 	postParameters(xmlHttp, '/admin_set_order_status', JSON.stringify({'id':id, 'status':status}));
 }
 
+function handleSubmit() {
+	var orderedBy = document.getElementById("orderedBy").value;
+	var itemsOrdered = document.getElementById("itemsOrdered").value;
+	var totalPaid = document.getElementById("totalPaid").value;
+	var deliveryAddress = document.getElementById("deliveryAddress").value;
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			//var returnObj = JSON.parse(xmlHttp.responseText);
+			//result.innerHTML = xmlHttp.responseText;
+			setTimeout(getOrdersTable, 1000);
+		} else {
+			// response not ready
+			//result.innerHTML = "Processing...";
+		}
+	}
+	postParameters(xmlHttp, "/admin_place_order", JSON.stringify({'items':itemsOrdered, 'priceSum':totalPaid, 'address':deliveryAddress, 'orderedBy':orderedBy}));
+}
+
+function clearInputFields() {
+	document.getElementById("orderedBy").value = "";
+	document.getElementById("itemsOrdered").value = "";
+	document.getElementById("totalPaid").value = "";
+	document.getElementById("deliveryAddress").value = "";
+}
+
 </script>
 <body onload="getOrdersTable();">
 
@@ -42,6 +69,21 @@ function changeOrderStatus(id, status) {
 <p>Manage Active Orders<br></p>
 <div id="orderTable" style="text-align: center">
 <!-- table is rendered by AJAX  -->
+</div>
+
+<div id="generateGift" style="text-align: center">
+<p>Create An Order Manually</p>
+<h2>
+Ordered By<br>
+<input id="orderedBy" type="text" value="" style="height: 45px; font-size: 35;"><br>
+Items Ordered<br>
+<input id="itemsOrdered" type="text" value="" style="height: 45px; font-size: 35;"><br>
+Total Paid<br>
+<input id="totalPaid" type="text" value="" style="height: 45px; font-size: 35;"><br>
+Delivery Address<br>
+<input id="deliveryAddress" type="text" value="" style="height: 45px; font-size: 35;"><br>
+<br><input type="submit" value="Place Order" onclick="handleSubmit();">
+</h2>
 </div>
 
 <p>Logged in as {{ user_email }}</p>

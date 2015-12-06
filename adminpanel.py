@@ -138,7 +138,7 @@ class GetOrdersTableHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     if email and is_user_admin():
-      orders = BeerOrder.query().order(BeerOrder.orderedBy).fetch()      
+      orders = BeerOrder.get_all_orders()      
       page_params = {
         'user_email': email,
         'orders': orders
@@ -178,3 +178,22 @@ class AdminViewOrdersPageHandler(webapp2.RequestHandler):
         render_template(self, 'adminvieworders.html', page_params)
       else:
         self.redirect('/home')
+
+###############################################################################
+# This allows admins to manually place an order for a user
+class ManualPlaceOrderHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      # get params from post request
+      data = json.loads(self.request.body)
+      order = BeerOrder()
+      order.items = data["items"]
+      order.priceSum = float(data["priceSum"])
+      order.address = data["address"]
+      order.status = "Verifying"
+      order.orderedBy = data["orderedBy"]
+      order.put()
+    else:
+      self.redirect('/home')
+

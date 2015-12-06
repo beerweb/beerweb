@@ -14,17 +14,35 @@ indexes:
   properties:
   - name: orderedBy
   - name: status
+    direction: desc
 
 - kind: BeerOrder
   properties:
   - name: orderedBy
-  - name: status
+  - name: timePlaced
+
+- kind: BeerOrder
+  properties:
+  - name: orderedBy
+  - name: timePlaced
     direction: desc
 
 - kind: BeerOrder
   properties:
   - name: status
-  - name: orderedBy
+  - name: timePlaced
+
+- kind: BeerOrder
+  properties:
+  - name: status
+  - name: timePlaced
+    direction: desc
+
+- kind: BeerOrder
+  properties:
+  - name: status
+  - name: timeUpdated
+    direction: desc
 
 - kind: GiftCert
   properties:

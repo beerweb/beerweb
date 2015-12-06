@@ -369,22 +369,7 @@ class RemoveFromCartHandler(webapp2.RequestHandler):
     #beerUser.cart.contents[beer_id] = quantity
     #beerUser.cart.price = str(float(beerUser.cart.price) + price)
 
-    beerUser.put()
-    
-###############################################################################
-# Remove this when beard ben adds checkout
-# ATM you gotta go to datastore and set records yourself
-class Test_PlaceOrder(webapp2.RequestHandler):
-  def get(self):
-     order = BeerOrder()
-     order.items = "10 boxes of beer"
-     order.priceSum = 19.99
-     order.address = "craig's house"
-     order.status = "Verifying"
-     order.orderedBy = "test@example.com"
-     order.put()
-     self.response.out.write("")
-  
+    beerUser.put()  
 
 ###############################################################################
 mappings = [
@@ -406,7 +391,6 @@ mappings = [
   ('/getdistance', GetDistanceHandler),
   ('/addToCart', AddToCartHandler),
   ('/removeFromCart', RemoveFromCartHandler),
-  ('/test_placeorder', Test_PlaceOrder), # remember to delete this later!
   # admin pages
   ('/adminmanagegifts', adminpanel.AdminManageGiftPageHandler),
   ('/admin_get_gifts', adminpanel.GetGiftsHandler),
@@ -416,6 +400,7 @@ mappings = [
   ('/admin_get_orders_table', adminpanel.GetOrdersTableHandler),
   ('/admin_set_order_status', adminpanel.SetOrderStatusHandler),
   ('/adminvieworders', adminpanel.AdminViewOrdersPageHandler),
+  ('/admin_place_order', adminpanel.ManualPlaceOrderHandler),  
   ('/adminpanel', adminpanel.AdminPanelPageHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)
