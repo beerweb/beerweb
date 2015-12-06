@@ -83,15 +83,14 @@ button, input[type='submit'] {
   border: 5px solid rgba(0,0,0,.5);
   text-decoration: none;
 }
-button, input[type='submit']:hover{
+input[type='submit']{
+	font-size: 35px;
+}
+input[type='submit']:hover{
     background-color:#beac70;
     color: #192857;
 	text-decoration: none;
 }
-input[type='submit']{
-	font-size: 35px;
-}
-
 
 button:hover {
   background: #beac70;
