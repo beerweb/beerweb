@@ -138,7 +138,7 @@ class GetOrdersTableHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     if email and is_user_admin():
-      orders = BeerOrder.query().order(BeerOrder.orderedBy, -BeerOrder.status).fetch()      
+      orders = BeerOrder.query().order(BeerOrder.orderedBy).fetch()      
       page_params = {
         'user_email': email,
         'orders': orders
