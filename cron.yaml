@@ -1,0 +1,5 @@
+cron:
+- description: delete old orders
+  url: /tasks/delete_old_orders
+  schedule: 1 of month 00:00
+  timezone: America/New_York

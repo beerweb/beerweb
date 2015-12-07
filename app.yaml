@@ -5,6 +5,10 @@ api_version: 1
 threadsafe: yes
 
 handlers:
+- url: /tasks/.*
+  script: crontasks.app
+  login: admin
+
 - url: /static
   static_dir: static
 
