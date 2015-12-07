@@ -145,15 +145,37 @@ class ViewOrdersPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     if email:
+      page_params = {
+        'user_email': email
+        }
+      render_template(self, 'vieworders.html', page_params)
+    else:
+      self.redirect(users.create_login_url('/account'))
+
+class GetMyOrdersTableHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if email:
       # query ndb to get orders
       orders = BeerOrder.get_user_orders(email)
       page_params = {
         'user_email': email,
         'orders': orders
         }
-      render_template(self, 'vieworders.html', page_params)
-    else:
-      self.redirect(users.create_login_url('/account'))
+      render_template(self, 'vieworders_table.html', page_params)
+  def post(self):
+    return self.get()
+
+class CancelMyOrderHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if email:
+      data = json.loads(self.request.body)
+      orderId = int(data["id"])
+      order = ndb.Key("BeerOrder", orderId).get()
+      # only allow user to cancel verifying orders
+      if order and order.status == "Verifying" and order.orderedBy == email:
+        order.cancel_and_refund()
 
 ###############################################################################
 class LoadFundsPageHandler(webapp2.RequestHandler):
@@ -378,6 +400,8 @@ mappings = [
   ('/order', OrderPageHandler),
   ('/account', AccountPageHandler),
   ('/vieworders', ViewOrdersPageHandler),
+  ('/get_my_orders_table', GetMyOrdersTableHandler),
+  ('/cancel_my_order', CancelMyOrderHandler),
   ('/loadfunds', LoadFundsPageHandler),
   ('/loadfunds_process', LoadFundsProcessHandler),
   ('/redeemgift', RedeemGiftPageHandler),

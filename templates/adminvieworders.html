@@ -24,6 +24,23 @@
 {% endfor %}
 <table>
 
+<p>Cancelled Orders</p>
+
+<table border="2" align="center">
+<tr>
+<td>Orderd By</td><td>Items Ordered</td>
+<td>Total Paid</td><td>Delivery Address</td>
+<td>Transaction ID</td><td>Order Placed</td>
+</tr>
+{% for order in cancelledOrders %}
+<tr>
+<td>{{ order.orderedBy }}</td><td>{{ order.items }}</td>
+<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
+<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
+</tr>
+{% endfor %}
+<table>
+
 <p>Logged in as {{ user_email }}</p>
 
 </body>

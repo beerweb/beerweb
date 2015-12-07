@@ -144,8 +144,6 @@ class GetOrdersTableHandler(webapp2.RequestHandler):
         'orders': orders
       }
       render_template(self, 'adminmanageorders_table.html', page_params)
-    else:
-      self.redirect('/home')
 
   def post(self):
     return self.get()
@@ -161,8 +159,12 @@ class SetOrderStatusHandler(webapp2.RequestHandler):
       # get order by id
       order = ndb.Key("BeerOrder", transId).get()
       if order:
-        order.status = newStatus;
-        order.put()
+        # if status is being set to cancelled, refund the user
+        if newStatus == "Cancelled":
+          order.cancel_and_refund()
+        else:
+          order.status = newStatus;
+          order.put()
     else:
       self.redirect('/home')
 
@@ -173,7 +175,8 @@ class AdminViewOrdersPageHandler(webapp2.RequestHandler):
       if email and is_user_admin():
         page_params = {
           'user_email': email,
-          'orders': BeerOrder.get_completed_orders()
+          'orders': BeerOrder.get_completed_orders(),
+          'cancelledOrders': BeerOrder.get_cancelled_orders()
         }
         render_template(self, 'adminvieworders.html', page_params)
       else:

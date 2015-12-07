@@ -1,7 +1,38 @@
 <html>
 
 <link rel="stylesheet" type="text/css" href="/static/style.css">
-<body>
+<script src="/static/ajaxhelper.js"></script>
+<script>
+function getOrdersTable() {
+	var result = document.getElementById("myOrdersTable");
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			result.innerHTML = xmlHttp.responseText;
+		} else {
+			// response not ready
+			result.innerHTML = "";
+		}
+	}
+	postParameters(xmlHttp, "/get_my_orders_table", "");
+}
+
+function handleCancel(orderId) {
+	var result = document.getElementById("myOrdersTable");
+	var xmlHttp = createXmlHttp();
+	xmlHttp.onreadystatechange=function() {
+		if (xmlHttp.readyState == 4) {
+			//result.innerHTML = xmlHttp.responseText;
+			setTimeout(getOrdersTable, 1000);
+		} else {
+			// response not ready
+			//result.innerHTML = "";
+		}
+	}
+	postParameters(xmlHttp, "/cancel_my_order", JSON.stringify({'id':orderId}));
+}
+</script>
+<body onload="getOrdersTable();">
 
 <a class="header" href="home">
 	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
@@ -9,21 +40,9 @@
 
 <p>My Orders<br></p>
 
-
-<table border="2" align="center">
-<tr>
-<td>Status</td><td>Items Ordered</td>
-<td>Total Paid</td><td>Delivery Address</td>
-<td>Transaction ID</td><td>Order Placed</td>
-</tr>
-{% for order in orders %}
-<tr>
-<td>{{ order.status }}</td><td>{{ order.items }}</td>
-<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
-</tr>
-{% endfor %}
-<table>
+<div id="myOrdersTable">
+<!-- Filled by AJAX -->
+</div>
 
 <p>Logged in as {{ user_email }}</p>
 

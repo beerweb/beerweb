@@ -7,7 +7,7 @@
 <td>Actions</td>
 </tr>
 {% for order in orders %}
-{% if order.status != "Completed" %}
+{% if order.status != "Completed" and order.status != "Cancelled" %}
 <tr>
 <td>{{ order.status }}</td>
 <td>{{ order.orderedBy }}</td><td>{{ order.items }}</td>
@@ -19,6 +19,7 @@
 {% else %}
 <input type="submit" value="Complete" onclick="changeOrderStatus({{ order.key.id }}, 'Completed');">
 {% endif %}
+<input type="submit" value="Cancel" onclick="changeOrderStatus({{ order.key.id }}, 'Cancelled');">
 </td>
 </tr>
 {% endif %}

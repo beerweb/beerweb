@@ -125,7 +125,7 @@ class BeerOrder(ndb.Model):
   items = ndb.StringProperty() # items in order
   priceSum = ndb.FloatProperty() #sum of order
   address = ndb.StringProperty() # address of user
-  status = ndb.StringProperty() # Verifying, Delivering, Completed
+  status = ndb.StringProperty() # Verifying, Delivering, Completed, Cancelled
   orderedBy = ndb.StringProperty() # email of user
   timePlaced = ndb.DateTimeProperty(auto_now_add=True)
   # can use myOrder.key.id as transaction id
@@ -142,8 +142,25 @@ class BeerOrder(ndb.Model):
     results = BeerOrder.query(BeerOrder.status == "Completed").order(-BeerOrder.timePlaced).fetch()
     return results
 
+  # Returns all completed orders (new orders first)
+  @staticmethod
+  def get_cancelled_orders():
+    results = BeerOrder.query(BeerOrder.status == "Cancelled").order(-BeerOrder.timePlaced).fetch()
+    return results
+
   # Returns all orders (old orders first)
   @staticmethod
   def get_all_orders():
     results = BeerOrder.query().order(BeerOrder.timePlaced).fetch()
     return results
+
+  def cancel_and_refund(self):
+    # cannot cancel already cancelled or completed orders
+    if self.status == "Cancelled" or self.status == "Completed":
+      return
+    userProf = BeerUser.get_user_profile(self.orderedBy)
+    if userProf:
+      userProf.balance += self.priceSum
+      userProf.put()
+    self.status = "Cancelled"
+    self.put()
