@@ -371,6 +371,10 @@ class AddToCartHandler(webapp2.RequestHandler):
     quantity = int(data["quant"])
     price = float(Beer.query(Beer.beerid == beer_id).fetch(1)[0].price) * quantity
 
+    # check negative quantity
+    if quantity < 0:
+      return
+    
     beerUser.cart.contents[beer_id] = quantity
     beerUser.cart.price = str(float(beerUser.cart.price) + price)
 
