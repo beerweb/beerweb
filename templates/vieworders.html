@@ -1,6 +1,51 @@
 <html>
 
 <link rel="stylesheet" type="text/css" href="/static/style.css">
+<style type="text/css">
+	#tblMyBeers {
+		border-collapse: collapse;
+		color: #beac70;
+		font-size:1.2em;
+		margin:0 auto;
+		min-width: 90%;
+	}
+	#tblMyBeers th {
+		padding: 5px;
+	}
+	#tblMyBeers tr {
+		background: none;
+	}
+	#tblMyBeers tr:nth-child(even) {
+	    background: rgba(0,0,0,0.5);
+	}
+	#tblMyBeers tr:nth-child(odd) {
+	    background: rgba(0,0,0,0.1);
+	}
+	#tblMyBeers tr:first-child th {
+	    background-color: #beac70;
+	    color: #192857;
+	}
+	#tblMyBeers tr:first-child:hover th {
+		background-color: #beac70;
+	}
+	#tblMyBeers tr:first-child a {
+	    color: black;
+	}
+	#tblMyBeers tr:hover {
+	    background-color: rgba(0,0,0,0.2);
+	}
+	#tblMyBeers td {
+	    font-variant: small-caps;
+	}
+	#tblMyBeers td {
+	    padding: 5px 10px;
+		text-align: center;
+		white-space: pre;
+	}
+	#tblMyBeers td:nth-child(7) {
+	    white-space: nowrap;
+	}
+</style>
 <script src="/static/ajaxhelper.js"></script>
 <script>
 function getOrdersTable() {

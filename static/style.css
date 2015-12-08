@@ -136,29 +136,9 @@ button:hover {
   }
   .tblBeers td {
       padding: 5px 10px;
-  }
-  .tblBeers td:nth-child(1) {
-      text-align: center;
-  }
-  .tblBeers td:nth-child(2) {
-      text-align: center;
-  }
-  .tblBeers td:nth-child(3) {
-      text-align: center;
-  }
-  .tblBeers td:nth-child(4) {
-      text-align: center;
-  }
-  .tblBeers td:nth-child(5) {
-      text-align: center;
-  }
-  .tblBeers td:nth-child(6) {
-      text-align: center;
-  }
-  .tblBeers td:nth-child(7) {
-      text-align: center;
+	  text-align: center;
+	  white-space: pre;
   }
   .tblBeers td:nth-child(8) {
-      text-align: center;
       white-space: nowrap;
   }

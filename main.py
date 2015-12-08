@@ -427,7 +427,9 @@ class PlaceOrderHandler(webapp2.RequestHandler):
         ndb_beer = Beer.query(Beer.beerid == int(beer)).fetch(1)[0]
         totalcost += int(cart[beer]) * float(ndb_beer.price)
 
-        order_string += "{!s}x {!s}\n".format(cart[str(ndb_beer.beerid)],ndb_beer.product)
+        quantity = cart[str(ndb_beer.beerid)]
+        if quantity > 0:
+          order_string += "{!s}x {!s}\n".format(quantity,ndb_beer.product)
 
       if totalcost > beerUser.balance:
         render_template(self, "ordercomplete.html", {"msg":"Insufficient funds."})
