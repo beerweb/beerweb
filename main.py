@@ -119,8 +119,9 @@ class OrderPageHandler(webapp2.RequestHandler):
           #quantities.append(cart[beer])
 
       template_params={
-      "beers":beers_in_cart,
-      "total":totalcost
+        "savedAddress":beerUser.address,
+        "beers":beers_in_cart,
+        "total":totalcost
       }
     render_template(self, 'order.html', template_params)
 
@@ -407,13 +408,16 @@ class PlaceOrderHandler(webapp2.RequestHandler):
     # query ndb to get the current user
     beerUser = BeerUser.get_user_profile(email)
     cart = beerUser.cart.contents
-
+    address = self.request.get("addressTxt")
     beers_in_cart = []
+
+    if not address:
+      render_template(self, "ordercomplete.html", {"msg":"Invalid delivery address!"})
+      return
 
     if len(cart) != 0:
       order_string = ""
       totalcost=0
-      address = self.request.get("addressTxt")
       # Build the order object and save it to the ndb
       new_order = BeerOrder()
       for beer in cart:
@@ -423,9 +427,9 @@ class PlaceOrderHandler(webapp2.RequestHandler):
         order_string += "{!s}x {!s}\n".format(cart[str(ndb_beer.beerid)],ndb_beer.product)
 
       if totalcost > beerUser.balance:
-        render_template(self, "ordercomplete.html", {"insufficient":True})
+        render_template(self, "ordercomplete.html", {"msg":"Insufficient funds."})
         return
-
+      
       new_order.items = order_string
       new_order.priceSum = totalcost
       new_order.address = address
@@ -443,9 +447,9 @@ class PlaceOrderHandler(webapp2.RequestHandler):
       beerUser.cart.contents = {}
       beerUser.put()
 
-      render_template(self, "ordercomplete.html", {"complete":True})
+      render_template(self, "ordercomplete.html", {"msg":"Your order has been placed."})
     else:
-      render_template(self, "ordercomplete.html",{"complete":False})
+      render_template(self, "ordercomplete.html",{"msg":"Shopping cart is empty."})
 
 ###############################################################################
 mappings = [
