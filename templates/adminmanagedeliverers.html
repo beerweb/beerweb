@@ -127,38 +127,38 @@
 	}
 	
 	function MM_openBrWindow(theURL,winName,features) { //v2.0
-		window.open(theURL,'Order Details','scrollbars=yes,width=400,height=500');
+		window.open(theURL,'Order Details','scrollbars=yes,width=400,height=520');
 }
 </script>
 	
-	<body onload="getDeliverersTable();">
-		<a class="header" href="/home">
-			<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
-		</a>
+<body onload="getDeliverersTable();">
+	<a class="header" href="/home">
+		<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+	</a>
 
-		<p>Manage Delivery Boys<br></p>
-		{% if order %}
-		<div class="orderSubtitle">Assigning Order#</div>
-		<div class="orderSubtitle" id="orderIdTxt">{{ order.key.id }}</div>
-		{% endif %}
-		<div id="deliverersTable" style="text-align: center">
-		<!-- table is rendered by AJAX  -->
-		</div>
+	<p>Manage Delivery Boys<br></p>
+	{% if order %}
+	<div class="orderSubtitle">Assigning Order#</div>
+	<div class="orderSubtitle" id="orderIdTxt">{{ order.key.id }}</div>
+	{% endif %}
+	<div id="deliverersTable" style="text-align: center">
+	<!-- table is rendered by AJAX  -->
+	</div>
 
-		<div id="hireADeliverer" style="text-align: center">
-		<h2>
-		<p>Hire A Deliver Boy</p>
-		Name<br>
-		<input id="name" type="text" value="" style="height: 45px; font-size: 35;"><br>
-		Email<br>
-		<input id="email" type="text" value="" style="height: 45px; font-size: 35;"><br>
-		Salary<br>
-		<input id="salary" type="text" value="" style="height: 45px; font-size: 35;"><br>
-		<br><input type="submit" value="Hire" onclick="hireDeliverer();">
-		</h2>
-		</div>
-		<a class="buttons" href="/admin/manageorders"><h2>Manage Active Orders</h2></a>
-		<a class="buttons" href="/admin/adminpanel"><h2>Back</h2></a>
-		<p>Logged in as {{ user_email }}</p>
-	</body>
+	<div id="hireADeliverer" style="text-align: center">
+	<h2>
+	<p>Hire A Deliver Boy</p>
+	Name<br>
+	<input id="name" type="text" value="" style="height: 45px; font-size: 35;"><br>
+	Email<br>
+	<input id="email" type="text" value="" style="height: 45px; font-size: 35;"><br>
+	Salary<br>
+	<input id="salary" type="text" value="" style="height: 45px; font-size: 35;"><br>
+	<br><input type="submit" value="Hire" onclick="hireDeliverer();">
+	</h2>
+	</div>
+	<a class="buttons" href="/admin/manageorders"><h2>Manage Active Orders</h2></a>
+	<a class="buttons" href="/admin/adminpanel"><h2>Back</h2></a>
+	<p>Logged in as {{ user_email }}</p>
+</body>
 </html>

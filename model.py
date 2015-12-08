@@ -162,6 +162,9 @@ class BeerOrder(ndb.Model):
     if userProf:
       userProf.balance += self.priceSum
       userProf.put()
+    d = self.get_deliverer()
+    if d:
+      d.unassign_job()
     self.status = "Cancelled"
     self.put()
 

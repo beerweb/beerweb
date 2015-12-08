@@ -21,7 +21,7 @@
 			<td>{{ order.items }}</td>
 			<td>${{ order.priceSum }}</td>
 			<td>{{ order.address }}</td>
-			<td>{{ order.key.id }}</td>
+			<td><a href="/admin/get_order_details?id={{ order.key.id }}" onclick="MM_openBrWindow('/admin/get_order_details?id={{ order.key.id }}'); return false;" style="color: white;">{{ order.key.id }}</a></td>
 			<td>{{ order.timePlaced }}</td>
 			<td>
 				{% if order.status == "Verifying" %}

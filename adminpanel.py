@@ -159,9 +159,14 @@ class GetOrderDetailsHandler(webapp2.RequestHandler):
       if not order:
         self.response.out.write("Order not found")
         return
+      deliverer = ""
+      d = order.get_deliverer()
+      if d:
+        deliverer = d.name
       page_params = {
         'user_email': email,
-        'order': order
+        'order': order,
+        'deliverer': deliverer
       }
       render_template(self, 'admingetorderdetails.html', page_params)
 

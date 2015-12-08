@@ -12,8 +12,14 @@ Transaction ID:<br>
 {{ order.key.id }}<br><br>
 Order Placed:<br>
 {{ order.timePlaced }}<br><br>
-
+{% if deliverer %}
+Assigned To:<br>
+{{ deliverer }}
+{% else %}
+Job not assigned
+{% endif %}<br><br>
 
 <FORM>
 <INPUT TYPE="button" onClick="window.print()" value="Print Order">
+<INPUT TYPE="button" onClick="window.close();" value ="Close">
 </FORM>
