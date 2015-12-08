@@ -16,6 +16,7 @@ from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.api import urlfetch
 from google.appengine.api import mail
+from google.appengine.api import memcache
 
 ###############################################################################
 # We'll just use this convenience function to retrieve and render a template.
@@ -279,7 +280,12 @@ class RedeemGiftProcessHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
   def get(self):
-    beers_ndb = Beer.query().fetch()
+    beers_ndb = memcache.get('beerslist')
+    if beers_ndb is None:
+      beers_ndb = Beer.query().fetch()
+      memcache.add('beerslist', beers_ndb)
+    else:
+      logging.info('beers are in memcache lets goooooo')
     template_params = {
       'beers' : beers_ndb
     }
@@ -416,6 +422,10 @@ class PlaceOrderHandler(webapp2.RequestHandler):
 
         order_string += "{!s}x {!s}\n".format(cart[str(ndb_beer.beerid)],ndb_beer.product)
 
+      if totalcost > beerUser.balance:
+        render_template(self, "ordercomplete.html", {"insufficient":True})
+        return
+
       new_order.items = order_string
       new_order.priceSum = totalcost
       new_order.address = address
@@ -426,6 +436,11 @@ class PlaceOrderHandler(webapp2.RequestHandler):
 
       # save the address for the user
       beerUser.address = address
+      beerUser.balance = beerUser.balance - new_order.priceSum
+      #clear their shopping cart
+      beerUser.cart = ShoppingCart()
+      beerUser.cart.price = "0.00"
+      beerUser.cart.contents = {}
       beerUser.put()
 
       render_template(self, "ordercomplete.html", {"complete":True})

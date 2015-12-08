@@ -9,7 +9,11 @@
 {% if complete %}
 <p>Your order has been completed! You will be redirected to the home page</p>
 {% else %}
-<p>You have no items in your shopping cart! Please add some before proceeding</p>
+	{% if insufficient %}
+	<p>You do not have enough funds to complete this order! You will be redirected to the home page</p>
+	{% else %}
+	<p>You have no items in your shopping cart! Please add some before proceeding</p>
+	{% endif %}
 {% endif %}
 
 </body>
