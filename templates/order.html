@@ -171,7 +171,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	</a>
 
 	<div style="margin:0 auto; text-align:center;">
-		<input type="text" id="addressTxt" placeholder="Please enter your address..." onkeyup="handleKeyUp();">
+		<input type="text" id="addressTxt" form="placeorderform" name="addressTxt" placeholder="Please enter your address..." onkeyup="handleKeyUp();">
 	</div>
 
 	<br>
@@ -224,6 +224,10 @@ google.maps.event.addDomListener(window, 'load', initialize);
 				</tfoot>
 		</table>
 	</div>
+	<form id="placeorderform" action="/placeOrder" method="post">
+		<input type="submit" value="Place Order">
+		<!--<a class='buttons' href='placeOrder'><h2>Place Order</h2></a>-->
+	</form>
 	{% endif %}
 </body>
 <script>

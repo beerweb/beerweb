@@ -393,6 +393,45 @@ class RemoveFromCartHandler(webapp2.RequestHandler):
 
     beerUser.put()  
 
+class PlaceOrderHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if not email:
+      self.redirect(users.create_login_url('/account'))
+    # query ndb to get the current user
+    beerUser = BeerUser.get_user_profile(email)
+    cart = beerUser.cart.contents
+
+    beers_in_cart = []
+
+    if len(cart) != 0:
+      order_string = ""
+      totalcost=0
+      address = self.request.get("addressTxt")
+      # Build the order object and save it to the ndb
+      new_order = BeerOrder()
+      for beer in cart:
+        ndb_beer = Beer.query(Beer.beerid == int(beer)).fetch(1)[0]
+        totalcost += int(cart[beer]) * float(ndb_beer.price)
+
+        order_string += "{!s}x {!s}\n".format(cart[str(ndb_beer.beerid)],ndb_beer.product)
+
+      new_order.items = order_string
+      new_order.priceSum = totalcost
+      new_order.address = address
+      new_order.status = "Verifying"
+      new_order.orderedBy = email
+
+      new_order.put()
+
+      # save the address for the user
+      beerUser.address = address
+      beerUser.put()
+
+      render_template(self, "ordercomplete.html", {"complete":True})
+    else:
+      render_template(self, "ordercomplete.html",{"complete":False})
+
 ###############################################################################
 mappings = [
   ('/', VerifyAgePageHandler),
@@ -415,6 +454,7 @@ mappings = [
   ('/getdistance', GetDistanceHandler),
   ('/addToCart', AddToCartHandler),
   ('/removeFromCart', RemoveFromCartHandler),
+  ("/placeOrder", PlaceOrderHandler),
   # admin pages
   ('/adminmanagegifts', adminpanel.AdminManageGiftPageHandler),
   ('/admin_get_gifts', adminpanel.GetGiftsHandler),
