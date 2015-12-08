@@ -27,6 +27,7 @@
 				{% if order.status == "Verifying" %}
 				<input type="submit" value="Verify" onclick="changeOrderStatus({{ order.key.id }}, 'Delivering');">
 				{% else %}
+				<input type="submit" value="Assign" onclick="window.location.assign('/admin/managedeliverers?orderId={{ order.key.id }}');">
 				<input type="submit" value="Complete" onclick="changeOrderStatus({{ order.key.id }}, 'Completed');">
 				{% endif %}
 				<input type="submit" value="Cancel" onclick="changeOrderStatus({{ order.key.id }}, 'Cancelled');">
@@ -34,4 +35,5 @@
 		</tr>
 	{% endif %}
 	{% endfor %}
+	</tbody>
 <table>

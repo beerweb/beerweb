@@ -1,144 +1,144 @@
 @font-face {
-    font-family: varsity_regular;
-    src: url("fonts/varsity_regular.ttf");
+	font-family: varsity_regular;
+	src: url("fonts/varsity_regular.ttf");
 }
 
 @font-face {
-    font-family: PTC75F;
-    src: url("fonts/PTC75F.ttf");
+	font-family: PTC75F;
+	src: url("fonts/PTC75F.ttf");
 }
 
 body {
-    background-color: #002d62;
+	background-color: #002d62;
 	position: relative;
 }
 h1 {
-    font-family: "varsity_regular", Times, Sans-serif;
-    font-size: 90;
-    color: #beac70;
-    letter-spacing: 7px;
-    text-align: center;
+	font-family: "varsity_regular", Times, Sans-serif;
+	font-size: 90;
+	color: #beac70;
+	letter-spacing: 7px;
+	text-align: center;
 	text-decoration: none;
 }
 
 p {
-    font-family: "PTC75F", Times, Sans-serif;
-    font-size: 50;
-    color: #beac70;
-    text-align: center;
+	font-family: "PTC75F", Times, Sans-serif;
+	font-size: 50;
+	color: #beac70;
+	text-align: center;
 	text-decoration: none;
 }
 
 h2 {
-    text-align: center;
-    border: 5px solid rgba(0,0,0,.5);
-    border-radius: 10px;
-    padding: 5px;
-    font-family: "PTC75F", Times, Sans-serif;
-    font-size: 40;
-    color: #beac70;
+	text-align: center;
+	border: 5px solid rgba(0,0,0,.5);
+	border-radius: 10px;
+	padding: 5px;
+	font-family: "PTC75F", Times, Sans-serif;
+	font-size: 40;
+	color: #beac70;
 	text-decoration: none;
 }
 
 a.buttons{
-    color: #beac70;
+	color: #beac70;
 	text-decoration: none;
 }
 a.buttons h2 {
-    background-color:rgba(0,0,0,.2);
+	background-color:rgba(0,0,0,.2);
 	text-decoration: none;
 }
 a.buttons h2:hover{
-    background-color:#beac70;
-    color: #192857;
+	background-color:#beac70;
+	color: #192857;
 	text-decoration: none;
 }
 
 a.header{
-    text-decoration: none;
-    color: #beac70;
+	text-decoration: none;
+	color: #beac70;
 	text-decoration: none;
 }
 
 a.header:link{
-    color: #beac70;
+	color: #beac70;
 	text-decoration: none;
 }
 
 a.header:visited{
-    color: #beac70;
+	color: #beac70;
 	text-decoration: none;
 }
 
 button, input[type='submit'] {
-  -webkit-border-radius: 15;
-  -moz-border-radius: 15;
-  border-radius: 15px;
-  text-shadow: 1px 1px 3px #666666;
-  font-family: PTC75F;
-  color: #beac70;
-  background-color:rgba(0,0,0,.2);
-  padding: 10px 20px 10px 20px;
-  border: 5px solid rgba(0,0,0,.5);
-  text-decoration: none;
-  cursor: pointer;
-  text-transform: uppercase;
+	-webkit-border-radius: 15;
+	-moz-border-radius: 15;
+	border-radius: 15px;
+	text-shadow: 1px 1px 3px #666666;
+	font-family: PTC75F;
+	color: #beac70;
+	background-color:rgba(0,0,0,.2);
+	padding: 10px 20px 10px 20px;
+	border: 5px solid rgba(0,0,0,.5);
+	text-decoration: none;
+	cursor: pointer;
+	text-transform: uppercase;
 }
 input[type='submit']{
 	/*font-size: 35px;*/
 }
 input[type='submit']:hover{
-  background-color:#beac70;
-  color: #192857;
+	background-color:#beac70;
+	color: #192857;
 	text-decoration: none;
 }
 
 button:hover {
-  background: #beac70;
-  color: #192857;
-  text-decoration: none;
+	background: #beac70;
+	color: #192857;
+	text-decoration: none;
 }
 
-  .tblBeers {
-    border-collapse: collapse;
-    color: #beac70;
-    font-size:1.2em;
-    margin:0 auto;
-    min-width: 90%;
-  }
-  .tblBeers th {
-    padding: 5px;
-  }
-  .tblBeers tr {
-    background: none;
-  }
-  .tblBeers tr:nth-child(even) {
-      background: rgba(0,0,0,0.5);
-  }
-  .tblBeers tr:nth-child(odd) {
-      background: rgba(0,0,0,0.1);
-  }
-  .tblBeers tr:first-child th {
-      background-color: #beac70;
-      color: #192857;
-  }
-  .tblBeers tr:first-child:hover th {
-    background-color: #beac70;
-  }
-  .tblBeers tr:first-child a {
-      color: black;
-  }
-  .tblBeers tr:hover {
-      background-color: rgba(0,0,0,0.2);
-  }
-  .tblBeers td {
-      font-variant: small-caps;
-  }
-  .tblBeers td {
-      padding: 5px 10px;
-	  text-align: center;
-	  white-space: pre;
-  }
-  .tblBeers td:nth-child(8) {
-      white-space: nowrap;
-  }
+.tblBeers {
+	border-collapse: collapse;
+	color: #beac70;
+	font-size:1.2em;
+	margin:0 auto;
+	min-width: 90%;
+}
+.tblBeers th {
+	padding: 5px;
+}
+.tblBeers tr {
+	background: none;
+}
+.tblBeers tr:nth-child(even) {
+	background: rgba(0,0,0,0.5);
+}
+.tblBeers tr:nth-child(odd) {
+	background: rgba(0,0,0,0.1);
+}
+.tblBeers tr:first-child th {
+	background-color: #beac70;
+	color: #192857;
+}
+.tblBeers tr:first-child:hover th {
+	background-color: #beac70;
+}
+.tblBeers tr:first-child a {
+	color: black;
+}
+.tblBeers tr:hover {
+	background-color: rgba(0,0,0,0.2);
+}
+.tblBeers td {
+	font-variant: small-caps;
+}
+.tblBeers td {
+	padding: 5px 10px;
+	text-align: center;
+	white-space: pre;
+}
+.tblBeers td:nth-child(8) {
+	white-space: nowrap;
+}

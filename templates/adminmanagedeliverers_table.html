@@ -1,0 +1,34 @@
+<table id="tblDeliverers" align="center">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Current Job</th>
+			<th>Email</th>
+			<th>Salary</th>
+			<th>Date Hired</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for deliverer in deliverers %}
+	<tr>
+		<td>{{ deliverer.name }}</td>
+		<td>
+			{% if deliverer.job %}
+				<a href="/admin/get_order_details?id={{ deliverer.job.id }}" onclick="MM_openBrWindow('/admin/get_order_details?id={{ deliverer.job.id }}'); return false;" style="color: white;">{{ deliverer.job.id }}</a>
+			{% else %}
+				None
+			{% endif %}
+		</td>
+		<td>{{ deliverer.email }}</td>
+		<td>${{ deliverer.salary }} / hr</td>
+		<td>{{ deliverer.dateHired }}</td>
+		<td>
+			<input type="submit" value="Assign" onclick="assignDeliverer('{{ deliverer.name }}');">
+			<input type="submit" value="Fire" onclick="fireDeliverer('{{ deliverer.name }}');">
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+<table>

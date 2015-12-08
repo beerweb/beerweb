@@ -1,0 +1,19 @@
+Status:<br>
+{{ order.status }}<br><br>
+Ordered By:<br>
+{{ order.orderedBy }}<br><br>
+Items Ordered:<br>
+{{ order.items }}<br><br>
+Total Paid:<br>
+${{ order.priceSum }}<br><br>
+Delivery Address:<br>
+{{ order.address }}<br><br>
+Transaction ID:<br>
+{{ order.key.id }}<br><br>
+Order Placed:<br>
+{{ order.timePlaced }}<br><br>
+
+
+<FORM>
+<INPUT TYPE="button" onClick="window.print()" value="Print Order">
+</FORM>

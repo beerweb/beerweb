@@ -1,0 +1,164 @@
+<html>
+<link rel="stylesheet" type="text/css" href="/static/style.css"/>
+<style type="text/css">
+	#tblDeliverers {
+		border-collapse: collapse;
+		color: #beac70;
+		font-size:1.2em;
+		margin:0 auto;
+		min-width: 90%;
+	}
+	#tblDeliverers th {
+		padding: 5px;
+	}
+	#tblDeliverers tr {
+		background: none;
+	}
+	#tblDeliverers tr:nth-child(even) {
+		background: rgba(0,0,0,0.5);
+	}
+	#tblDeliverers tr:nth-child(odd) {
+		background: rgba(0,0,0,0.1);
+	}
+	#tblDeliverers tr:first-child th {
+		background-color: #beac70;
+		color: #192857;
+	}
+	#tblDeliverers tr:first-child:hover th {
+		background-color: #beac70;
+	}
+	#tblDeliverers tr:first-child a {
+		color: black;
+	}
+	#tblDeliverers tr:hover {
+		background-color: rgba(0,0,0,0.2);
+	}
+	#tblDeliverers td {
+		font-variant: small-caps;
+	}
+	#tblDeliverers td {
+		padding: 5px 10px;
+		text-align: center;
+		white-space: pre;
+	}
+	#tblDeliverers td:nth-child(2) {
+		white-space: nowrap;
+	}
+	#tblDeliverers td:nth-child(6) {
+		white-space: nowrap;
+	}
+	
+	.orderSubtitle {
+		font-family: "PTC75F", Times, Sans-serif;
+		font-size: 20;
+		color: #33cc33;
+		text-align: center;
+		text-decoration: none;
+	}
+</style>
+<script src="/static/ajaxhelper.js"></script>
+<script>
+	function getDeliverersTable() {
+		var result = document.getElementById("deliverersTable");
+		var xmlHttp = createXmlHttp();
+		xmlHttp.onreadystatechange=function() {
+			if (xmlHttp.readyState == 4) {
+				clearInputFields();
+				result.innerHTML = xmlHttp.responseText;
+			} else {
+				// response not ready
+				result.innerHTML = "";
+			}
+		}
+		postParameters(xmlHttp, "/admin/get_deliverers_table", "");
+	}
+
+	function fireDeliverer(name) {
+		var xmlHttp = createXmlHttp();
+		xmlHttp.onreadystatechange=function() {
+			if (xmlHttp.readyState == 4) {
+				setTimeout(getDeliverersTable, 1000);
+			} else {
+				// response not ready
+			}
+		}
+		postParameters(xmlHttp, '/admin/fire_deliverer', JSON.stringify({'name':name}));
+	}
+
+	function hireDeliverer() {
+		var name = document.getElementById("name").value;
+		var email = document.getElementById("email").value;
+		var salary = document.getElementById("salary").value;
+		var xmlHttp = createXmlHttp();
+		xmlHttp.onreadystatechange=function() {
+			if (xmlHttp.readyState == 4) {
+				setTimeout(getDeliverersTable, 1000);
+			} else {
+				// response not ready
+			}
+		}
+		postParameters(xmlHttp, "/admin/hire_deliverer", JSON.stringify({'name':name, 'email':email, 'salary':salary}));
+	}
+	
+	function assignDeliverer(name) {
+		var orderIdElement = document.getElementById("orderIdTxt");
+		if (!document.contains(orderIdElement)) {
+			// redirect to view active orders page
+			//window.alert("No ID provided");
+			window.location.assign("/admin/manageorders");
+		}
+		var orderId = orderIdElement.innerHTML;
+		var xmlHttp = createXmlHttp();
+		xmlHttp.onreadystatechange=function() {
+			if (xmlHttp.readyState == 4) {
+				setTimeout(getDeliverersTable, 1000);
+			} else {
+				// response not ready
+			}
+		}
+		//window.alert("ID is " + orderId);
+		postParameters(xmlHttp, '/admin/assign_deliverer', JSON.stringify({'name':name, "orderId":orderId}));
+	}
+
+	function clearInputFields() {
+		document.getElementById("name").value = "";
+		document.getElementById("email").value = "";
+		document.getElementById("salary").value = "";
+	}
+	
+	function MM_openBrWindow(theURL,winName,features) { //v2.0
+		window.open(theURL,'Order Details','scrollbars=yes,width=400,height=500');
+}
+</script>
+	
+	<body onload="getDeliverersTable();">
+		<a class="header" href="/home">
+			<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+		</a>
+
+		<p>Manage Delivery Boys<br></p>
+		{% if order %}
+		<div class="orderSubtitle">Assigning Order#</div>
+		<div class="orderSubtitle" id="orderIdTxt">{{ order.key.id }}</div>
+		{% endif %}
+		<div id="deliverersTable" style="text-align: center">
+		<!-- table is rendered by AJAX  -->
+		</div>
+
+		<div id="hireADeliverer" style="text-align: center">
+		<h2>
+		<p>Hire A Deliver Boy</p>
+		Name<br>
+		<input id="name" type="text" value="" style="height: 45px; font-size: 35;"><br>
+		Email<br>
+		<input id="email" type="text" value="" style="height: 45px; font-size: 35;"><br>
+		Salary<br>
+		<input id="salary" type="text" value="" style="height: 45px; font-size: 35;"><br>
+		<br><input type="submit" value="Hire" onclick="hireDeliverer();">
+		</h2>
+		</div>
+		<a class="buttons" href="/admin/manageorders"><h2>Manage Active Orders</h2></a>
+		<a class="buttons" href="/admin/adminpanel"><h2>Back</h2></a>
+		<p>Logged in as {{ user_email }}</p>
+	</body>
+</html>

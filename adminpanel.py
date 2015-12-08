@@ -5,7 +5,7 @@ import webapp2
 import json
 
 from beers import beers
-from model import BeerUser, Beer, ShoppingCart, GiftCert, BeerOrder
+from model import BeerUser, Beer, ShoppingCart, GiftCert, BeerOrder, Deliverer
 
 
 from google.appengine.ext.webapp import template
@@ -147,6 +147,24 @@ class GetOrdersTableHandler(webapp2.RequestHandler):
   def post(self):
     return self.get()
 
+class GetOrderDetailsHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      orderId = self.request.get("id")
+      if not orderId:
+        self.response.out.write("Order ID not specified")
+        return
+      order = ndb.Key("BeerOrder", int(orderId)).get()
+      if not order:
+        self.response.out.write("Order not found")
+        return
+      page_params = {
+        'user_email': email,
+        'order': order
+      }
+      render_template(self, 'admingetorderdetails.html', page_params)
+
 class SetOrderStatusHandler(webapp2.RequestHandler):
   def post(self):
     email = get_user_email()
@@ -161,6 +179,8 @@ class SetOrderStatusHandler(webapp2.RequestHandler):
         # if status is being set to cancelled, refund the user
         if newStatus == "Cancelled":
           order.cancel_and_refund()
+        elif newStatus == "Completed":
+          order.complete_order()
         else:
           order.status = newStatus;
           order.put()
@@ -169,17 +189,17 @@ class SetOrderStatusHandler(webapp2.RequestHandler):
 
 ###############################################################################
 class AdminViewOrdersPageHandler(webapp2.RequestHandler):
-    def get(self):
-      email = get_user_email()
-      if email and is_user_admin():
-        page_params = {
-          'user_email': email,
-          'orders': BeerOrder.get_completed_orders(),
-          'cancelledOrders': BeerOrder.get_cancelled_orders()
-        }
-        render_template(self, 'adminvieworders.html', page_params)
-      else:
-        self.redirect('/home')
+  def get(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      page_params = {
+        'user_email': email,
+        'orders': BeerOrder.get_completed_orders(),
+        'cancelledOrders': BeerOrder.get_cancelled_orders()
+      }
+      render_template(self, 'adminvieworders.html', page_params)
+    else:
+      self.redirect('/home')
 
 ###############################################################################
 # This allows admins to manually place an order for a user
@@ -200,6 +220,96 @@ class ManualPlaceOrderHandler(webapp2.RequestHandler):
       self.redirect('/home')
 
 ###############################################################################
+class AdminManageDeliverers(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      orderId = self.request.get("orderId")
+      order = ""
+      deliverer = ""
+      if orderId:
+        order = ndb.Key("BeerOrder", int(orderId)).get()
+        if order:
+          deliverer = order.get_deliverer()
+          if deliverer:
+            deliverer = deliverer.name
+      page_params = {
+        'user_email': email,
+        'order': order,
+        'deliverer': deliverer
+      }
+      render_template(self, 'adminmanagedeliverers.html', page_params)
+    else:
+      self.redirect('/home')
+
+class GetDeliverersTableHandler(webapp2.RequestHandler):
+  def get(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      page_params = {
+        'user_email': email,
+        'deliverers': Deliverer.get_all_deliverers()
+      }
+      render_template(self, 'adminmanagedeliverers_table.html', page_params)
+
+  def post(self):
+    return self.get()
+
+class HireDelivererHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      # get params from post request
+      data = json.loads(self.request.body)
+      name = data["name"]
+      email = data["email"]
+      salary = float(data["salary"])
+      # do not hire a person with same name
+      if Deliverer.get_by_name(name):
+        return
+      else:
+        boy = Deliverer()
+        boy.name = name
+        boy.email = email
+        boy.salary = salary
+        boy.put()
+    else:
+      self.redirect('/home')
+
+class FireDelivererHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      # get params from post request
+      data = json.loads(self.request.body)
+      name = data["name"]
+      personToFire = Deliverer.get_by_name(name)
+      if personToFire:
+        personToFire.key.delete()
+    else:
+      self.redirect('/home')
+
+class AssignDelivererHandler(webapp2.RequestHandler):
+  def post(self):
+    email = get_user_email()
+    if email and is_user_admin():
+      # get params from post request
+      data = json.loads(self.request.body)
+      name = data["name"]
+      orderId = int(data["orderId"])
+      deliverer = Deliverer.get_by_name(name)
+      if deliverer:
+        order = ndb.Key("BeerOrder", orderId).get()
+        if order:
+          # check if order already has a deliverer
+          oldD = order.get_deliverer()
+          if oldD:
+            oldD.unassign_job()
+          deliverer.assign_job(order)
+    else:
+      self.redirect('/home')
+
+###############################################################################
 mappings = [
   ('/admin/managegifts', AdminManageGiftPageHandler),
   ('/admin/get_gifts', GetGiftsHandler),
@@ -207,9 +317,15 @@ mappings = [
   ('/admin/del_gift', DeleteGiftHandler),
   ('/admin/manageorders', AdminManageOrdersPageHandler),
   ('/admin/get_orders_table', GetOrdersTableHandler),
+  ('/admin/get_order_details', GetOrderDetailsHandler),
   ('/admin/set_order_status', SetOrderStatusHandler),
   ('/admin/vieworders', AdminViewOrdersPageHandler),
-  ('/admin/place_order', ManualPlaceOrderHandler),  
+  ('/admin/place_order', ManualPlaceOrderHandler),
+  ('/admin/managedeliverers', AdminManageDeliverers),
+  ('/admin/get_deliverers_table', GetDeliverersTableHandler),
+  ('/admin/hire_deliverer', HireDelivererHandler),
+  ('/admin/fire_deliverer', FireDelivererHandler),
+  ('/admin/assign_deliverer', AssignDelivererHandler),
   ('/admin/adminpanel', AdminPanelPageHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)

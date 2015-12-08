@@ -164,3 +164,57 @@ class BeerOrder(ndb.Model):
       userProf.put()
     self.status = "Cancelled"
     self.put()
+
+  def complete_order(self):
+    d = self.get_deliverer()
+    if d:
+      d.unassign_job()
+    self.status = "Completed"
+    self.put()
+    
+  def get_deliverer(self):
+    # search deliverers and find the one that took this job
+    result = Deliverer.query(Deliverer.job == self.key).fetch(1)
+    if result:
+      return result[0]
+    else:
+      return None
+
+###############################################################################
+class Deliverer(ndb.Model):
+  name = ndb.StringProperty()
+  job = ndb.KeyProperty(kind=BeerOrder)
+  email = ndb.StringProperty()
+  salary = ndb.FloatProperty()
+  dateHired = ndb.DateProperty(auto_now_add=True)
+
+  @staticmethod
+  def get_by_name(name):
+    result = Deliverer.query(Deliverer.name == name).fetch(1)
+    if result:
+      return result[0]
+    else:
+      return None
+
+  @staticmethod
+  def get_by_email(email):
+    result = Deliverer.query(Deliverer.email == email).fetch(1)
+    if result:
+      return result[0]
+    else:
+      return None
+
+  @staticmethod
+  def get_all_deliverers():
+    results = Deliverer.query().order(Deliverer.dateHired).fetch()
+    return results
+
+  def assign_job(self, order):
+    if order.status == "Delivering":
+      self.job = order.key
+      self.put()
+
+  def unassign_job(self):
+    self.job = None
+    self.put()
+    
