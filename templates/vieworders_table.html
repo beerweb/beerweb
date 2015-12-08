@@ -1,20 +1,27 @@
-<table border="2" align="center">
-<tr>
-<td>Status</td><td>Items Ordered</td>
-<td>Total Paid</td><td>Delivery Address</td>
-<td>Transaction ID</td><td>Order Placed</td>
-<td>Actions</td>
-</tr>
-{% for order in orders %}
-<tr>
-<td>{{ order.status }}</td><td>{{ order.items }}</td>
-<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
-<td>
-{% if order.status == "Verifying" %}
-<input type="submit" value="Cancel" onclick="handleCancel({{ order.key.id }});">
-{% endif %}
-</td>
-</tr>
-{% endfor %}
+<table class="tblBeers" align="center">
+	<thead>
+		<tr>
+			<th>Status</th>
+			<th>Items Ordered</th>
+			<th>Total Paid</th>
+			<th>Delivery Address</th>
+			<th>Transaction ID</th>
+			<th>Order Placed</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for order in orders %}
+		<tr>
+			<td>{{ order.status }}</td><td>{{ order.items }}</td>
+			<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
+			<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
+			<td>
+			{% if order.status == "Verifying" %}
+			<input type="submit" value="Cancel" onclick="handleCancel({{ order.key.id }});">
+			{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
 <table>

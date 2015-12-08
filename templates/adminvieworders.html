@@ -1,47 +1,67 @@
 <html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/static/style.css">
+	</head>
+	
+	<body>
+		<a class="header" href="home">
+			<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+		</a>
 
-<link rel="stylesheet" type="text/css" href="/static/style.css">
-<body>
+		<p>Completed Orders</p>
 
-<a class="header" href="home">
-	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
-</a>
+		<table class="tblBeers" align="center">
+			<thead>
+				<tr>
+					<th>Ordered By</th>
+					<th>Items Ordered</th>
+					<th>Total Paid</th>
+					<th>Delivery Address</th>
+					<th>Transaction ID</th>
+					<th>Order Placed</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in orders %}
+				<tr>
+					<td>{{ order.orderedBy }}</td>
+					<td>{{ order.items }}</td>
+					<td>${{ order.priceSum }}</td>
+					<td>{{ order.address }}</td>
+					<td>{{ order.key.id }}</td>
+					<td>{{ order.timePlaced }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
-<p>Completed Orders</p>
+		<p>Cancelled Orders</p>
 
-<table border="2" align="center">
-<tr>
-<td>Orderd By</td><td>Items Ordered</td>
-<td>Total Paid</td><td>Delivery Address</td>
-<td>Transaction ID</td><td>Order Placed</td>
-</tr>
-{% for order in orders %}
-<tr>
-<td>{{ order.orderedBy }}</td><td>{{ order.items }}</td>
-<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
-</tr>
-{% endfor %}
-<table>
+		<table class="tblBeers" align="center">
+			<thead>
+				<tr>
+					<th>Ordered By</th>
+					<th>Items Ordered</th>
+					<th>Total Paid</th>
+					<th>Delivery Address</th>
+					<th>Transaction ID</th>
+					<th>Order Placed</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order in cancelledOrders %}
+				<tr>
+					<td>{{ order.orderedBy }}</td>
+					<td>{{ order.items }}</td>
+					<td>${{ order.priceSum }}</td>
+					<td>{{ order.address }}</td>
+					<td>{{ order.key.id }}</td>
+					<td>{{ order.timePlaced }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 
-<p>Cancelled Orders</p>
-
-<table border="2" align="center">
-<tr>
-<td>Orderd By</td><td>Items Ordered</td>
-<td>Total Paid</td><td>Delivery Address</td>
-<td>Transaction ID</td><td>Order Placed</td>
-</tr>
-{% for order in cancelledOrders %}
-<tr>
-<td>{{ order.orderedBy }}</td><td>{{ order.items }}</td>
-<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
-</tr>
-{% endfor %}
-<table>
-
-<p>Logged in as {{ user_email }}</p>
-
-</body>
+		<p>Logged in as {{ user_email }}</p>
+	</body>
 </html>

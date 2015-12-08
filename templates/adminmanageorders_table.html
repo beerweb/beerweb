@@ -1,27 +1,37 @@
-<table border="2" align="center">
-<tr>
-<td>Status</td>
-<td>Orderd By</td><td>Items Ordered</td>
-<td>Total Paid</td><td>Delivery Address</td>
-<td>Transaction ID</td><td>Order Placed</td>
-<td>Actions</td>
-</tr>
-{% for order in orders %}
-{% if order.status != "Completed" and order.status != "Cancelled" %}
-<tr>
-<td>{{ order.status }}</td>
-<td>{{ order.orderedBy }}</td><td>{{ order.items }}</td>
-<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
-<td>
-{% if order.status == "Verifying" %}
-<input type="submit" value="Verify" onclick="changeOrderStatus({{ order.key.id }}, 'Delivering');">
-{% else %}
-<input type="submit" value="Complete" onclick="changeOrderStatus({{ order.key.id }}, 'Completed');">
-{% endif %}
-<input type="submit" value="Cancel" onclick="changeOrderStatus({{ order.key.id }}, 'Cancelled');">
-</td>
-</tr>
-{% endif %}
-{% endfor %}
+<table class="tblBeers" align="center">
+	<thead>
+		<tr>
+			<th>Status</th>
+			<th>Ordered By</th>
+			<th>Items Ordered</th>
+			<th>Total Paid</th>
+			<th>Delivery Address</th>
+			<th>Transaction ID</th>
+			<th>Order Placed</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+
+	{% for order in orders %}
+	{% if order.status != "Completed" and order.status != "Cancelled" %}
+		<tr>
+			<td>{{ order.status }}</td>
+			<td>{{ order.orderedBy }}</td>
+			<td>{{ order.items }}</td>
+			<td>${{ order.priceSum }}</td>
+			<td>{{ order.address }}</td>
+			<td>{{ order.key.id }}</td>
+			<td>{{ order.timePlaced }}</td>
+			<td>
+				{% if order.status == "Verifying" %}
+				<input type="submit" value="Verify" onclick="changeOrderStatus({{ order.key.id }}, 'Delivering');">
+				{% else %}
+				<input type="submit" value="Complete" onclick="changeOrderStatus({{ order.key.id }}, 'Completed');">
+				{% endif %}
+				<input type="submit" value="Cancel" onclick="changeOrderStatus({{ order.key.id }}, 'Cancelled');">
+			</td>
+		</tr>
+	{% endif %}
+	{% endfor %}
 <table>
