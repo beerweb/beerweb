@@ -15,7 +15,7 @@
 						result.innerHTML = "";
 					}
 				}
-				postParameters(xmlHttp, "/admin_get_orders_table", "");
+				postParameters(xmlHttp, "/admin/get_orders_table", "");
 			}
 
 			function changeOrderStatus(id, status) {
@@ -30,7 +30,7 @@
 						//result.innerHTML = "Processing...";
 					}
 				}
-				postParameters(xmlHttp, '/admin_set_order_status', JSON.stringify({'id':id, 'status':status}));
+				postParameters(xmlHttp, '/admin/set_order_status', JSON.stringify({'id':id, 'status':status}));
 			}
 
 			function handleSubmit() {
@@ -49,7 +49,7 @@
 						//result.innerHTML = "Processing...";
 					}
 				}
-				postParameters(xmlHttp, "/admin_place_order", JSON.stringify({'items':itemsOrdered, 'priceSum':totalPaid, 'address':deliveryAddress, 'orderedBy':orderedBy}));
+				postParameters(xmlHttp, "/admin/place_order", JSON.stringify({'items':itemsOrdered, 'priceSum':totalPaid, 'address':deliveryAddress, 'orderedBy':orderedBy}));
 			}
 
 			function clearInputFields() {
@@ -62,7 +62,7 @@
 	</head>
 	
 	<body onload="getOrdersTable();">
-		<a class="header" href="home">
+		<a class="header" href="/home">
 			<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
 		</a>
 

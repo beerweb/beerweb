@@ -9,6 +9,10 @@ handlers:
   script: crontasks.app
   login: admin
 
+- url: /admin/.*
+  script: adminpanel.app
+  login: admin
+  
 - url: /static
   static_dir: static
 

@@ -15,7 +15,7 @@ We are here to bring you whatever brew you are feeling tonight!<br><br></p>
 <a class="buttons" href="account"><h2>My Account</h2></a>
 {% if user_email %}
 {% if user_is_admin %}
-<a class="buttons" href="adminpanel"><h2>Admin Control Panel</h2></a>
+<a class="buttons" href="admin/adminpanel"><h2>Admin Control Panel</h2></a>
 {% endif %}
 <a class="buttons" href="{{ logout_url }}"><h2>Sign Out</h2></a>
 <p>Logged in as {{ user_email }}</p>

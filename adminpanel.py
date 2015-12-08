@@ -117,7 +117,6 @@ class DeleteGiftHandler(webapp2.RequestHandler):
       giftCert = GiftCert.get_gift_cert(code)
       if giftCert:
         giftCert.key.delete()
-    #self.redirect('/adminmanagegifts')
 
   def post(self):
     return self.get()
@@ -200,3 +199,17 @@ class ManualPlaceOrderHandler(webapp2.RequestHandler):
     else:
       self.redirect('/home')
 
+###############################################################################
+mappings = [
+  ('/admin/managegifts', AdminManageGiftPageHandler),
+  ('/admin/get_gifts', GetGiftsHandler),
+  ('/admin/gen_gift', GenerateGiftHandler),
+  ('/admin/del_gift', DeleteGiftHandler),
+  ('/admin/manageorders', AdminManageOrdersPageHandler),
+  ('/admin/get_orders_table', GetOrdersTableHandler),
+  ('/admin/set_order_status', SetOrderStatusHandler),
+  ('/admin/vieworders', AdminViewOrdersPageHandler),
+  ('/admin/place_order', ManualPlaceOrderHandler),  
+  ('/admin/adminpanel', AdminPanelPageHandler)
+]
+app = webapp2.WSGIApplication(mappings, debug=True)

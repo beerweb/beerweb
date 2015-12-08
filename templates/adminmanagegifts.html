@@ -15,7 +15,7 @@ function getAllGifts() {
 			result.innerHTML = "";
 		}
 	}
-	postParameters(xmlHttp, "/admin_get_gifts", "");
+	postParameters(xmlHttp, "/admin/get_gifts", "");
 }
 
 function handleSubmit() {
@@ -33,7 +33,7 @@ function handleSubmit() {
 			result.innerHTML = "Processing...";
 		}
 	}
-	postParameters(xmlHttp, "/admin_gen_gift?code=" + code.replace(/\s+/g, '') + "&amount=" + amount, "");
+	postParameters(xmlHttp, "/admin/gen_gift?code=" + code.replace(/\s+/g, '') + "&amount=" + amount, "");
 }
 
 function handleDelete(code) {
@@ -47,12 +47,12 @@ function handleDelete(code) {
 			//result.innerHTML = "Processing...";
 		}
 	}
-	postParameters(xmlHttp, "/admin_del_gift?code=" + code.replace(/\s+/g, ''), "");
+	postParameters(xmlHttp, "/admin/del_gift?code=" + code.replace(/\s+/g, ''), "");
 }
 </script>
 <body onload="getAllGifts();">
 
-<a class="header" href="home">
+<a class="header" href="/home">
 	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
 </a>
 

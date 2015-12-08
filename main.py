@@ -3,7 +3,6 @@ import logging
 import os
 import webapp2
 import json
-import adminpanel
 
 from beers import beers
 from model import BeerUser, Beer, ShoppingCart, GiftCert, BeerOrder
@@ -478,16 +477,5 @@ mappings = [
   ('/addToCart', AddToCartHandler),
   ('/removeFromCart', RemoveFromCartHandler),
   ("/placeOrder", PlaceOrderHandler),
-  # admin pages
-  ('/adminmanagegifts', adminpanel.AdminManageGiftPageHandler),
-  ('/admin_get_gifts', adminpanel.GetGiftsHandler),
-  ('/admin_gen_gift', adminpanel.GenerateGiftHandler),
-  ('/admin_del_gift', adminpanel.DeleteGiftHandler),
-  ('/adminmanageorders', adminpanel.AdminManageOrdersPageHandler),
-  ('/admin_get_orders_table', adminpanel.GetOrdersTableHandler),
-  ('/admin_set_order_status', adminpanel.SetOrderStatusHandler),
-  ('/adminvieworders', adminpanel.AdminViewOrdersPageHandler),
-  ('/admin_place_order', adminpanel.ManualPlaceOrderHandler),  
-  ('/adminpanel', adminpanel.AdminPanelPageHandler)
 ]
 app = webapp2.WSGIApplication(mappings, debug=True)
