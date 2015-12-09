@@ -3,6 +3,7 @@ import logging
 import os
 import webapp2
 import json
+import emailsender
 
 from beers import beers
 from model import BeerUser, Beer, ShoppingCart, GiftCert, BeerOrder, Deliverer
