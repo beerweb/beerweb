@@ -281,6 +281,8 @@ class HireDelivererHandler(webapp2.RequestHandler):
         boy.email = email
         boy.salary = salary
         boy.put()
+        # email the deliverer
+        emailsender.send_hire_email(boy.email, boy)
     else:
       self.redirect('/home')
 
@@ -294,6 +296,8 @@ class FireDelivererHandler(webapp2.RequestHandler):
       personToFire = Deliverer.get_by_name(name)
       if personToFire:
         personToFire.key.delete()
+        # email the deliverer
+        emailsender.send_fire_email(personToFire.email, personToFire)
     else:
       self.redirect('/home')
 
