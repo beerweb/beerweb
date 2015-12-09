@@ -187,6 +187,8 @@ class SetOrderStatusHandler(webapp2.RequestHandler):
           order.cancel_and_refund()
         elif newStatus == "Completed":
           order.complete_order()
+        elif newStatus == "Delivering":
+          order.deliver_order()
         else:
           order.status = newStatus;
           order.put()

@@ -170,7 +170,17 @@ class BeerOrder(ndb.Model):
     self.status = "Cancelled"
     self.put()
 
+  def deliver_order(self):
+    # do not allow delivering cancelled or completed orders
+    if self.status == "Cancelled" or self.status == "Completed":
+      return
+    self.status = "Delivering"
+    self.put()
+
   def complete_order(self):
+    # do not allow delivering cancelled or completed orders
+    if self.status == "Cancelled" or self.status == "Completed":
+      return
     d = self.get_deliverer()
     if d:
       d.unassign_job()
