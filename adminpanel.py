@@ -83,12 +83,6 @@ class GetGiftsHandler(webapp2.RequestHandler):
       respStr += '<br>'
     self.response.out.write(respStr)
 
-    page_params = {
-        'user_email': email,
-        'login_url': users.create_login_url('/home'),
-        'logout_url': users.create_logout_url('/home')
-      }
-
   def post(self):
     return self.get()
 
@@ -113,12 +107,6 @@ class GenerateGiftHandler(webapp2.RequestHandler):
       self.response.out.write("$"+ amount + " gift card with code \"" + code + "\" is generated.")
     else:
       self.response.out.write("Invalid parameters")
-
-    page_params = {
-        'user_email': email,
-        'login_url': users.create_login_url('/home'),
-        'logout_url': users.create_logout_url('/home')
-      }
 
   def post(self):
     return self.get()
@@ -211,11 +199,6 @@ class SetOrderStatusHandler(webapp2.RequestHandler):
         else:
           order.status = newStatus;
           order.put()
-      page_params = {
-        'user_email': email,
-        'login_url': users.create_login_url('/home'),
-        'logout_url': users.create_logout_url('/home')
-      }
     else:
       self.redirect('/home')
 
@@ -250,12 +233,6 @@ class ManualPlaceOrderHandler(webapp2.RequestHandler):
       order.status = "Verifying"
       order.orderedBy = data["orderedBy"]
       order.put()
-      page_params = {
-        'user_email': email,
-        'login_url': users.create_login_url('/home'),
-        'logout_url': users.create_logout_url('/home')
-      }
-
     else:
       self.redirect('/home')
 
@@ -317,11 +294,6 @@ class HireDelivererHandler(webapp2.RequestHandler):
         boy.email = email
         boy.salary = salary
         boy.put()
-      page_params = {
-        'user_email': email,
-        'login_url': users.create_login_url('/home'),
-        'logout_url': users.create_logout_url('/home')
-      }  
     else:
       self.redirect('/home')
 
@@ -335,11 +307,6 @@ class FireDelivererHandler(webapp2.RequestHandler):
       personToFire = Deliverer.get_by_name(name)
       if personToFire:
         personToFire.key.delete()
-      page_params = {
-        'user_email': email,
-        'login_url': users.create_login_url('/home'),
-        'logout_url': users.create_logout_url('/home')
-      }
     else:
       self.redirect('/home')
 
@@ -360,11 +327,6 @@ class AssignDelivererHandler(webapp2.RequestHandler):
           if oldD:
             oldD.unassign_job()
           deliverer.assign_job(order)
-      page_params = {
-        'user_email': email,
-        'login_url': users.create_login_url('/home'),
-        'logout_url': users.create_logout_url('/home')
-      }
     else:
       self.redirect('/home')
 

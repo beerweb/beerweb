@@ -16,6 +16,8 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
 
+	<link rel="icon" type="image/png" href="/static/favicon.ico">
+	
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
@@ -53,7 +55,11 @@
 			        width:75%;
 			    }
 			}
-
+			label, #tblBeers_info {
+				background-color: rgba(0,0,0,0.6);
+			    border-radius: 10px;
+			    padding: 10px;
+			}
 			input, select {
 				border: 2px solid #cdb87d !important;
 				border-radius: 5px !important;
@@ -87,6 +93,7 @@
 			#tblBeers th {
 				background-color: #cdb87d;
 				color: #192857;
+				text-align: center;
 			}
 			.dataTables_wrapper {
 				color: #cdb87d;
@@ -95,12 +102,15 @@
 				background-color: rgba(25,40,87,0);
 			}
 			#tblBeers .odd {
-				background-color: rgba(0,0,0,.5);
+				background-color: rgba(0,0,0,.7);
 			}
 			#tblBeers .even {
-				background-color: rgba(0,0,0,.1);
+				background-color: rgba(0,0,0,.3);
 			}#tblBeers tr.selected {
 			    background-color: rgba(205,184,125,.4);
+			}
+			div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_paginate {
+			    text-align: center;
 			}
 			table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
 					opacity: 0.8;
@@ -189,65 +199,62 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
+	<header>	
+        <p style="padding-top:75px;">Choose your beers below:</p>
+        <hr>
 
-    <header>
-        <div class="header-content">
-            <div class="header-content-inner">
-                <h1>"Unofficial" University of Pittsburgh Beer Delivery</h1>
-
-                <div id="quicksrch"></div>
-                <div id="container">
-		{% if beers %}
-		<table id="tblBeers" class="table responsive no-wrap" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<th>BREWERY</th>
-					<th>PRODUCT</th>
-					<th>STYLE</th>
-					<th>ABV</th>
-					<th>PRICE</th>
-					<th>CART</th>
-				</tr>
-				<tr id="filterrow">
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th></th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<th>BREWERY</th>
-					<th>PRODUCT</th>
-					<th>STYLE</th>
-					<th>ABV</th>
-					<th>PRICE</th>
-					<th></th>
-				</tr>
-			</tfoot>
-			<tbody>
-				{% for beer in beers %}
-				<tr>
-					<td>{{ beer.brewery }}</td>
-					<td>{{ beer.product }}</td>
-					<td>{{ beer.style }}</td>
-					<td>{{ beer.abv }}%</td>
-					<td id="price-{{ beer.beerid }}">${{ beer.price }}</td>
-					<td>
-						<input id="num-{{beer.beerid}}" class="amount" type="number" min="0" max="12" maxlength="2" pattern='[0-9]{2}' value="0">
-						<input type="button" onclick="addToCart('{{beer.beerid}}')" value="Add">
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		{% endif %}
+        <div id="container" >
+			{% if beers %}
+			<table id="tblBeers" class="table responsive no-wrap" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>BREWERY</th>
+						<th>PRODUCT</th>
+						<th>STYLE</th>
+						<th>ABV</th>
+						<th>PRICE</th>
+						<th>CART</th>
+					</tr>
+					<tr id="filterrow">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>BREWERY</th>
+						<th>PRODUCT</th>
+						<th>STYLE</th>
+						<th>ABV</th>
+						<th>PRICE</th>
+						<th></th>
+					</tr>
+				</tfoot>
+				<tbody>
+					{% for beer in beers %}
+					<tr>
+						<td>{{ beer.brewery }}</td>
+						<td>{{ beer.product }}</td>
+						<td>{{ beer.style }}</td>
+						<td>{{ beer.abv }}%</td>
+						<td id="price-{{ beer.beerid }}">${{ beer.price }}</td>
+						<td>
+							<input id="num-{{beer.beerid}}" class="amount" type="number" min="0" max="12" maxlength="2" pattern='[0-9]{2}' value="">
+							<input id="btn-{{beer.beerid}}" type="button" onclick="addToCart('{{beer.beerid}}')" value="Add">
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
 		</div>
-            </div>
-        </div>
     </header>
+
+
 
 	<script type="text/javascript">
 		function createXmlHttp() {
@@ -281,23 +288,30 @@
 			// the beerID is also the ID of the input
 			//		boxes that we want to grab
 			var num = $("#num-"+beerID).val();
+			if (isNaN(num) || num==0) {
+				// no valid number in the input. skip.
+			} else {
 
-			var price = $("#price-"+beerID).html();
-			price = Number(price.replace(/[^0-9\.]+/g,""));
+				var price = $("#price-"+beerID).html();
+				price = Number(price.replace(/[^0-9\.]+/g,""));
 
-			var total = num*price;
+				var total = num*price;
 
-			// some kind of AJAX call here to update
-			//		the user's cart within the DB
+				// some kind of AJAX call here to update
+				//		the user's cart within the DB
 
-			var xmlHttp = createXmlHttp()
-			xmlHttp.onreadystatechange=function() {
-				if (xmlHttp.readyState == 4) {
-					//Some kind of feedback here
+				var xmlHttp = createXmlHttp()
+				xmlHttp.onreadystatechange=function() {
+					if (xmlHttp.readyState == 4) {
+						//Some kind of feedback here
+						// will show success
+
+						$("#btn-"+beerID).css({"background-color":"#192857","color":"#ddd"});
+					}
 				}
-			}
 
-			postParameters(xmlHttp, '/addToCart', JSON.stringify({'beerID':beerID, 'quant':num}))
+				postParameters(xmlHttp, '/addToCart', JSON.stringify({'beerID':beerID, 'quant':num}))
+			}
 		}
 
 
@@ -320,13 +334,14 @@
 		$(document).ready(function() {
 		//////////////////////////////////////////////
 		    var table = $('#tblBeers').DataTable( {
-		    	fixedHeader: true,
+		    	fixedHeader: false,
 		    	lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		    	orderCellsTop: true,
-		    	pageLength: 10,
+		    	pageLength: 15,
 		    	responsive: true,
 		    	rowId: "ID",
 		    	select: 'single',
+		    	"dom": '<"top"f>rt<"bottom"p><"clear">',
 		    	aoColumnDefs: [
 		          { 'bSortable': false, 'aTargets': [5] }
 		        ],
@@ -359,7 +374,7 @@
 		                }
 
 		                if (name==="CART") {
-		                	$("<input type='button' onclick='resetAllFilters()' value='Reset Filters'>")
+		                	$("<input type='button' onclick='resetAllFilters()' value='Reset Filters' style='with:100px !important;'>")
 			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() );
 		                }
 		            } );
@@ -368,7 +383,7 @@
 
 
 			// move the quick search into the top header
-			$("#tblBeers_filter input").appendTo("#quicksrch");
+			//$("#tblBeers_filter").appendTo("#quicksrch");
 		});
 	</script>		
 
@@ -390,6 +405,3 @@
 
 </body>
 </html>
-
-
-

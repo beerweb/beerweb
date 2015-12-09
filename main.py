@@ -91,7 +91,6 @@ class OrderPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
     user_is_admin = is_user_admin()
-    template_params={}
     totalcost = 0.0
     if email:
       beerUser = BeerUser.get_user_profile(email)
@@ -102,12 +101,10 @@ class OrderPageHandler(webapp2.RequestHandler):
         beerUser.put()
       cart = beerUser.cart.contents
       beers_in_cart = []
-
       if len(cart) != 0:
         for beer in cart:
           ndb_beer = Beer.query(Beer.beerid == int(beer)).fetch(1)[0]
           totalcost += int(cart[beer]) * float(ndb_beer.price)
-
           beers_in_cart.append({
             "beerid":beer,
             "brewery":ndb_beer.brewery,
@@ -117,18 +114,19 @@ class OrderPageHandler(webapp2.RequestHandler):
             })
           #beers_in_cart.append(Beer.query(Beer.beerid == int(beer)).fetch(1)[0])
           #quantities.append(cart[beer])
-
       template_params={
         'user_email': email,
-        'login_url': users.create_login_url('/home'), 
-      	'logout_url': users.create_logout_url('/home'),
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home'),
         "user_is_admin": user_is_admin,
         "savedAddress":beerUser.address,
         "beers":beers_in_cart,
         "total":totalcost
       }
-    render_template(self, 'order.html', template_params)
-
+      render_template(self, 'order.html', template_params)
+    else:
+      self.redirect(users.create_login_url('/order'))
+      
 ###############################################################################
 class AccountPageHandler(webapp2.RequestHandler):
   def get(self):

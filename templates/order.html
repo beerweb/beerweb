@@ -15,6 +15,8 @@
 	<script type="text/javascript" src="//cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.9,b-1.0.3,fh-3.0.0,se-1.0.1/datatables.min.js"></script>
 
 
+	<link rel="icon" type="image/png" href="/static/favicon.ico">
+	
      <link rel="stylesheet" type="text/css" href="/static/style.css">
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
@@ -43,36 +45,156 @@
 
 
     <style>
-	#map {
-        width: 100%;
-        height: 400px;
-    input, select {
-		border: 2px solid #cdb87d !important;
-		border-radius: 5px !important;
-	}
-	input:invalid {
-		border:1px solid red;
-	}
-	input {
-		color: #192857;
-		font-size: 2em;
-		height: 50px;
-		outline: none;
-		-webkit-appearance: none;
-		width: 600px;
-	}
-	input:focus, select:focus {
-		border: 2px solid #cdb87d;
-	    border-collapse: separate;
-	    box-shadow: 0 0 7px #cdb87d;
-	}
-	h2 {
-		font-size: 30px;
-	}
-	input[type=button] {
-		width: 50px;
-	}    
-    }
+	    #addressTxt {
+	    	height: 50px;
+		    width: 400px;
+		    text-align: center;
+		    background-color: rgba(255,255,255,0.8);
+		    border-radius: 10px;
+		    font-size:1.5em;
+	    }
+	    h2 {
+	    	background-color: rgba(0,0,0,.4);
+	    	line-height:2em;
+	    }
+		#map {
+	        width: 100%;
+	        height: 400px;
+	    input, select {
+			border: 2px solid #cdb87d !important;
+			border-radius: 5px !important;
+		}
+		input:invalid {
+			border:1px solid red;
+		}
+		input {
+			color: #192857;
+			font-size: 2em;
+			height: 50px;
+			outline: none;
+			-webkit-appearance: none;
+			width: 600px;
+		}
+		input:focus, select:focus {
+			border: 2px solid #cdb87d;
+		    border-collapse: separate;
+		    box-shadow: 0 0 7px #cdb87d;
+		}
+		h2 {
+			font-size: 30px;
+		}
+		input[type='submit']:hover {
+		    background-color: white !important;
+		}
+		input[type=button] {
+			width: 50px;
+		}    
+				@media(max-width:767px) {
+					body{
+						font-size:75%;
+					}
+				    #tblBeers {
+				        font-size:75%;
+				    }
+				    #tblBeers input, #tblBeers select {
+				        width:75%;
+				    }
+				}
+				label, #tblBeers_info {
+					background-color: rgba(0,0,0,0.6);
+				    border-radius: 10px;
+				    padding: 10px;
+				}
+				input, select {
+					border: 2px solid #cdb87d !important;
+					border-radius: 5px !important;
+				}
+				input:invalid {
+					border:1px solid red;
+				}
+				input {
+					color: #192857;
+					outline: none;
+		   			-webkit-appearance: none;
+				}
+				input:focus, select:focus {
+					border: 2px solid #cdb87d;
+				    border-collapse: separate;
+				    box-shadow: 0 0 7px #cdb87d;
+				}
+				input.amount {
+					text-align: center;
+					width: 50px;
+				}
+	    }
+				#container { 
+					margin:auto;
+					padding-bottom: 50px;
+					width:90%;
+				}
+				#tblBeers {
+					color: #cdb87d;
+					/*background-color: #002d62*/
+				}
+				#tblBeers th {
+					background-color: #cdb87d;
+					color: #192857;
+					text-align: center;
+				}
+				.dataTables_wrapper {
+					color: #cdb87d;
+				}
+				#tblBeers tr {
+					background-color: rgba(25,40,87,0);
+				}
+				#tblBeers tr:nth-child(odd) {
+					background-color: rgba(0,0,0,.7);
+				}
+				#tblBeers tr:nth-child(even) {
+					background-color: rgba(0,0,0,.3);
+				}#tblBeers tr.selected {
+				    background-color: rgba(205,184,125,.4);
+				}
+				div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_paginate {
+				    text-align: center;
+				}
+				table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+						opacity: 0.8;
+					}
+					table.dataTable thead .sorting:after {
+					    opacity: 0.3;
+					}
+					.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+						border-top: 1px solid #cdb87d;
+					}
+					.table>thead>tr>th {
+						border-bottom: 2px solid #cdb87d;
+					}
+					.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+						background-color: #f0ead9;
+						border-color: #cdb87d;
+					}
+					.pagination>li>a, .pagination>li>span {
+						color: #192857;
+					    background-color: #cdb87d;
+					    border: 1px solid #cdb87d;
+					}
+					.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+						color: #cdb87d;
+					    background-color: #192857;
+					    border-color: #cdb87d;
+					}
+					.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+					    color: #192857;
+					    background-color: #b79a46;
+					    border-color: #cdb87d;
+					}
+					table.dataTable.fixedHeader-floating, table.dataTable.fixedHeader-locked {
+		    			background-color: #cdb87d;
+		    		}
+		    			table.fixedHeader-floating input {
+		    				border-color:#192857;
+		    			}
     </style>
 
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
@@ -100,7 +222,7 @@
 						result.innerHTML += mapObject.rows[0].elements[0].duration.text + "<br>";
 
 						if (distance && distance < 5) {
-							result.innerHTML += '<span style="color:green;">Hey great news... WE DELIVER BEER TO YOU!!!</span>';
+							result.innerHTML += '<span style="color:white;">Hey great news... WE DELIVER BEER TO YOU!!!</span>';
 						} else {
 							result.innerHTML += '<span style="color:red;">Sorry to say this, but you are outside of our delivery range :(</span>';
 						}
@@ -190,117 +312,113 @@
     <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1>"Unofficial" University of Pittsburgh Beer Delivery</h1>
+                <h2 style="margin-top:75px;">Enter your location, edit your cart if need be, and we should be good to go!</h2>
                 <hr>
-                <p>Enter your location, edit your cart if need be, and we should be good to go!</p>
                 <input type="text" id="addressTxt" form="placeorderform" name="addressTxt" placeholder="Please enter your address..." onkeyup="handleKeyUp();" value="{{ savedAddress }}">
             </div>
+
+            <br>
+
             <h2 id="addressResult"></h2>
+
+            <br><br>
+            <div>
+				{% if beers %}
+					<div id="container">
+						<table id="tblBeers" class="table " cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>BREWERY</th>
+									<th>PRODUCT</th>
+									<th>PRICE</th>
+									<th>QUANTITY</th>
+									<th>REMOVE</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for beer in beers %}
+								<tr>
+									<td>{{ beer.brewery }}</td>
+									<td>{{ beer.product }}</td>
+									<td id="price-{{ beer.beerid }}">${{ beer.price }}</td>
+									<td id="quant-{{ beer.beerid }}">{{ beer.quantity }}</td>
+									<td>
+										<input type="button" onclick="removeFromCart('{{beer.beerid}}')" value="X">
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+							<tfoot>
+									<tr>
+										<th></th>
+										<th></th>
+										<th>Total</th>
+										<th id="totalprice">${{ total }}</th>
+										<th></th>
+									</tr>
+								</tfoot>
+						</table>
+					</div>
+				</div>
+					<form id="placeorderform" action="/placeOrder" method="post" align="center" style="text-align:center;">
+						<input type="submit" value="Place Order" style="background-color:#192857;font-size:1.5em;">
+					</form>
+				{% endif %}
         </div>
     </header>
 
     <!--<div id="map"></div>-->
-
-{% if beers %}
-	<div id="container">
-		<table id="tblBeers" class="table " cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<th>BREWERY</th>
-					<th>PRODUCT</th>
-					<th>PRICE</th>
-					<th>QUANTITY</th>
-				</tr>
-			</thead>
-			<!--<tfoot>
-				<tr>
-					<th>BREWERY</th>
-					<th>PRODUCT</th>
-					<th>STYLE</th>
-					<th>ABV</th>
-					<th>PRICE</th>
-					<th></th>
-				</tr>
-			</tfoot>-->
-			<tbody>
-				{% for beer in beers %}
-				<tr>
-					<td>{{ beer.brewery }}</td>
-					<td>{{ beer.product }}</td>
-					<td id="price-{{ beer.beerid }}">${{ beer.price }}</td>
-					<td id="quant-{{ beer.beerid }}">{{ beer.quantity }}</td>
-					<td>
-						<input type="button" onclick="removeFromCart('{{beer.beerid}}')" value="X">
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-			<tfoot>
-					<tr>
-						<th>Total</th>
-						<th></th>
-						<th></th>
-						<th id="totalprice">{{ total }}</th>
-					</tr>
-				</tfoot>
-		</table>
-	</div>
-	<form id="placeorderform" action="/placeOrder" method="post" align="right">
-		<input type="submit" value="Place Order">
-		<!--<a class='buttons' href='placeOrder'><h2>Place Order</h2></a>-->
-	</form>
-	{% endif %}
 </body>
 <script>
 //////////////////////////////////////////////
 		$(document).ready(function() {
 		//////////////////////////////////////////////
-		    var table = $('#tblBeers').DataTable( {
-		    	fixedHeader: true,
-		    	lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-		    	orderCellsTop: true,
-		    	pageLength: 25,
-		    	responsive: true,
-		    	rowId: "ID",
-		    	select: 'single',
-		    	aoColumnDefs: [
-		          { 'bSortable': false, 'aTargets': [5] }
-		        ],
-		    	language: {
-		    		"info": "Showing _START_ to _END_ of _TOTAL_ beers",
-		    		"search": "Quick search:"
-		    	},
-		    	initComplete: function () {
-		            this.api().columns().every( function () {
-		                var column = this;
-		                var num = column[0][0] + 1; // remove zero-base
-		                var name = $(column.header()).html(); // get name of column
+		 //    var table = $('#tblBeers').DataTable( {
+		 //    	fixedHeader: true,
+		 //    	lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+		 //    	orderCellsTop: true,
+		 //    	pageLength: 25,
+		 //    	responsive: true,
+		 //    	rowId: "ID",
+		 //    	select: 'single',
+		 //    	aoColumnDefs: [
+		 //          { 'bSortable': false, 'aTargets': [5] }
+		 //        ],
+		 //    	language: {
+		 //    		"info": "Showing _START_ to _END_ of _TOTAL_ beers",
+		 //    		"search": "Quick search:"
+		 //    	},
+		 //    	initComplete: function () {
+		 //            this.api().columns().every( function () {
+		 //                var column = this;
+		 //                var num = column[0][0] + 1; // remove zero-base
+		 //                var name = $(column.header()).html(); // get name of column
 
-		                if (name!=="PRODUCT" && name!=="ABV" && name!=="CART") {
-			                var select = $('<select class="input-sm"><option value=""></option></select>')
-			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() )
-			                    .on( 'change', function () {
-			                        var val = $.fn.dataTable.util.escapeRegex(
-			                            $(this).val()
-			                        );
+		 //                if (name!=="PRODUCT" && name!=="ABV" && name!=="CART") {
+			//                 var select = $('<select class="input-sm"><option value=""></option></select>')
+			//                     .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() )
+			//                     .on( 'change', function () {
+			//                         var val = $.fn.dataTable.util.escapeRegex(
+			//                             $(this).val()
+			//                         );
 
-			                        column
-			                            .search( val ? '^'+val+'$' : '', true, false )
-			                            .draw();
-			                    } );
+			//                         column
+			//                             .search( val ? '^'+val+'$' : '', true, false )
+			//                             .draw();
+			//                     } );
 
-			                column.data().unique().sort().each( function ( d, j ) {
-			                    select.append( '<option value="'+d+'">'+d+'</option>' )
-			                } );
-		                }
+			//                 column.data().unique().sort().each( function ( d, j ) {
+			//                     select.append( '<option value="'+d+'">'+d+'</option>' )
+			//                 } );
+		 //                }
 
-		                if (name==="CART") {
-		                	$("<input type='button' onclick='resetAllFilters()' value='Reset Filters'>")
-			                    .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() );
-		                }
-		            } );
-		        }
-			} );
+		 //                if (name==="CART") {
+		 //                	$("<input type='button' onclick='resetAllFilters()' value='Reset Filters'>")
+			//                     .appendTo( $('#filterrow th:nth-child(' + num + ')').empty() );
+		 //                }
+		 //            } );
+		 //        }
+			// } );
 		});
 
 		//////////////////////////////////////////////

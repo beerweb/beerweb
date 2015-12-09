@@ -12,6 +12,8 @@
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
 
+	<link rel="icon" type="image/png" href="/static/favicon.ico">
+	
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
@@ -24,49 +26,153 @@
     <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">
 
     <style type="text/css">
-	#tblMyBeers {
-		border-collapse: collapse;
-		color: #beac70;
-		font-size:1.2em;
-		margin:0 auto;
-		min-width: 90%;
-	}
-	#tblMyBeers th {
-		padding: 5px;
-	}
-	#tblMyBeers tr {
-		background: none;
-	}
-	#tblMyBeers tr:nth-child(even) {
-		background: rgba(0,0,0,0.5);
-	}
-	#tblMyBeers tr:nth-child(odd) {
-		background: rgba(0,0,0,0.1);
-	}
-	#tblMyBeers tr:first-child th {
-		background-color: #beac70;
-		color: #192857;
-	}
-	#tblMyBeers tr:first-child:hover th {
-		background-color: #beac70;
-	}
-	#tblMyBeers tr:first-child a {
-		color: black;
-	}
-	#tblMyBeers tr:hover {
-		background-color: rgba(0,0,0,0.2);
-	}
-	#tblMyBeers td {
-		font-variant: small-caps;
-	}
-	#tblMyBeers td {
-		padding: 5px 10px;
-		text-align: center;
-		white-space: pre;
-	}
-	#tblMyBeers td:nth-child(7) {
-		white-space: nowrap;
-	}
+	    #addressTxt {
+	    	height: 50px;
+		    width: 400px;
+		    text-align: center;
+		    background-color: rgba(255,255,255,0.8);
+		    border-radius: 10px;
+		    font-size:1.5em;
+	    }
+	    h2 {
+	    	background-color: rgba(0,0,0,.4);
+	    	line-height:2em;
+	    }
+		#map {
+	        width: 100%;
+	        height: 400px;
+	    input, select {
+			border: 2px solid #cdb87d !important;
+			border-radius: 5px !important;
+		}
+		input:invalid {
+			border:1px solid red;
+		}
+		input {
+			color: #192857;
+			font-size: 2em;
+			height: 50px;
+			outline: none;
+			-webkit-appearance: none;
+			width: 600px;
+		}
+		input:focus, select:focus {
+			border: 2px solid #cdb87d;
+		    border-collapse: separate;
+		    box-shadow: 0 0 7px #cdb87d;
+		}
+		h2 {
+			font-size: 30px;
+		}
+		input[type='submit']:hover {
+		    background-color: white !important;
+		}
+		input[type=button] {
+			width: 50px;
+		}    
+				@media(max-width:767px) {
+				    #tblBeers {
+				        font-size:75%;
+				    }
+				    #tblBeers input, #tblBeers select {
+				        width:75%;
+				    }
+				}
+				label, #tblBeers_info {
+					background-color: rgba(0,0,0,0.6);
+				    border-radius: 10px;
+				    padding: 10px;
+				}
+				input, select {
+					border: 2px solid #cdb87d !important;
+					border-radius: 5px !important;
+				}
+				input:invalid {
+					border:1px solid red;
+				}
+				input {
+					color: #192857;
+					outline: none;
+		   			-webkit-appearance: none;
+				}
+				input:focus, select:focus {
+					border: 2px solid #cdb87d;
+				    border-collapse: separate;
+				    box-shadow: 0 0 7px #cdb87d;
+				}
+				input.amount {
+					text-align: center;
+					width: 50px;
+				}
+	    }
+				#container { 
+					margin:auto;
+					padding-bottom: 50px;
+					width:90%;
+				}
+				#tblBeers {
+					color: #cdb87d;
+					/*background-color: #002d62*/
+				}
+				#tblBeers th {
+					background-color: #cdb87d;
+					color: #192857;
+					text-align: center;
+				}
+				.dataTables_wrapper {
+					color: #cdb87d;
+				}
+				#tblBeers tr {
+					background-color: rgba(25,40,87,0);
+				}
+				#tblBeers tr:nth-child(odd) {
+					background-color: rgba(0,0,0,.7);
+				}
+				#tblBeers tr:nth-child(even) {
+					background-color: rgba(0,0,0,.3);
+				}#tblBeers tr.selected {
+				    background-color: rgba(205,184,125,.4);
+				}
+				div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_paginate {
+				    text-align: center;
+				}
+				table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+						opacity: 0.8;
+					}
+					table.dataTable thead .sorting:after {
+					    opacity: 0.3;
+					}
+					.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+						border-top: 1px solid #cdb87d;
+					}
+					.table>thead>tr>th {
+						border-bottom: 2px solid #cdb87d;
+					}
+					.pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
+						background-color: #f0ead9;
+						border-color: #cdb87d;
+					}
+					.pagination>li>a, .pagination>li>span {
+						color: #192857;
+					    background-color: #cdb87d;
+					    border: 1px solid #cdb87d;
+					}
+					.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+						color: #cdb87d;
+					    background-color: #192857;
+					    border-color: #cdb87d;
+					}
+					.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
+					    color: #192857;
+					    background-color: #b79a46;
+					    border-color: #cdb87d;
+					}
+					table.dataTable.fixedHeader-floating, table.dataTable.fixedHeader-locked {
+		    			background-color: #cdb87d;
+		    		}
+		    			table.fixedHeader-floating input {
+		    				border-color:#192857;
+		    			}
 </style>
 <script src="/static/ajaxhelper.js"></script>
 <script>
@@ -103,7 +209,7 @@ function handleCancel(orderId) {
 
 </head>
 
-<body id="page-top">
+<body id="page-top" onload="getOrdersTable()">
 
     <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -153,7 +259,7 @@ function handleCancel(orderId) {
 
     <header>
         <div class="header-content">
-			<h1>My Orders<br></h1>
+			<h2>My Orders</h2>
 				<div id="myOrdersTable">
 					<!-- Filled by AJAX -->
 				</div>

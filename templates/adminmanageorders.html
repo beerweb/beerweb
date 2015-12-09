@@ -1,5 +1,31 @@
-<html>
-<link rel="stylesheet" type="text/css" href="/static/style.css"/>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
+
+	<link rel="icon" type="image/png" href="/static/favicon.ico">
+	
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/bootstraptheme/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">
+
+
 <script src="/static/ajaxhelper.js"></script>
 <script>
 	function getOrdersTable() {
@@ -62,32 +88,135 @@
 		window.open(theURL,'Order Details','scrollbars=yes,width=400,height=520');
 	}
 </script>
+
+</head>
+
+<body id="page-top" onload="getOrdersTable();">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/home">Back to PITTBEER.COM</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="/admin/managegifts">Manage Gift Cards</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/admin/managedeliverers">Manage Delivery Boys</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/admin/manageorders">Manage Order</a>
+                    </li>
+
+                    <li> 
+					<a class="page-scroll" href="/admin/vieworders">View Completed Orders</a>
+					</li>
+
+                    <li>
+                    	{% if user_email %}
+                    		<a class="page-scroll" href="{{ logout_url }}">{{ user_email }}</a>
+                    	{% else %}
+ 	                       	<a class="page-scroll" href="{{ login_url }}">Sign In</a>
+ 	                    {% endif %} 
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header style = "
+    background-image: none; background-color: #DAE0E6;">
+        <div class="header-content">
+			<p>Manage Active Orders<br></p>
+			<div id="orderTable" style="text-align: center">
+			<!-- table is rendered by AJAX  -->
+			</div>
+
+			<div id="createOrder" style="text-align: center">
+			<h2>
+			<p>Create An Order Manually</p>
+			Ordered By<br>
+			<input id="orderedBy" type="text" value="" style="height: 45px; font-size: 35;"><br>
+			Items Ordered<br>
+			<input id="itemsOrdered" type="text" value="" style="height: 45px; font-size: 35;"><br>
+			Total Paid<br>
+			<input id="totalPaid" type="text" value="" style="height: 45px; font-size: 35;"><br>
+			Delivery Address<br>
+			<input id="deliveryAddress" type="text" value="" style="height: 45px; font-size: 35;"><br>
+			<br><input type="submit" value="Place Order" onclick="handleSubmit();">
+			</h2>
+			</div>
+			<a class="buttons" href="/admin/managedeliverers"><h2>Manage Delivery Boys</h2></a>
+    </header>
+
+    <!-- jQuery -->
+    <script src="/static/bootstraptheme/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/bootstraptheme/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/static/bootstraptheme/js/jquery.easing.min.js"></script>
+    <script src="/static/bootstraptheme/js/jquery.fittext.js"></script>
+    <script src="/static/bootstraptheme/js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/bootstraptheme/js/creative.js"></script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
-<body onload="getOrdersTable();">
-	<a class="header" href="/home">
-		<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
-	</a>
-
-	<p>Manage Active Orders<br></p>
-	<div id="orderTable" style="text-align: center">
-	<!-- table is rendered by AJAX  -->
-	</div>
-
-	<div id="createOrder" style="text-align: center">
-	<h2>
-	<p>Create An Order Manually</p>
-	Ordered By<br>
-	<input id="orderedBy" type="text" value="" style="height: 45px; font-size: 35;"><br>
-	Items Ordered<br>
-	<input id="itemsOrdered" type="text" value="" style="height: 45px; font-size: 35;"><br>
-	Total Paid<br>
-	<input id="totalPaid" type="text" value="" style="height: 45px; font-size: 35;"><br>
-	Delivery Address<br>
-	<input id="deliveryAddress" type="text" value="" style="height: 45px; font-size: 35;"><br>
-	<br><input type="submit" value="Place Order" onclick="handleSubmit();">
-	</h2>
-	</div>
-	<a class="buttons" href="/admin/managedeliverers"><h2>Manage Delivery Boys</h2></a>
+	
 	<a class="buttons" href="/admin/adminpanel"><h2>Back</h2></a>
 	<p>Logged in as {{ user_email }}</p>
 </body>
