@@ -48,6 +48,8 @@ class AdminPanelPageHandler(webapp2.RequestHandler):
     if email and is_user_admin():
       page_params = {
         'user_email': email,
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'adminpanel.html', page_params)
     else:
@@ -60,6 +62,8 @@ class AdminManageGiftPageHandler(webapp2.RequestHandler):
     if email and is_user_admin():
       page_params = {
         'user_email': email,
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'adminmanagegifts.html', page_params)
     else:
@@ -129,6 +133,8 @@ class AdminManageOrdersPageHandler(webapp2.RequestHandler):
     if email and is_user_admin():
       page_params = {
         'user_email': email,
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'adminmanageorders.html', page_params)
     else:
@@ -141,7 +147,9 @@ class GetOrdersTableHandler(webapp2.RequestHandler):
       orders = BeerOrder.get_all_orders()      
       page_params = {
         'user_email': email,
-        'orders': orders
+        'orders': orders,
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'adminmanageorders_table.html', page_params)
 
@@ -167,7 +175,9 @@ class GetOrderDetailsHandler(webapp2.RequestHandler):
       page_params = {
         'user_email': email,
         'order': order,
-        'deliverer': deliverer
+        'deliverer': deliverer,
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'admingetorderdetails.html', page_params)
 
@@ -203,7 +213,9 @@ class AdminViewOrdersPageHandler(webapp2.RequestHandler):
       page_params = {
         'user_email': email,
         'orders': BeerOrder.get_completed_orders(),
-        'cancelledOrders': BeerOrder.get_cancelled_orders()
+        'cancelledOrders': BeerOrder.get_cancelled_orders(),
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'adminvieworders.html', page_params)
     else:
@@ -244,7 +256,9 @@ class AdminManageDeliverers(webapp2.RequestHandler):
       page_params = {
         'user_email': email,
         'order': order,
-        'deliverer': deliverer
+        'deliverer': deliverer,
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'adminmanagedeliverers.html', page_params)
     else:
@@ -256,7 +270,9 @@ class GetDeliverersTableHandler(webapp2.RequestHandler):
     if email and is_user_admin():
       page_params = {
         'user_email': email,
-        'deliverers': Deliverer.get_all_deliverers()
+        'deliverers': Deliverer.get_all_deliverers(),
+        'login_url': users.create_login_url('/home'),
+        'logout_url': users.create_logout_url('/home')
       }
       render_template(self, 'adminmanagedeliverers_table.html', page_params)
 

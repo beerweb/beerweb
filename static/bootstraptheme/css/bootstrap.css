@@ -11,6 +11,7 @@ html {
 }
 body {
   margin: 0;
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
 }
 article,
 aside,
@@ -115,7 +116,7 @@ select,
 textarea {
   margin: 0;
   font: inherit;
-  color: inherit;
+  color: #000;
 }
 button {
   overflow: visible;

@@ -1,164 +1,252 @@
-<html>
-<link rel="stylesheet" type="text/css" href="/static/style.css"/>
-<style type="text/css">
-	#tblDeliverers {
-		border-collapse: collapse;
-		color: #beac70;
-		font-size:1.2em;
-		margin:0 auto;
-		min-width: 90%;
-	}
-	#tblDeliverers th {
-		padding: 5px;
-	}
-	#tblDeliverers tr {
-		background: none;
-	}
-	#tblDeliverers tr:nth-child(even) {
-		background: rgba(0,0,0,0.5);
-	}
-	#tblDeliverers tr:nth-child(odd) {
-		background: rgba(0,0,0,0.1);
-	}
-	#tblDeliverers tr:first-child th {
-		background-color: #beac70;
-		color: #192857;
-	}
-	#tblDeliverers tr:first-child:hover th {
-		background-color: #beac70;
-	}
-	#tblDeliverers tr:first-child a {
-		color: black;
-	}
-	#tblDeliverers tr:hover {
-		background-color: rgba(0,0,0,0.2);
-	}
-	#tblDeliverers td {
-		font-variant: small-caps;
-	}
-	#tblDeliverers td {
-		padding: 5px 10px;
-		text-align: center;
-		white-space: pre;
-	}
-	#tblDeliverers td:nth-child(2) {
-		white-space: nowrap;
-	}
-	#tblDeliverers td:nth-child(6) {
-		white-space: nowrap;
-	}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
+
+	<link rel="icon" type="image/png" href="/static/favicon.ico">
 	
-	.orderSubtitle {
-		font-family: "PTC75F", Times, Sans-serif;
-		font-size: 20;
-		color: #33cc33;
-		text-align: center;
-		text-decoration: none;
-	}
-</style>
-<script src="/static/ajaxhelper.js"></script>
-<script>
-	function getDeliverersTable() {
-		var result = document.getElementById("deliverersTable");
-		var xmlHttp = createXmlHttp();
-		xmlHttp.onreadystatechange=function() {
-			if (xmlHttp.readyState == 4) {
-				clearInputFields();
-				result.innerHTML = xmlHttp.responseText;
-			} else {
-				// response not ready
-				result.innerHTML = "";
+    <link rel="stylesheet" href="/static/admin.css" type="text/css">
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/bootstraptheme/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">
+
+    <script src="/static/ajaxhelper.js"></script>
+	<style type="text/css">
+		#tblDeliverers {
+			border-collapse: collapse;
+			color: #beac70;
+			font-size:1.2em;
+			margin:0 auto;
+			min-width: 90%;
+		}
+		#tblDeliverers th {
+			padding: 5px;
+		}
+		#tblDeliverers tr {
+			background: none;
+		}
+		#tblDeliverers tr:nth-child(even) {
+			background: rgba(0,0,0,0.5);
+		}
+		#tblDeliverers tr:nth-child(odd) {
+			background: rgba(0,0,0,0.1);
+		}
+		#tblDeliverers tr:first-child th {
+			background-color: #beac70;
+			color: #192857;
+		}
+		#tblDeliverers tr:first-child:hover th {
+			background-color: #beac70;
+		}
+		#tblDeliverers tr:first-child a {
+			color: black;
+		}
+		#tblDeliverers tr:hover {
+			background-color: rgba(0,0,0,0.2);
+		}
+		#tblDeliverers td {
+			font-variant: small-caps;
+		}
+		#tblDeliverers td {
+			padding: 5px 10px;
+			text-align: center;
+			white-space: pre;
+		}
+		#tblDeliverers td:nth-child(2) {
+			white-space: nowrap;
+		}
+		#tblDeliverers td:nth-child(6) {
+			white-space: nowrap;
+		}
+		
+		.orderSubtitle {
+			font-family: "PTC75F", Times, Sans-serif;
+			font-size: 20;
+			color: #33cc33;
+			text-align: center;
+			text-decoration: none;
+		}
+	</style>
+	<script src="/static/ajaxhelper.js"></script>
+	<script>
+		function getDeliverersTable() {
+			var result = document.getElementById("deliverersTable");
+			var xmlHttp = createXmlHttp();
+			xmlHttp.onreadystatechange=function() {
+				if (xmlHttp.readyState == 4) {
+					clearInputFields();
+					result.innerHTML = xmlHttp.responseText;
+				} else {
+					// response not ready
+					result.innerHTML = "";
+				}
 			}
+			postParameters(xmlHttp, "/admin/get_deliverers_table", "");
 		}
-		postParameters(xmlHttp, "/admin/get_deliverers_table", "");
-	}
 
-	function fireDeliverer(name) {
-		var xmlHttp = createXmlHttp();
-		xmlHttp.onreadystatechange=function() {
-			if (xmlHttp.readyState == 4) {
-				setTimeout(getDeliverersTable, 1000);
-			} else {
-				// response not ready
+		function fireDeliverer(name) {
+			var xmlHttp = createXmlHttp();
+			xmlHttp.onreadystatechange=function() {
+				if (xmlHttp.readyState == 4) {
+					setTimeout(getDeliverersTable, 1000);
+				} else {
+					// response not ready
+				}
 			}
+			postParameters(xmlHttp, '/admin/fire_deliverer', JSON.stringify({'name':name}));
 		}
-		postParameters(xmlHttp, '/admin/fire_deliverer', JSON.stringify({'name':name}));
-	}
 
-	function hireDeliverer() {
-		var name = document.getElementById("name").value;
-		var email = document.getElementById("email").value;
-		var salary = document.getElementById("salary").value;
-		var xmlHttp = createXmlHttp();
-		xmlHttp.onreadystatechange=function() {
-			if (xmlHttp.readyState == 4) {
-				setTimeout(getDeliverersTable, 1000);
-			} else {
-				// response not ready
+		function hireDeliverer() {
+			var name = document.getElementById("name").value;
+			var email = document.getElementById("email").value;
+			var salary = document.getElementById("salary").value;
+			var xmlHttp = createXmlHttp();
+			xmlHttp.onreadystatechange=function() {
+				if (xmlHttp.readyState == 4) {
+					setTimeout(getDeliverersTable, 1000);
+				} else {
+					// response not ready
+				}
 			}
+			postParameters(xmlHttp, "/admin/hire_deliverer", JSON.stringify({'name':name, 'email':email, 'salary':salary}));
 		}
-		postParameters(xmlHttp, "/admin/hire_deliverer", JSON.stringify({'name':name, 'email':email, 'salary':salary}));
-	}
-	
-	function assignDeliverer(name) {
-		var orderIdElement = document.getElementById("orderIdTxt");
-		if (!document.contains(orderIdElement)) {
-			// redirect to view active orders page
-			//window.alert("No ID provided");
-			window.location.assign("/admin/manageorders");
-		}
-		var orderId = orderIdElement.innerHTML;
-		var xmlHttp = createXmlHttp();
-		xmlHttp.onreadystatechange=function() {
-			if (xmlHttp.readyState == 4) {
-				setTimeout(getDeliverersTable, 1000);
-			} else {
-				// response not ready
+		
+		function assignDeliverer(name) {
+			var orderIdElement = document.getElementById("orderIdTxt");
+			if (!document.contains(orderIdElement)) {
+				// redirect to view active orders page
+				//window.alert("No ID provided");
+				window.location.assign("/admin/manageorders");
 			}
+			var orderId = orderIdElement.innerHTML;
+			var xmlHttp = createXmlHttp();
+			xmlHttp.onreadystatechange=function() {
+				if (xmlHttp.readyState == 4) {
+					setTimeout(getDeliverersTable, 1000);
+				} else {
+					// response not ready
+				}
+			}
+			//window.alert("ID is " + orderId);
+			postParameters(xmlHttp, '/admin/assign_deliverer', JSON.stringify({'name':name, "orderId":orderId}));
 		}
-		//window.alert("ID is " + orderId);
-		postParameters(xmlHttp, '/admin/assign_deliverer', JSON.stringify({'name':name, "orderId":orderId}));
+
+		function clearInputFields() {
+			document.getElementById("name").value = "";
+			document.getElementById("email").value = "";
+			document.getElementById("salary").value = "";
+		}
+		
+		function MM_openBrWindow(theURL,winName,features) { //v2.0
+			window.open(theURL,'Order Details','scrollbars=yes,width=400,height=520');
 	}
+	</script>
 
-	function clearInputFields() {
-		document.getElementById("name").value = "";
-		document.getElementById("email").value = "";
-		document.getElementById("salary").value = "";
-	}
-	
-	function MM_openBrWindow(theURL,winName,features) { //v2.0
-		window.open(theURL,'Order Details','scrollbars=yes,width=400,height=520');
-}
-</script>
-	
-<body onload="getDeliverersTable();">
-	<a class="header" href="/home">
-		<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
-	</a>
+</head>
 
-	<p>Manage Delivery Boys<br></p>
-	{% if order %}
-	<div class="orderSubtitle">Assigning Order#</div>
-	<div class="orderSubtitle" id="orderIdTxt">{{ order.key.id }}</div>
-	{% endif %}
-	<div id="deliverersTable" style="text-align: center">
-	<!-- table is rendered by AJAX  -->
-	</div>
+<body id="page-top" onload="getDeliverersTable()">
 
-	<div id="hireADeliverer" style="text-align: center">
-	<h2>
-	<p>Hire A Deliverer</p>
-	Name<br>
-	<input id="name" type="text" value="" style="height: 45px; font-size: 35;"><br>
-	Email<br>
-	<input id="email" type="text" value="" style="height: 45px; font-size: 35;"><br>
-	Salary<br>
-	<input id="salary" type="text" value="" style="height: 45px; font-size: 35;"><br>
-	<br><input type="submit" value="Hire" onclick="hireDeliverer();">
-	</h2>
-	</div>
-	<a class="buttons" href="/admin/manageorders"><h2>Manage Active Orders</h2></a>
-	<a class="buttons" href="/admin/adminpanel"><h2>Back</h2></a>
-	<p>Logged in as {{ user_email }}</p>
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/home">Back to PITTBEER.COM</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="/admin/managegifts">Manage Gift Cards</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/admin/managedeliverers">Manage Delivery Boys</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/admin/manageorders">Manage Order</a>
+                    </li>
+
+                    <li> 
+					<a class="page-scroll" href="/admin/vieworders">View Completed Orders</a>
+					</li>
+
+                    <li>
+                    	{% if user_email %}
+                    		<a class="page-scroll" href="{{ logout_url }}">{{ user_email }}</a>
+                    	{% else %}
+ 	                       	<a class="page-scroll" href="{{ login_url }}">Sign In</a>
+ 	                    {% endif %} 
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+			<h1>Manage Delivery Boys<br></h1>
+				{% if order %}
+				<div class="orderSubtitle">Assigning Order#</div>
+				<div class="orderSubtitle" id="orderIdTxt">{{ order.key.id }}</div>
+				{% endif %}
+				<div id="deliverersTable" style="text-align: center">
+				<!-- table is rendered by AJAX  -->
+				</div>
+
+				<div id="hireADeliverer" style="text-align: center">
+				<h2>
+				<br> <br>
+				<h1>Hire A Deliverer</h1>
+				<h2>Name</h2>
+				<input id="name" type="text" value="" style="height: 45px; font-size: 35;"><br>
+				<h2>Email</h2><br>
+				<input id="email" type="text" value="" style="height: 45px; font-size: 35;"><br>
+				<h2>Salary</h2><br>
+				<input id="salary" type="text" value="" style="height: 45px; font-size: 35;"><br>
+				<br><input type="submit" class="btn btn-primary btn-xl page-scroll" value="Hire" onclick="hireDeliverer();">
+				</h2>
+				</div>
+				<!-- <a class="buttons" href="/admin/manageorders"><h2>Manage Active Orders</h2></a> -->
+    </header>
+
+    <!-- jQuery -->
+    <script src="/static/bootstraptheme/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/bootstraptheme/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/static/bootstraptheme/js/jquery.easing.min.js"></script>
+    <script src="/static/bootstraptheme/js/jquery.fittext.js"></script>
+    <script src="/static/bootstraptheme/js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/bootstraptheme/js/creative.js"></script>
+
 </body>
+
 </html>

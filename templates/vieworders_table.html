@@ -1,4 +1,4 @@
-<table id="tblMyBeers" align="center">
+<table id="tblBeers" class="table" cellspacing="0" width="100%" align="center">
 	<thead>
 		<tr>
 			<th>Status</th>
@@ -13,12 +13,17 @@
 	<tbody>
 		{% for order in orders %}
 		<tr>
-			<td>{{ order.status }}</td><td>{{ order.items }}</td>
-			<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
-			<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
+			<td>{{ order.status }}</td>
+			<td>{{ order.items }}</td>
+			<td>${{ order.priceSum }}</td>
+			<td>{{ order.address }}</td>
+			<td>{{ order.key.id }}</td>
+			<td>{{ order.timePlaced }}</td>
 			<td>
 			{% if order.status == "Verifying" %}
-			<input type="submit" value="Cancel" onclick="handleCancel({{ order.key.id }});">
+				<input type="submit" value="Cancel" onclick="handleCancel({{ order.key.id }});">
+			{% else %}
+				
 			{% endif %}
 			</td>
 		</tr>
