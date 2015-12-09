@@ -1,27 +1,178 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-<link rel="stylesheet" type="text/css" href="/static/style.css">
-<body>
+<head>
 
-<a class="header" href="home">
-	<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
-</a>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<p>Welcome to the "Unofficial" University of Pittsburgh Beer Delivery Service. <br>
-We are here to bring you whatever brew you are feeling tonight!<br><br></p>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
 
-<!--a class="buttons" href="order"><h2>Order</h2></a-->
-<a class="buttons" href="beer"><h2>See Available Beers</h2></a>
-<a class="buttons" href="account"><h2>My Account</h2></a>
-{% if user_email %}
-{% if user_is_admin %}
-<a class="buttons" href="admin/adminpanel"><h2>Admin Control Panel</h2></a>
-{% endif %}
-<a class="buttons" href="{{ logout_url }}"><h2>Sign Out</h2></a>
-<p>Logged in as {{ user_email }}</p>
-{% else %}
-<a class="buttons" href="{{ login_url }}"><h2>Sign In</h2></a>
-{% endif %}
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/bootstraptheme/font-awesome/css/font-awesome.min.css" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">
+
+</head>
+
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="home">PittBeerDelivery.COM</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" href="beer">Beers</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="order">Cart</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="account">Account</a>
+                    </li>
+
+                    {% if user_is_admin %}
+                    <li> 
+					<a class="page-scroll" href="admin/adminpanel">Admin Panel</a>
+					</li>
+					{% endif %}
+
+                    <li>
+                    	{% if user_email %}
+                    		<a class="page-scroll" href="{{ logout_url }}">{{ user_email }}</a>
+                    	{% else %}
+ 	                       	<a class="page-scroll" href="{{ login_url }}">Sign In</a>
+ 	                    {% endif %} 
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1>"Unofficial" University of Pittsburgh Beer Delivery</h1>
+                <hr>
+                <p>We are here to bring you whatever brew you are feeling tonight!</p>
+                <a href="#about" class="btn btn-primary btn-xl page-scroll">What do you mean?!</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="bg-primary" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Endless choices, right to your door</h2>
+                    <hr class="light">
+                    <p class="text-faded">We deliver beer to your door. No questions asked - as long as you are of age! With over 100 choices, there is no reason for your party to end early.</p>
+                    <a href="beer" class="btn btn-default btn-xl">Pick my beer!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Why us?</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-gavel wow bounceIn text-primary"></i>
+                        <h3>We're Legal</h3>
+                        <p class="text-muted">No, this will not get you arrested. We promise!</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-paper-plane wow bounceIn text-primary" data-wow-delay=".1s"></i>
+                        <h3>Fast To Your Door</h3>
+                        <p class="text-muted">Based in Oakland, we're at your door within the hour.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-credit-card wow bounceIn text-primary" data-wow-delay=".2s"></i>
+                        <h3>Easy to Use</h3>
+                        <p class="text-muted">4 taps, and you can pay with a card. No cash required.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-heart wow bounceIn text-primary" data-wow-delay=".3s"></i>
+                        <h3>Happiness Guarenteed</h3>
+                        <p class="text-muted">You are aware that we deliver BEER, right?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<aside class="bg-dark">
+        <div class="container text-center">
+            <div class="call-to-action">
+			{% if user_email %}
+				<h2>You done? Sign out so people don't buy themselves beer!</h2>
+                <a href="{{ logout_url }}" class="btn btn-default btn-xl wow tada">Sign Out</a>
+            	<h3>Logged in as {{ user_email }}</h3>
+            {% else %}
+            	<h2>You ready? Sign in to get started.</h2>
+                <a href="{{ login_url }}" class="btn btn-default btn-xl wow tada">Sign In</a>
+            {% endif %} 
+            </div>
+        </div>
+</aside>
+   
+    <!-- jQuery -->
+    <script src="/static/bootstraptheme/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/bootstraptheme/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/static/bootstraptheme/js/jquery.easing.min.js"></script>
+    <script src="/static/bootstraptheme/js/jquery.fittext.js"></script>
+    <script src="/static/bootstraptheme/js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/bootstraptheme/js/creative.js"></script>
 
 </body>
+
 </html>
+
+
+
