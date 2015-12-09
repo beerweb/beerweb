@@ -121,7 +121,7 @@ class OrderPageHandler(webapp2.RequestHandler):
         'user_email': email,
         "savedAddress":beerUser.address,
         "beers":beers_in_cart,
-        "total":totalcost
+        "total":'${:.2f}'.format(totalcost)
       }
     render_template(self, 'order.html', template_params)
 
@@ -136,7 +136,7 @@ class AccountPageHandler(webapp2.RequestHandler):
 
       page_params = {
         'user_email': email,
-        'balance': balance
+        'balance': '${:.2f}'.format(balance)
       }
       render_template(self, 'account.html', page_params)
     else:
@@ -190,7 +190,7 @@ class LoadFundsPageHandler(webapp2.RequestHandler):
       process_url = blobstore.create_upload_url('/loadfunds_process')
       page_params = {
         'user_email': email,
-        'balance': balance,
+        'balance': '${:.2f}'.format(balance),
         'loadfunds_process_url': process_url
       }
       render_template(self, 'loadfunds.html', page_params)
@@ -223,7 +223,7 @@ Dear User:
 
 You have added $""" + str(amount) +
 """ to your account.
-Your new balance is $""" + str(beerUser.balance) +
+Your new balance is """ + '${:.2f}'.format(beerUser.balance) +
 """
 
 Pitt Beer Delivery Service
@@ -241,7 +241,7 @@ class RedeemGiftPageHandler(webapp2.RequestHandler):
 
       page_params = {
         'user_email': email,
-        'balance': balance,
+        'balance': '${:.2f}'.format(balance),
       }
       render_template(self, 'redeemgift.html', page_params)
     else:
@@ -267,7 +267,7 @@ class RedeemGiftProcessHandler(webapp2.RequestHandler):
         if not giftCert.usedBy:
           # code is valid and unused
           giftCert.redeem_gift(email)
-          self.response.out.write("$"+str(giftCert.balance)+" is added to your account")
+          self.response.out.write('${:.2f}'.format(totalcost)+" is added to your account")
         else:
           # code is valid but used
           self.response.out.write("Code already used")
@@ -464,6 +464,8 @@ class PlaceOrderHandler(webapp2.RequestHandler):
       beerUser.cart.price = "0.00"
       beerUser.cart.contents = {}
       beerUser.put()
+
+      mail.send_mail('Beer@Pittbeerdelivery.appspotmail.com', email, 'Order Verifying', 'You have successfully placed a beer order! Your order will be verified shortly and completed! Thanks!')
 
       render_template(self, "ordercomplete.html", {"msg":"Your order has been placed."})
     else:

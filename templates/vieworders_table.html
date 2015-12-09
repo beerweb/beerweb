@@ -14,7 +14,7 @@
 		{% for order in orders %}
 		<tr>
 			<td>{{ order.status }}</td><td>{{ order.items }}</td>
-			<td>${{ order.priceSum }}</td><td>{{ order.address }}</td>
+			<td>{{ order.priceSum }}</td><td>{{ order.address }}</td>
 			<td>{{ order.key.id }}</td><td>{{ order.timePlaced }}</td>
 			<td>
 			{% if order.status == "Verifying" %}

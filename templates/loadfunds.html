@@ -8,7 +8,7 @@
 </a>
 
 {% if user_email %}
-<p>Account balance: ${{ balance }}</p>
+<p>Account balance: {{ balance }}</p>
 
 <form method="post" enctype="multipart/form-data" action="{{loadfunds_process_url}}" style="text-align: center">
 <p>Enter amount</p>

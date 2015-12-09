@@ -227,7 +227,7 @@
 				<tr>
 					<td>{{ beer.brewery }}</td>
 					<td>{{ beer.product }}</td>
-					<td id="price-{{ beer.beerid }}">${{ beer.price }}</td>
+					<td id="price-{{ beer.beerid }}">{{ beer.price }}</td>
 					<td id="quant-{{ beer.beerid }}">{{ beer.quantity }}</td>
 					<td>
 						<input type="button" onclick="removeFromCart('{{beer.beerid}}')" value="X">
