@@ -1,0 +1,16 @@
+
+Congratulations! You have been hired as a deliverer at PittBeer.com!
+Please confirm your information.
+
+Name:
+{{ deliverer.name }}
+Email:
+{{ deliverer.email }}
+Salary:
+{{ deliverer.salary }}
+
+Contact management if any of the above information is incorrect.
+Please note that salaries are not negotiable.
+
+Pitt Beer Delivery Service
+

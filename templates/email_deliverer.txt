@@ -1,0 +1,25 @@
+
+Status:
+{{ order.status }}
+
+Ordered By:
+{{ order.orderedBy }}
+
+Items Ordered:
+{{ order.items }}
+
+Total Paid:
+${{ order.priceSum }}
+
+Delivery Address:
+{{ order.address }}
+
+Transaction ID:
+{{ order.key.id }}
+
+Order Placed:
+{{ order.timePlaced }}
+
+
+Pitt Beer Delivery Service
+

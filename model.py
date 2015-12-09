@@ -3,6 +3,8 @@ import logging
 import os
 import webapp2
 
+import emailsender
+
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -168,7 +170,17 @@ class BeerOrder(ndb.Model):
     self.status = "Cancelled"
     self.put()
 
+  def deliver_order(self):
+    # do not allow delivering cancelled or completed orders
+    if self.status == "Cancelled" or self.status == "Completed":
+      return
+    self.status = "Delivering"
+    self.put()
+
   def complete_order(self):
+    # do not allow delivering cancelled or completed orders
+    if self.status == "Cancelled" or self.status == "Completed":
+      return
     d = self.get_deliverer()
     if d:
       d.unassign_job()
@@ -214,10 +226,13 @@ class Deliverer(ndb.Model):
 
   def assign_job(self, order):
     if order.status == "Delivering":
+      emailsender.send_assign_email(self.email, order)
       self.job = order.key
       self.put()
 
   def unassign_job(self):
-    self.job = None
-    self.put()
+    if self.job:
+      #emailsender.send_unassign_email(self.email, self.job)
+      self.job = None
+      self.put()
     

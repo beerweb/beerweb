@@ -11,7 +11,6 @@
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
-
     <link rel="icon" type="image/png" href="/static/favicon.ico">
     
     <!-- Custom Fonts -->
@@ -83,7 +82,7 @@
             </div>*/-->
 
             {% if user_email %}
-				<h1>Account balance: ${{ balance }}</h1>
+				<h1>Account balance: {{ balance }}</h1>
 
 				<form method="post" enctype="multipart/form-data" action="{{loadfunds_process_url}}" style="text-align: center">
 				<h1>Enter amount:</h1>
