@@ -4,11 +4,6 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
- @font-face {
-    font-family: varsity_regular;
-    src: url("/varsity_regular.ttf");
-}
-
 html,
 body {
     width: 100%;
@@ -38,7 +33,7 @@ a {
 
 a:hover,
 a:focus {
-    color: #eb3812;
+    color: #002d62;
 }
 
 h1,
@@ -119,18 +114,18 @@ aside {
 .navbar-default .nav > li.active>a,
 .navbar-default .nav>li.active>a:focus {
     color: #002d62!important;
-    background-color: transparent;
+    background-color: #beac70;
 }
 
 .navbar-default .nav > li.active>a:hover,
 .navbar-default .nav>li.active>a:focus:hover {
-    background-color: transparent;
+    background-color: #beac70;
 }
 
 @media(min-width:768px) {
     .navbar-default {
         border-color: rgba(255,255,255,.3);
-        background-color: transparent;
+        background-color: #beac70;
     }
 
     .navbar-default .navbar-header .navbar-brand {
@@ -139,7 +134,7 @@ aside {
 
     .navbar-default .navbar-header .navbar-brand:hover,
     .navbar-default .navbar-header .navbar-brand:focus {
-        color: #beac70;
+        color: #002d62;
     }
 
     .navbar-default .nav > li>a,
@@ -149,7 +144,7 @@ aside {
 
     .navbar-default .nav > li>a:hover,
     .navbar-default .nav>li>a:focus:hover {
-        color: #beac70;
+        color: #002d62;
     }
 
     .navbar-default.affix {

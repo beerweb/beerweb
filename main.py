@@ -90,6 +90,7 @@ class MainPageHandler(webapp2.RequestHandler):
 class OrderPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     template_params={}
     totalcost = 0.0
     if email:
@@ -119,6 +120,9 @@ class OrderPageHandler(webapp2.RequestHandler):
 
       template_params={
         'user_email': email,
+        'login_url': users.create_login_url('/home'), 
+      	'logout_url': users.create_logout_url('/home'),
+        "user_is_admin": user_is_admin,
         "savedAddress":beerUser.address,
         "beers":beers_in_cart,
         "total":totalcost
@@ -129,6 +133,7 @@ class OrderPageHandler(webapp2.RequestHandler):
 class AccountPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     if email:
       # query ndb to get funds
       beerUser = BeerUser.get_user_profile(email)
@@ -136,6 +141,9 @@ class AccountPageHandler(webapp2.RequestHandler):
 
       page_params = {
         'user_email': email,
+        "user_is_admin": user_is_admin,
+      	'login_url': users.create_login_url('/account'),
+      	'logout_url': users.create_logout_url('/home'),
         'balance': balance
       }
       render_template(self, 'account.html', page_params)
@@ -146,9 +154,13 @@ class AccountPageHandler(webapp2.RequestHandler):
 class ViewOrdersPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     if email:
       page_params = {
-        'user_email': email
+        'user_email': email,
+        "user_is_admin": user_is_admin,
+      	'login_url': users.create_login_url('/home'),
+      	'logout_url': users.create_logout_url('/home')
         }
       render_template(self, 'vieworders.html', page_params)
     else:
@@ -157,11 +169,15 @@ class ViewOrdersPageHandler(webapp2.RequestHandler):
 class GetMyOrdersTableHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     if email:
       # query ndb to get orders
       orders = BeerOrder.get_user_orders(email)
       page_params = {
         'user_email': email,
+        "user_is_admin": user_is_admin,
+      	'login_url': users.create_login_url('/home'),
+      	'logout_url': users.create_logout_url('/home'),
         'orders': orders
         }
       render_template(self, 'vieworders_table.html', page_params)
@@ -183,6 +199,7 @@ class CancelMyOrderHandler(webapp2.RequestHandler):
 class LoadFundsPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     if email:
       beerUser = BeerUser.get_user_profile(email)
       balance = beerUser.balance
@@ -190,6 +207,9 @@ class LoadFundsPageHandler(webapp2.RequestHandler):
       process_url = blobstore.create_upload_url('/loadfunds_process')
       page_params = {
         'user_email': email,
+        "user_is_admin": user_is_admin,
+      	'login_url': users.create_login_url('/home'),
+      	'logout_url': users.create_logout_url('/home'),
         'balance': balance,
         'loadfunds_process_url': process_url
       }
@@ -235,12 +255,16 @@ Pitt Beer Delivery Service
 class RedeemGiftPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     if email:
       beerUser = BeerUser.get_user_profile(email)
       balance = beerUser.balance
 
       page_params = {
         'user_email': email,
+        "user_is_admin": user_is_admin,
+      	'login_url': users.create_login_url('/home'),
+      	'logout_url': users.create_logout_url('/home'),
         'balance': balance,
       }
       render_template(self, 'redeemgift.html', page_params)
@@ -282,6 +306,7 @@ class RedeemGiftProcessHandler(webapp2.RequestHandler):
 class BeerPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     beers_ndb = memcache.get('beerslist')
     if beers_ndb is None:
       beers_ndb = Beer.query().fetch()
@@ -290,6 +315,9 @@ class BeerPageHandler(webapp2.RequestHandler):
       logging.info('beers are in memcache lets goooooo')
     template_params = {
       'user_email': email,
+      "user_is_admin": user_is_admin,
+      'login_url': users.create_login_url('/beer'),
+      'logout_url': users.create_logout_url('/home'),
       'beers' : beers_ndb
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -298,9 +326,13 @@ class BeerPageHandler(webapp2.RequestHandler):
 class BeerBreweryPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     beers_ndb = Beer.query().fetch()
     template_params = {
       'user_email': email,
+      "user_is_admin": user_is_admin,
+      'login_url': users.create_login_url('/beer'),
+      'logout_url': users.create_logout_url('/home'),
       'beers' : sorted(beers_ndb, key = lambda beer: beer["brewery"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -309,9 +341,13 @@ class BeerBreweryPageHandler(webapp2.RequestHandler):
 class BeerNamePageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     beers_ndb = Beer.query().fetch()
     template_params = {
-      'user_email': email,
+    'user_email': email,
+    "user_is_admin": user_is_admin,
+    'login_url': users.create_login_url('/beer'),
+    'logout_url': users.create_logout_url('/home'),
       'beers' : sorted(beers_ndb, key = lambda beer: beer["product"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -320,9 +356,13 @@ class BeerNamePageHandler(webapp2.RequestHandler):
 class BeerStylePageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     beers_ndb = Beer.query().fetch()
     template_params = {
-      'user_email': email,
+    'user_email': email,
+    "user_is_admin": user_is_admin,
+    'login_url': users.create_login_url('/beer'),
+    'logout_url': users.create_logout_url('/home'),
       'beers' : sorted(beers_ndb, key = lambda beer: beer["style"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -331,9 +371,13 @@ class BeerStylePageHandler(webapp2.RequestHandler):
 class BeerAbvPageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     beers_ndb = Beer.query().fetch()
     template_params = {
-      'user_email': email,
+    'user_email': email,
+    "user_is_admin": user_is_admin,
+    'login_url': users.create_login_url('/beer'),
+    'logout_url': users.create_logout_url('/home'),
       'beers' : sorted(beers_ndb, key = lambda beer: float(beer["abv"]))
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -342,9 +386,13 @@ class BeerAbvPageHandler(webapp2.RequestHandler):
 class BeerPricePageHandler(webapp2.RequestHandler):
   def get(self):
     email = get_user_email()
+    user_is_admin = is_user_admin()
     beers_ndb = Beer.query().fetch()
     template_params = {
-      'user_email': email,
+    'user_email': email,
+    "user_is_admin": user_is_admin,
+    'login_url': users.create_login_url('/beer'),
+    'logout_url': users.create_logout_url('/home'),
       'beers' : sorted(beers_ndb, key = lambda beer: beer["price"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
