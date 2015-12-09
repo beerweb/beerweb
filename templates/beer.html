@@ -142,6 +142,7 @@
 				/*tfoot { display: table-header-group; }
 				thead { display: table-footer-group; }*/
 		</style>
+<<<<<<< HEAD
 </head>
 
 <body id="page-top">
@@ -246,6 +247,67 @@
 			</tbody>
 		</table>
 		{% endif %}
+=======
+	</head>
+
+	<body bgcolor = "#002d62">
+		<a class="header" href="home">
+			<h1>university of pittsburgh <br> beer delivery<img src="/static/cathedal.png" alt="Picture of Cathedral" style="width:90px;height:90px;"></h1>
+		</a>
+
+		<p>Below is a list of available beers:<br><br></p>
+
+		<div id="container">
+			{% if beers %}
+			<table id="tblBeers" class="table " cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>BREWERY</th>
+						<th>PRODUCT</th>
+						<th>STYLE</th>
+						<th>ABV</th>
+						<th>PRICE</th>
+						<th>CART</th>
+					</tr>
+					<tr id="filterrow">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>BREWERY</th>
+						<th>PRODUCT</th>
+						<th>STYLE</th>
+						<th>ABV</th>
+						<th>PRICE</th>
+						<th></th>
+					</tr>
+				</tfoot>
+				<tbody>
+					{% for beer in beers %}
+					<tr>
+						<td>{{ beer.brewery }}</td>
+						<td>{{ beer.product }}</td>
+						<td>{{ beer.style }}</td>
+						<td>{{ beer.abv }}%</td>
+						<td id="price-{{ beer.beerid }}">${{ beer.price }}</td>
+						<td>
+							<input id="num-{{beer.beerid}}" class="amount" type="number" min="0" max="12" maxlength="2" pattern='[0-9]{2}' value="0">
+							<input type="button" onclick="addToCart('{{beer.beerid}}')" value="Add">
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+			<a class="buttons" href="order"><h2>View My Shopping Cart</h2></a>
+			<a class="buttons" href="home"><h2>Back</h2></a>
+>>>>>>> ab8daa3ebf607089fdc443b1c8f302a5aa2f7cc3
 		</div>
             </div>
         </div>

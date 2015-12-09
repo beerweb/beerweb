@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+<<<<<<< HEAD
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
 
@@ -148,6 +149,16 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="/static/bootstraptheme/js/creative.js"></script>
+=======
+{% if user_email %}
+<p>Account balance: ${{ balance }}</p>
+<a class="buttons" href="vieworders"><h2>View My Orders</h2></a>
+<a class="buttons" href="loadfunds"><h2>Load Funds</h2></a>
+<a class="buttons" href="redeemgift"><h2>Redeem A Gift Card</h2></a>
+<a class="buttons" href="home"><h2>Back</h2></a>
+<p>Logged in as {{ user_email }}</p>
+{% endif %}
+>>>>>>> ab8daa3ebf607089fdc443b1c8f302a5aa2f7cc3
 
 </body>
 

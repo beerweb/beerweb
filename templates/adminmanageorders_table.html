@@ -21,12 +21,13 @@
 			<td>{{ order.items }}</td>
 			<td>${{ order.priceSum }}</td>
 			<td>{{ order.address }}</td>
-			<td>{{ order.key.id }}</td>
+			<td><a href="/admin/get_order_details?id={{ order.key.id }}" onclick="MM_openBrWindow('/admin/get_order_details?id={{ order.key.id }}'); return false;" style="color: white;">{{ order.key.id }}</a></td>
 			<td>{{ order.timePlaced }}</td>
 			<td>
 				{% if order.status == "Verifying" %}
 				<input type="submit" value="Verify" onclick="changeOrderStatus({{ order.key.id }}, 'Delivering');">
 				{% else %}
+				<input type="submit" value="Assign" onclick="window.location.assign('/admin/managedeliverers?orderId={{ order.key.id }}');">
 				<input type="submit" value="Complete" onclick="changeOrderStatus({{ order.key.id }}, 'Completed');">
 				{% endif %}
 				<input type="submit" value="Cancel" onclick="changeOrderStatus({{ order.key.id }}, 'Cancelled');">
@@ -34,4 +35,5 @@
 		</tr>
 	{% endif %}
 	{% endfor %}
+	</tbody>
 <table>
