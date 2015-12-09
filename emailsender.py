@@ -32,3 +32,21 @@ def send_unassign_email(toEmail, order):
     subject="Delivery job unassigned",
     body=render_template("email_deliverer.txt", {"order":order})
   )
+
+###############################################################################
+def send_hire_email(toEmail, deliverer):
+  mail.send_mail(
+    sender="deliverymanager@pittbeerdelivery.appspotmail.com",
+    to=toEmail,
+    subject="You have been hired!",
+    body=render_template("email_hire.txt", {"deliverer":deliverer})
+  )
+
+###############################################################################
+def send_fire_email(toEmail, deliverer):
+  mail.send_mail(
+    sender="deliverymanager@pittbeerdelivery.appspotmail.com",
+    to=toEmail,
+    subject="You have been FIRED!",
+    body=render_template("email_fire.txt", {"deliverer":deliverer})
+  )
