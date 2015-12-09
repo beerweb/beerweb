@@ -118,6 +118,7 @@ class OrderPageHandler(webapp2.RequestHandler):
           #quantities.append(cart[beer])
 
       template_params={
+        'user_email': email,
         "savedAddress":beerUser.address,
         "beers":beers_in_cart,
         "total":totalcost
@@ -280,6 +281,7 @@ class RedeemGiftProcessHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerPageHandler(webapp2.RequestHandler):
   def get(self):
+    email = get_user_email()
     beers_ndb = memcache.get('beerslist')
     if beers_ndb is None:
       beers_ndb = Beer.query().fetch()
@@ -287,6 +289,7 @@ class BeerPageHandler(webapp2.RequestHandler):
     else:
       logging.info('beers are in memcache lets goooooo')
     template_params = {
+      'user_email': email,
       'beers' : beers_ndb
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -294,8 +297,10 @@ class BeerPageHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerBreweryPageHandler(webapp2.RequestHandler):
   def get(self):
+    email = get_user_email()
     beers_ndb = Beer.query().fetch()
     template_params = {
+      'user_email': email,
       'beers' : sorted(beers_ndb, key = lambda beer: beer["brewery"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -303,8 +308,10 @@ class BeerBreweryPageHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerNamePageHandler(webapp2.RequestHandler):
   def get(self):
+    email = get_user_email()
     beers_ndb = Beer.query().fetch()
     template_params = {
+      'user_email': email,
       'beers' : sorted(beers_ndb, key = lambda beer: beer["product"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -312,8 +319,10 @@ class BeerNamePageHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerStylePageHandler(webapp2.RequestHandler):
   def get(self):
+    email = get_user_email()
     beers_ndb = Beer.query().fetch()
     template_params = {
+      'user_email': email,
       'beers' : sorted(beers_ndb, key = lambda beer: beer["style"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -321,8 +330,10 @@ class BeerStylePageHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerAbvPageHandler(webapp2.RequestHandler):
   def get(self):
+    email = get_user_email()
     beers_ndb = Beer.query().fetch()
     template_params = {
+      'user_email': email,
       'beers' : sorted(beers_ndb, key = lambda beer: float(beer["abv"]))
     }
     render_template(self, 'beer.html', templatevalues=template_params)
@@ -330,8 +341,10 @@ class BeerAbvPageHandler(webapp2.RequestHandler):
 ###############################################################################
 class BeerPricePageHandler(webapp2.RequestHandler):
   def get(self):
+    email = get_user_email()
     beers_ndb = Beer.query().fetch()
     template_params = {
+      'user_email': email,
       'beers' : sorted(beers_ndb, key = lambda beer: beer["price"])
     }
     render_template(self, 'beer.html', templatevalues=template_params)
