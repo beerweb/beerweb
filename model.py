@@ -232,7 +232,7 @@ class Deliverer(ndb.Model):
 
   def unassign_job(self):
     if self.job:
-      emailsender.send_unassign_email(self.email, self.job)
+      #emailsender.send_unassign_email(self.email, self.job)
       self.job = None
       self.put()
     
