@@ -439,9 +439,9 @@
 			quantity = parseInt($("#quant-"+beerID).html());
 			$("#quant-"+beerID).html("0");
 
-			totalprice = parseFloat($("#totalprice").html())
+			totalprice = parseFloat($("#totalprice").html().substr(1))
 			totalprice = totalprice - parseFloat(price * quantity)
-			$("#totalprice").html(totalprice.toString())
+			$("#totalprice").html("$" + totalprice.toFixed(2))
 
 
 			// some kind of AJAX call here to update
