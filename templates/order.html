@@ -279,6 +279,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                	{% if balance %}
+                    <li> 
+                    	<a class="page-scroll" href="#">Current Funds: {{ balance }}</a>
+                    </li>
+                    {% endif%}
                     <li>
                         <a class="page-scroll" href="beer">Beers</a>
                     </li>
