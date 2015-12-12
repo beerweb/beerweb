@@ -1,7 +1,68 @@
+body {
+	background-color:#192857;
+}
 header {
 	background-image: none !important;
 	background-color: #192857;
+	top:40px;
+	min-height:inherit;
 }
 a {
 	color: #cdb87d;
+}
+a:hover {
+	color:#e2d6b4;
+}
+.header-content {
+	transform:none;
+}
+.btn, .btn:hover {
+	border: 1px solid #beac70;
+}
+.customTable {
+	border-collapse: collapse;
+	color: #beac70;
+	font-size:1.2em;
+	margin:0 auto;
+	min-width: 90%;
+}
+.customTable th {
+	padding: 5px;
+	text-align: center;
+}
+.customTable tr {
+	background: none;
+}
+.customTable tr:nth-child(even) {
+	background: rgba(0,0,0,0.5);
+}
+.customTable tr:nth-child(odd) {
+	background: rgba(0,0,0,0.1);
+}
+.customTable tr:first-child th {
+	background-color: #beac70;
+	color: #192857;
+}
+.customTable tr:first-child:hover th {
+	background-color: #beac70;
+}
+.customTable tr:first-child a {
+	color: black;
+}
+.customTable tr:hover {
+	background-color: rgba(0,0,0,0.8);
+}
+.customTable td {
+	font-variant: small-caps;
+}
+.customTable td {
+	padding: 5px 10px;
+	text-align: center;
+	white-space: pre;
+}
+.customTable td:nth-child(2) {
+	white-space: nowrap;
+}
+.customTable td:nth-child(6) {
+	white-space: nowrap;
 }

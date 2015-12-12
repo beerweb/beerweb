@@ -75,13 +75,15 @@ class GetGiftsHandler(webapp2.RequestHandler):
     if not is_user_admin():
       self.response.out.write("Not logged in as admin")
       return
-    respStr = ""
+    respStr = "<table class='customTable' style='font-size:.7em;'><thead><tr><th>Gift Code</th><th>Amount</th><th>Used By</th><th></th></tr></thead><tbody>"
     giftCerts = GiftCert.query().order(GiftCert.usedBy).fetch()
     for cert in giftCerts:
-      respStr += '$' + str(cert.balance) + ' "' + cert.giftCode + '" '
-      respStr += cert.usedBy + ' '
-      respStr += '<input type="submit" value="Delete" onclick="handleDelete(\''+cert.giftCode+'\');">'
-      respStr += '<br>'
+      respStr += '<tr>'
+      respStr += '<td>' + cert.giftCode + '</td><td>$' + str(cert.balance) + '</td><td>'
+      respStr += cert.usedBy + '</td><td>'
+      respStr += '<input type="submit" value="Delete" onclick="handleDelete(\''+cert.giftCode+'\');"></td>'
+      respStr += '</tr>'
+    respStr += "</tbody></table>"
     self.response.out.write(respStr)
 
   def post(self):
