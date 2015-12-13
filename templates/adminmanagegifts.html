@@ -2,82 +2,95 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" href="/static/favicon.ico">
+
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
-
-    <link rel="icon" type="image/png" href="/static/favicon.ico">
     
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/animate.min.css" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">    
+
+    <!-- Custom Admin CSS -->
     <link rel="stylesheet" href="/static/admin.css" type="text/css">
+
+    <!-- jQuery -->
+    <script src="/static/bootstraptheme/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/bootstraptheme/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/static/bootstraptheme/js/jquery.easing.min.js"></script>
+    <script src="/static/bootstraptheme/js/jquery.fittext.js"></script>
+    <script src="/static/bootstraptheme/js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/bootstraptheme/js/creative.js"></script>
+
+    <script src="/static/ajaxhelper.js"></script>
+
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/static/bootstraptheme/font-awesome/css/font-awesome.min.css" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link rel="stylesheet" href="/static/bootstraptheme/css/animate.min.css" type="text/css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">
-
-    <script src="/static/ajaxhelper.js"></script>
 	<script>
-	function getAllGifts() {
-		var result = document.getElementById("giftResults");
-		var xmlHttp = createXmlHttp();
-		xmlHttp.onreadystatechange=function() {
-			if (xmlHttp.readyState == 4) {
-				// reload gifts panel
-				result.innerHTML = xmlHttp.responseText;
-			} else {
-				// response not ready
-				result.innerHTML = "";
-			}
-		}
-		postParameters(xmlHttp, "/admin/get_gifts", "");
-	}
+    	function getAllGifts() {
+    		var result = document.getElementById("giftResults");
+    		var xmlHttp = createXmlHttp();
+    		xmlHttp.onreadystatechange=function() {
+    			if (xmlHttp.readyState == 4) {
+    				// reload gifts panel
+    				result.innerHTML = xmlHttp.responseText;
+    			} else {
+    				// response not ready
+    				result.innerHTML = "";
+    			}
+    		}
+    		postParameters(xmlHttp, "/admin/get_gifts", "");
+    	}
 
-	function handleSubmit() {
-		var code = document.getElementById("codeTxt").value;
-		var amount = document.getElementById("amountTxt").value;
-		var result = document.getElementById("result");
-		var xmlHttp = createXmlHttp();
-		xmlHttp.onreadystatechange=function() {
-			if (xmlHttp.readyState == 4) {
-				//var returnObj = JSON.parse(xmlHttp.responseText);
-				result.innerHTML = xmlHttp.responseText;
-				setTimeout(getAllGifts, 1000);
-			} else {
-				// response not ready
-				result.innerHTML = "Processing...";
-			}
-		}
-		postParameters(xmlHttp, "/admin/gen_gift?code=" + code.replace(/\s+/g, '') + "&amount=" + amount, "");
-	}
+    	function handleSubmit() {
+    		var code = document.getElementById("codeTxt").value;
+    		var amount = document.getElementById("amountTxt").value;
+    		var result = document.getElementById("result");
+    		var xmlHttp = createXmlHttp();
+    		xmlHttp.onreadystatechange=function() {
+    			if (xmlHttp.readyState == 4) {
+    				//var returnObj = JSON.parse(xmlHttp.responseText);
+    				result.innerHTML = xmlHttp.responseText;
+    				setTimeout(getAllGifts, 1000);
+    			} else {
+    				// response not ready
+    				result.innerHTML = "Processing...";
+    			}
+    		}
+    		postParameters(xmlHttp, "/admin/gen_gift?code=" + code.replace(/\s+/g, '') + "&amount=" + amount, "");
+    	}
 
-	function handleDelete(code) {
-		var xmlHttp = createXmlHttp();
-		xmlHttp.onreadystatechange=function() {
-			if (xmlHttp.readyState == 4) {
-				// reload gifts panel
-				setTimeout(getAllGifts, 1000);
-			} else {
-				// response not ready
-				//result.innerHTML = "Processing...";
-			}
-		}
-		postParameters(xmlHttp, "/admin/del_gift?code=" + code.replace(/\s+/g, ''), "");
-	}
+    	function handleDelete(code) {
+    		var xmlHttp = createXmlHttp();
+    		xmlHttp.onreadystatechange=function() {
+    			if (xmlHttp.readyState == 4) {
+    				// reload gifts panel
+    				setTimeout(getAllGifts, 1000);
+    			} else {
+    				// response not ready
+    				//result.innerHTML = "Processing...";
+    			}
+    		}
+    		postParameters(xmlHttp, "/admin/del_gift?code=" + code.replace(/\s+/g, ''), "");
+    	}
 	</script>
-
-
-
 </head>
 
 <body id="page-top" onload="getAllGifts();">
@@ -126,7 +139,7 @@
         <!-- /.container-fluid -->
     </nav>
 
-    <header>
+    <header
         <div class="header-content">
 			<div id="listGifts" style="text-align: center">
 				<h1>Manage Gift Cards</h1>
@@ -142,21 +155,6 @@
 				<h2><div id="result"></div></h2>
 			</div>
     </header>
-
-    <!-- jQuery -->
-    <script src="/static/bootstraptheme/js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/bootstraptheme/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="/static/bootstraptheme/js/jquery.easing.min.js"></script>
-    <script src="/static/bootstraptheme/js/jquery.fittext.js"></script>
-    <script src="/static/bootstraptheme/js/wow.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="/static/bootstraptheme/js/creative.js"></script>
-
 </body>
 
 </html>

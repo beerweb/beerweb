@@ -2,32 +2,53 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/png" href="/static/favicon.ico">
+
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/static/bootstraptheme/css/bootstrap.css" type="text/css">
+    
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/animate.min.css" type="text/css">
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">    
+
+    <!-- Custom Admin CSS -->
     <link rel="stylesheet" href="/static/admin.css" type="text/css">
 
-	<link rel="icon" type="image/png" href="/static/favicon.ico">
-	
+    <!-- jQuery -->
+    <script src="/static/bootstraptheme/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/bootstraptheme/js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="/static/bootstraptheme/js/jquery.easing.min.js"></script>
+    <script src="/static/bootstraptheme/js/jquery.fittext.js"></script>
+    <script src="/static/bootstraptheme/js/wow.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/static/bootstraptheme/js/creative.js"></script>
+
+    <script src="/static/ajaxhelper.js"></script>
+
     <!-- Custom Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/static/bootstraptheme/font-awesome/css/font-awesome.min.css" type="text/css">
 
-    <!-- Plugin CSS -->
-    <link rel="stylesheet" href="/static/bootstraptheme/css/animate.min.css" type="text/css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/static/bootstraptheme/css/creative.css" type="text/css">
+    <script src="/static/ajaxhelper.js"></script>
 
     <style type="text/css">
+        body {
+            background-color:#192857;
+        }
         #addressTxt {
             height: 50px;
             width: 400px;
@@ -112,77 +133,6 @@
                     padding-bottom: 50px;
                     width:90%;
                 }
-                .tblBeers {
-                    color: #cdb87d;
-                    font-size: 16pt;
-                    /*background-color: #002d62*/
-                }
-                .tblBeers th {
-                    background-color: #cdb87d;
-                    color: #192857;
-                    text-align: center;
-                }
-                .dataTables_wrapper {
-                    color: #cdb87d;
-                }
-                .tblBeers tr {
-                    background-color: rgba(25,40,87,0);
-                }
-                .tblBeers tr:nth-child(odd) {
-                    background-color: rgba(0,0,0,.7);
-                }
-                .tblBeers tr:nth-child(even) {
-                    background-color: rgba(0,0,0,.3);
-                }.tblBeers tr.selected {
-                    background-color: rgba(205,184,125,.4);
-                }
-                .tblBeers th {
-                    padding:5px 15px;
-                }
-                .tblBeers td {
-                    padding-left:5px;
-                    padding-right:5px;
-                }
-                div.dataTables_wrapper div.dataTables_filter, div.dataTables_wrapper div.dataTables_paginate {
-                    text-align: center;
-                }
-                table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
-                        opacity: 0.8;
-                    }
-                    table.dataTable thead .sorting:after {
-                        opacity: 0.3;
-                    }
-                    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-                        border-top: 1px solid #cdb87d;
-                    }
-                    .table>thead>tr>th {
-                        border-bottom: 2px solid #cdb87d;
-                    }
-                    .pagination>.disabled>a, .pagination>.disabled>a:focus, .pagination>.disabled>a:hover, .pagination>.disabled>span, .pagination>.disabled>span:focus, .pagination>.disabled>span:hover {
-                        background-color: #f0ead9;
-                        border-color: #cdb87d;
-                    }
-                    .pagination>li>a, .pagination>li>span {
-                        color: #192857;
-                        background-color: #cdb87d;
-                        border: 1px solid #cdb87d;
-                    }
-                    .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
-                        color: #cdb87d;
-                        background-color: #192857;
-                        border-color: #cdb87d;
-                    }
-                    .pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover {
-                        color: #192857;
-                        background-color: #b79a46;
-                        border-color: #cdb87d;
-                    }
-                    table.dataTable.fixedHeader-floating, table.dataTable.fixedHeader-locked {
-                        background-color: #cdb87d;
-                    }
-                        table.fixedHeader-floating input {
-                            border-color:#192857;
-                        }
 </style>
 <script src="/static/ajaxhelper.js"></script>
 <script>
@@ -295,8 +245,8 @@
         <!-- /.container-fluid -->
     </nav>
 
-    <header>
-        <div class="header-content">
+        <header style="top:30px;min-height:inherit;">
+        <div class="header-content" style="transform:none;">
 			<p>Manage Active Orders<br></p>
 			<div id="orderTable" style="text-align: center">
 			<!-- table is rendered by AJAX  -->
@@ -321,64 +271,7 @@
 			</h2>
 			</div>
 			<!-- <a class="buttons" href="/admin/managedeliverers"><h2>Manage Delivery Boys</h2></a> -->
-    </header>
+        </header>
 
-    <!-- jQuery -->
-    <script src="/static/bootstraptheme/js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/static/bootstraptheme/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="/static/bootstraptheme/js/jquery.easing.min.js"></script>
-    <script src="/static/bootstraptheme/js/jquery.fittext.js"></script>
-    <script src="/static/bootstraptheme/js/wow.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="/static/bootstraptheme/js/creative.js"></script>
-
-</body>
-
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	<a class="buttons" href="/admin/adminpanel"><h2>Back</h2></a>
-	<p>Logged in as {{ user_email }}</p>
-</body>
+    </body>
 </html>
