@@ -279,6 +279,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
+                	{% if balance %}
+                    <li> 
+                    	<a class="page-scroll" href="#">Current Funds: {{ balance }}</a>
+                    </li>
+                    {% endif%}
                     <li>
                         <a class="page-scroll" href="beer">Beers</a>
                     </li>
@@ -353,7 +358,7 @@
 										<th></th>
 										<th></th>
 										<th>Total</th>
-										<th id="totalprice">${{ total }}</th>
+										<th id="totalprice">{{ total }}</th>
 										<th></th>
 									</tr>
 								</tfoot>
@@ -434,9 +439,9 @@
 			quantity = parseInt($("#quant-"+beerID).html());
 			$("#quant-"+beerID).html("0");
 
-			totalprice = parseFloat($("#totalprice").html())
+			totalprice = parseFloat($("#totalprice").html().substr(1))
 			totalprice = totalprice - parseFloat(price * quantity)
-			$("#totalprice").html(totalprice.toString())
+			$("#totalprice").html("$" + totalprice.toFixed(2))
 
 
 			// some kind of AJAX call here to update
